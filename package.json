@@ -1,15 +1,10 @@
+
 {
   "name": "jsonuri",
-  "version": "1.2.3",
+  "version": "1.3.0",
+  "author": "Linkjun <pk.link@163.com>",
+  "license": "ISC",
   "description": "Through the data uri operation complex json data",
-  "main": "./build/index.node.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/height/jsonuri.git"
-  },
   "keywords": [
     "json",
     "jsonuri",
@@ -21,25 +16,59 @@
     "javascript",
     "nodejs"
   ],
-  "author": "Linkjun",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/height/jsonuri/issues"
+  "main": "dist/jsonuri.common.js",
+  "files": [
+    "dist/jsonuri.js",
+    "dist/jsonuri.min.js",
+    "dist/jsonuri.min.js.map",
+    "dist/jsonuri.common.js",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/height/jsonuri.git"
   },
-  "homepage": "https://github.com/height/jsonuri#readme",
+  "bugs": "https://github.com/height/jsonuri/issues",
+  "homepage": "https://jsonuri.com",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "envify": "^3.4.0"
+  },
+  "browserify": {
+    "transform": [
+      "envify"
+    ]
+  },
   "devDependencies": {
-    "babel-plugin-transform-runtime": "^6.9.0",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-es2015-loose": "^7.0.0",
-    "babelify": "^7.3.0",
-    "browserify": "^13.0.1",
-    "gulp": "*",
-    "gulp-babel": "^6.1.2",
-    "gulp-browserify": "^0.5.1",
-    "gulp-concat": "*",
-    "gulp-native2ascii": "*",
-    "gulp-notify": "*",
-    "gulp-sourcemaps": "*",
-    "gulp-uglify": "^1.5.3"
+    "babel-core": "^5.8.0",
+    "babel-loader": "^5.4.0",
+    "babel-runtime": "^5.8.0",
+    "casperjs": "^1.1.0-beta5",
+    "codecov.io": "^0.1.2",
+    "eslint": "^2.9.0",
+    "eslint-config-vue": "^1.0.0",
+    "istanbul-instrumenter-loader": "^0.1.3",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.8",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-coverage": "^0.5.0",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-ie-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-safari-launcher": "^0.1.1",
+    "karma-sauce-launcher": "^0.3.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.7.0",
+    "object-assign": "^4.0.1",
+    "phantomjs": "^1.9.17",
+    "rollup": "^0.25.1",
+    "rollup-plugin-babel": "^1.0.0",
+    "rollup-plugin-replace": "^1.1.0",
+    "uglify-js": "^2.4.24",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.1"
   }
 }
