@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Through the data uri operation complex json data",
   "main": "./build/index.node.js",
   "scripts": {

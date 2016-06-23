@@ -39,4 +39,9 @@ gulp.task('nodejs', () => {
       .pipe(notify('builded.'))
 })
 
+
+gulp.task('babel',()=>{
+  
+})
+
 gulp.task('default',['browser','nodejs'])
