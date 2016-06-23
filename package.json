@@ -37,9 +37,12 @@
     "gulp-babel": "^6.1.2",
     "gulp-browserify": "^0.5.1",
     "gulp-concat": "*",
+    "gulp-htmlmin": "^2.0.0",
     "gulp-native2ascii": "*",
     "gulp-notify": "*",
     "gulp-sourcemaps": "*",
-    "gulp-uglify": "^1.5.3"
+    "gulp-uglify": "^1.5.3",
+    "plug-base": "^0.9.16",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
