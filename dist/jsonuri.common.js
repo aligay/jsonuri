@@ -1,25 +1,120 @@
+/*!
+ * JsonUri.js v1.0.03
+ * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
+ * Released under the MIT License.
+ */
+'use strict';
+
+function noop() {}
+
+function isInteger(num) {
+  return Number.isInteger(num);
+}
+
+function isObject(val) {
+  return Object.prototype.toString.call(val) === '[object Object]';
+}
+
+function isArray(val) {
+  return Object.prototype.toString.call(val) === '[object Array]';
+}
+
+function objectForeach(obj, callback) {
+  Object.keys(obj).forEach(function (prop) {
+    callback(obj[prop], prop, obj);
+  });
+  return obj;
+}
+
+function arrayMove(arr, old_index, new_index) {
+  if (new_index >= arr.length) {
+    var k = new_index - arr.length;
+    while (k-- + 1) {
+      arr.push(undefined);
+    }
+  }
+  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+  return arr;
+}
 
 /**
- * JsonUri
- * @author Linkjun @linkjun.com
- * @description
- *   get(data, '/menu/id/');
- *   get(data, '/menu/id/../');
- *   get(data, '/menu/id/.../');
- *   get(data, '/menu/id/~/');
- *   set(data, '/menu/id/',[0,1,2,3,4]);
- *   mv(data, '/menu/id/0', '/menu/id/2');
- *   swap(data, '/menu/id/0', '/menu/id/1');
- *   rm(data, '/menu/value/');
+ * [walk description] 遍历一个对象, 提供入栈和出栈两个回调, 操作原对象
+ * @param  {object} obj          [description]
+ * @param  {[type]} descentionFn [description]
+ * @param  {[type]} ascentionFn  [description]
+ * @return {[type]}              [description]
  */
+
+function walk() {
+  var obj = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var descentionFn = arguments.length <= 1 || arguments[1] === undefined ? noop : arguments[1];
+  var ascentionFn = arguments.length <= 2 || arguments[2] === undefined ? noop : arguments[2];
+
+  function _walk(obj) {
+    objectForeach(obj, function (val, prop, aObj) {
+      descentionFn(val, prop, aObj);
+      if (val instanceof Object) {
+        _walk(val);
+        ascentionFn(val, prop, aObj);
+      }
+    });
+    return obj;
+  }
+
+  return _walk(obj);
+}
 
 /**
- * require isObject,
- *         isArray,
- *         arrayMove
+ * Combing path keys
+ * @param  {Array} keys  ['','menu','id','','.']
+ * @return {Array}       ['menu','id']
  */
-import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey} from './util';
 
+function combingPathKey(keys) {
+
+  // {empty}
+  while (~keys.indexOf('')) {
+    var _i = keys.indexOf('');
+    keys.splice(_i, 1);
+  }
+
+  // .
+  while (~keys.indexOf('.')) {
+    var _i = keys.indexOf('.');
+    keys.splice(_i, 1);
+  }
+
+  // ~
+  while (~keys.indexOf('~')) {
+    keys = [];
+  }
+
+  // ...
+  while (~keys.indexOf('...')) {
+    var _i = keys.indexOf('...');
+    if (_i - 2 <= 0) return keys = [];
+
+    keys[_i] = keys[_i - 1] = keys[_i - 2] = null;
+    delete keys[_i];
+    delete keys[_i - 1];
+    delete keys[_i - 2];
+    keys.splice(_i, 1);
+    keys.splice(_i - 1, 1);
+    keys.splice(_i - 2, 1);
+  }
+
+  // ..
+  while (~keys.indexOf('..')) {
+    var _i = keys.indexOf('..');
+    keys[_i] = keys[_i - 1] = null;
+    delete keys[_i];
+    delete keys[_i - 1];
+    keys.splice(_i, 1);
+    keys.splice(_i - 1, 1);
+  }
+
+  return keys;
+}
 
 /**
  * Get
@@ -86,11 +181,11 @@ function mv(data, pathA, pathB, sequence) {
   var _index = sequence === 'before' ? -1 : 0;
 
   if (a_parent != b_parent) {
-    console.error(`${pathA} , ${pathB} not in the same Array.`);
+    console.error(pathA + ' , ' + pathB + ' not in the same Array.');
     return;
   }
   if (!isArray(a_parent)) {
-    console.error(`target parent not Array.`);
+    console.error('target parent not Array.');
     return;
   }
 
@@ -123,10 +218,10 @@ function up(data, path, gap) {
   var gap = gap || 1;
 
   if (!isArray(dataArray)) return;
-  targetIndex = (targetIndex - gap) >= 0 ? targetIndex - gap : 0;
+  targetIndex = targetIndex - gap >= 0 ? targetIndex - gap : 0;
 
   var pathA = path;
-  var pathB = path + `/../${targetIndex}/`;
+  var pathB = path + ('/../' + targetIndex + '/');
   console.log(data, pathA, pathB);
   mv(data, pathA, pathB, 'before');
 }
@@ -144,11 +239,11 @@ function down(data, path, gap) {
   var gap = gap || 1;
 
   if (!isArray(dataArray)) return false;
-  targetIndex = (targetIndex + gap) >= dataArray.length - 1 ? dataArray.length - 1 : targetIndex + gap;
+  targetIndex = targetIndex + gap >= dataArray.length - 1 ? dataArray.length - 1 : targetIndex + gap;
 
   var pathA = path;
-  var pathB = path + `/../${targetIndex}/`;
-  console.log(pathA, pathB)
+  var pathB = path + ('/../' + targetIndex + '/');
+  console.log(pathA, pathB);
   mv(data, pathA, pathB, 'after');
 }
 
@@ -159,28 +254,33 @@ function down(data, path, gap) {
  * @param  {String} direction [description]
  * @return {[type]}           [description]
  */
-const [max, min] = [Math.max, Math.min]
+var max = Math.max;
+var min = Math.min;
 
-function insert(data, path, value, direction = 'after') {
-  let parent = get(data, path + '/../')
-  let index = path.split('/').filter(item => item).slice(-1)[0] - 0
+function insert(data, path, value) {
+  var direction = arguments.length <= 3 || arguments[3] === undefined ? 'after' : arguments[3];
+
+  var parent = get(data, path + '/../');
+  var index = path.split('/').filter(function (item) {
+    return item;
+  }).slice(-1)[0] - 0;
 
   if (!isInteger(index)) {
-    console.error(path + '不是数字')
-    return
+    console.error(path + '不是数字');
+    return;
   }
 
   if (!isArray(parent)) {
-    console.error(path + '不是数组')
-    return
+    console.error(path + '不是数组');
+    return;
   }
 
-  let isAfter = direction === 'after'
-  let target = isAfter ? index + 1 : index
-  target = min(parent.length, target)
-  target = max(0, target)
-  parent.splice(target, 0, value)
-  return data
+  var isAfter = direction === 'after';
+  var target = isAfter ? index + 1 : index;
+  target = min(parent.length, target);
+  target = max(0, target);
+  parent.splice(target, 0, value);
+  return data;
 }
 
 /**
@@ -234,7 +334,7 @@ function JsonUri(data, path, value) {
       if (!cur[keys[i]]) {
 
         //create data container.
-        var _curType = (_nextKey * 0 === 0) ? 'Array' : 'Object';
+        var _curType = _nextKey * 0 === 0 ? 'Array' : 'Object';
         if (_curType === 'Array') {
           cur[keys[i]] = [];
         } else if (_curType === 'Object') {
@@ -257,4 +357,12 @@ function JsonUri(data, path, value) {
   return cur;
 }
 
-export {get, set, swap, mv, up, down, rm, insert, walk}
+exports.get = get;
+exports.set = set;
+exports.swap = swap;
+exports.mv = mv;
+exports.up = up;
+exports.down = down;
+exports.rm = rm;
+exports.insert = insert;
+exports.walk = walk;

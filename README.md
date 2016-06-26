@@ -8,7 +8,7 @@ Through the data `uri` operation complex json data.
 ## Install
 
 ```
-$ npm install jsonuri
+$ npm install jsonuri --save
 ```
 
 ### Example Data:
@@ -113,3 +113,7 @@ insert(data, '/menu/list/0', 9999, 'before');
 //[9999,0,1,2,3,4]
 
 ```
+
+### up(data, path, gap)
+
+### down(data, path, gap)
