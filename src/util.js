@@ -38,7 +38,6 @@ export function arrayMove(arr, old_index, new_index) {
  * @return {[type]}              [description]
  */
 export function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
-  console.log(JSON.stringify(obj, null, 2))
   let path = []
   function makePath(pathArr) {
     return '/' + pathArr.join('/') + '/'
