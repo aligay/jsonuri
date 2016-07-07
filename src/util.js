@@ -29,6 +29,7 @@ export function arrayMove(arr, old_index, new_index) {
   return arr;
 }
 
+
 /**
  * [walk description] 遍历一个对象, 提供入栈和出栈两个回调, 操作原对象
  * @param  {object} obj          [description]
@@ -37,12 +38,18 @@ export function arrayMove(arr, old_index, new_index) {
  * @return {[type]}              [description]
  */
 export function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
+  let path = []
+  function makePath(pathArr) {
+    return '/' + pathArr.join('/') + '/'
+  }
   function _walk(obj) {
-    objectForeach(obj, (val, prop, aObj) => {
-      descentionFn(val, prop, aObj)
+    objectForeach(obj, (val, key, raw) => {
+      path.push(key)
+      descentionFn(val, key, raw, makePath(path))
       if (val instanceof Object) {
         _walk(val)
-        ascentionFn(val, prop, aObj)
+        path.pop()
+        ascentionFn(val, key, raw, makePath(path))
       }
     })
     return obj
