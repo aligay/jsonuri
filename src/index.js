@@ -127,7 +127,6 @@ function up(data, path, gap) {
 
   var pathA = path;
   var pathB = path + `/../${targetIndex}/`;
-  console.log(data, pathA, pathB);
   mv(data, pathA, pathB, 'before');
 }
 
@@ -148,7 +147,6 @@ function down(data, path, gap) {
 
   var pathA = path;
   var pathB = path + `/../${targetIndex}/`;
-  console.log(pathA, pathB)
   mv(data, pathA, pathB, 'after');
 }
 
