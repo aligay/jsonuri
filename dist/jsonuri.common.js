@@ -357,18 +357,11 @@ function JsonUri(data, path, value) {
     }
 
     cur = cur[keys[i]];
-  }
-  ;
+  };
 
   return cur;
 }
 
-exports.get = get;
-exports.set = set;
-exports.swap = swap;
-exports.mv = mv;
-exports.up = up;
-exports.down = down;
-exports.rm = rm;
-exports.insert = insert;
-exports.walk = walk;
+var index = { get: get, set: set, swap: swap, mv: mv, up: up, down: down, rm: rm, insert: insert, walk: walk };
+
+module.exports = index;

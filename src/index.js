@@ -20,7 +20,6 @@
  */
 import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey} from './util';
 
-
 /**
  * Get
  * @param  {Object} data  typeof Object or Array.
@@ -249,10 +248,9 @@ function JsonUri(data, path, value) {
     }
 
     cur = cur[keys[i]];
-  }
-  ;
+  };
 
   return cur;
 }
 
-export {get, set, swap, mv, up, down, rm, insert, walk}
+export default  {get, set, swap, mv, up, down, rm, insert, walk};

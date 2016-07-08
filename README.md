@@ -4,7 +4,7 @@
 
 `Use URI path to get or set data.`
 
-![show](https://gw.alicdn.com/tfs/TB18CtQKVXXXXXhXpXXXXXXXXXX-465-287.png)
+![show](https://img.alicdn.com/tfs/TB12AVCKVXXXXcRXVXXXXXXXXXX-640-121.png)
 
 
 ## Install
@@ -57,12 +57,6 @@ get(data, '/menu/popup/menuitem/0/value/');
 get(data, '/menu/popup/menuitem/0/value/../');
 //{value: "New", onclick: "CreateNewDoc()"}
 
-
-get(data, '/menu/popup/menuitem/0/value/.../');
-//[Object, Object, Object]
-
-get(data, '/menu/popup/menuitem/0/value/~/');
-//root data
 ```
 
 ### set (data, path, value)

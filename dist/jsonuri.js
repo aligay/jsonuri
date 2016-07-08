@@ -4,10 +4,10 @@
  * Released under the MIT License.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global.JsonUri = global.JsonUri || {})));
-}(this, function (exports) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.JsonUri = factory());
+}(this, function () { 'use strict';
 
   function noop() {}
 
@@ -361,20 +361,13 @@
       }
 
       cur = cur[keys[i]];
-    }
-    ;
+    };
 
     return cur;
   }
 
-  exports.get = get;
-  exports.set = set;
-  exports.swap = swap;
-  exports.mv = mv;
-  exports.up = up;
-  exports.down = down;
-  exports.rm = rm;
-  exports.insert = insert;
-  exports.walk = walk;
+  var index = { get: get, set: set, swap: swap, mv: mv, up: up, down: down, rm: rm, insert: insert, walk: walk };
+
+  return index;
 
 }));
