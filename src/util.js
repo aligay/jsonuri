@@ -76,7 +76,8 @@ export function combingPathKey(keys) {
     var _i = keys.indexOf('.');
     keys.splice(_i, 1);
   }
-
+  
+/*
   // ~
   while (~keys.indexOf('~')) {
     keys = [];
@@ -95,6 +96,7 @@ export function combingPathKey(keys) {
     keys.splice(_i - 1, 1);
     keys.splice(_i - 2, 1);
   }
+*/
 
   // ..
   while (~keys.indexOf('..')) {
