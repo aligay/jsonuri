@@ -13,6 +13,7 @@
  *   rm(data, '/menu/value/');
  */
 
+
 /**
  * require isObject,
  *         isArray,
@@ -253,4 +254,4 @@ function JsonUri(data, path, value) {
   return cur;
 }
 
-export default  {get, set, swap, mv, up, down, rm, insert, walk};
+export default {get, set, rm, swap, mv, up, down, insert, walk};

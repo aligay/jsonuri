@@ -362,6 +362,6 @@ function JsonUri(data, path, value) {
   return cur;
 }
 
-var index = { get: get, set: set, swap: swap, mv: mv, up: up, down: down, rm: rm, insert: insert, walk: walk };
+var index = { get: get, set: set, rm: rm, swap: swap, mv: mv, up: up, down: down, insert: insert, walk: walk };
 
 module.exports = index;
