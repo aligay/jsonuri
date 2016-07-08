@@ -13,13 +13,13 @@
  *   rm(data, '/menu/value/');
  */
 
+
 /**
  * require isObject,
  *         isArray,
  *         arrayMove
  */
 import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey} from './util';
-
 
 /**
  * Get
@@ -249,10 +249,9 @@ function JsonUri(data, path, value) {
     }
 
     cur = cur[keys[i]];
-  }
-  ;
+  };
 
   return cur;
 }
 
-export {get, set, swap, mv, up, down, rm, insert, walk}
+export default {get, set, rm, swap, mv, up, down, insert, walk};

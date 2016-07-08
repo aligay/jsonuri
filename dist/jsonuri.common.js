@@ -1,5 +1,5 @@
 /*!
- * JsonUri.js v1.3.0
+ * JsonUri.js v1.4.1
  * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
@@ -90,24 +90,26 @@ function combingPathKey(keys) {
     keys.splice(_i, 1);
   }
 
-  // ~
-  while (~keys.indexOf('~')) {
-    keys = [];
-  }
-
-  // ...
-  while (~keys.indexOf('...')) {
-    var _i = keys.indexOf('...');
-    if (_i - 2 <= 0) return keys = [];
-
-    keys[_i] = keys[_i - 1] = keys[_i - 2] = null;
-    delete keys[_i];
-    delete keys[_i - 1];
-    delete keys[_i - 2];
-    keys.splice(_i, 1);
-    keys.splice(_i - 1, 1);
-    keys.splice(_i - 2, 1);
-  }
+  /*
+    // ~
+    while (~keys.indexOf('~')) {
+      keys = [];
+    }
+  
+    // ...
+    while (~keys.indexOf('...')) {
+      var _i = keys.indexOf('...');
+      if ((_i - 2) <= 0) return keys = [];
+  
+      keys[_i] = keys[_i - 1] = keys[_i - 2] = null;
+      delete keys[_i];
+      delete keys[_i - 1];
+      delete keys[_i - 2];
+      keys.splice(_i, 1);
+      keys.splice(_i - 1, 1);
+      keys.splice(_i - 2, 1);
+    }
+  */
 
   // ..
   while (~keys.indexOf('..')) {
@@ -355,18 +357,11 @@ function JsonUri(data, path, value) {
     }
 
     cur = cur[keys[i]];
-  }
-  ;
+  };
 
   return cur;
 }
 
-exports.get = get;
-exports.set = set;
-exports.swap = swap;
-exports.mv = mv;
-exports.up = up;
-exports.down = down;
-exports.rm = rm;
-exports.insert = insert;
-exports.walk = walk;
+var index = { get: get, set: set, rm: rm, swap: swap, mv: mv, up: up, down: down, insert: insert, walk: walk };
+
+module.exports = index;
