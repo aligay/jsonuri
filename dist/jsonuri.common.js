@@ -50,12 +50,18 @@ function walk() {
   var descentionFn = arguments.length <= 1 || arguments[1] === undefined ? noop : arguments[1];
   var ascentionFn = arguments.length <= 2 || arguments[2] === undefined ? noop : arguments[2];
 
+  var path = [];
+  function makePath(pathArr) {
+    return '/' + pathArr.join('/') + '/';
+  }
   function _walk(obj) {
-    objectForeach(obj, function (val, prop, aObj) {
-      descentionFn(val, prop, aObj);
+    objectForeach(obj, function (val, key, raw) {
+      path.push(key);
+      descentionFn(val, key, raw, makePath(path));
       if (val instanceof Object) {
         _walk(val);
-        ascentionFn(val, prop, aObj);
+        path.pop();
+        ascentionFn(val, key, raw, makePath(path));
       }
     });
     return obj;
@@ -222,7 +228,6 @@ function up(data, path, gap) {
 
   var pathA = path;
   var pathB = path + ('/../' + targetIndex + '/');
-  console.log(data, pathA, pathB);
   mv(data, pathA, pathB, 'before');
 }
 
@@ -243,7 +248,6 @@ function down(data, path, gap) {
 
   var pathA = path;
   var pathB = path + ('/../' + targetIndex + '/');
-  console.log(pathA, pathB);
   mv(data, pathA, pathB, 'after');
 }
 
