@@ -2,7 +2,9 @@
 
 ---
 
-Through the data `uri` operation complex json data.
+`Use URI path to get or set data.`
+
+![show](https://gw.alicdn.com/tfs/TB18CtQKVXXXXXhXpXXXXXXXXXX-465-287.png)
 
 
 ## Install
@@ -40,6 +42,10 @@ $ npm install jsonuri --save
 ## Methods:
 
 ### get (data, path)
+Get the value of the specified data for the path.
+
+
+**Example:**
 
 ```
 get(data, '/menu/id/');
@@ -60,6 +66,9 @@ get(data, '/menu/popup/menuitem/0/value/~/');
 ```
 
 ### set (data, path, value)
+Set the value of the specified data for the path.
+
+**Example:**
 
 ```
 set(data, '/menu/id/',789);
@@ -69,6 +78,9 @@ get(data, '/menu/id/');
 ```
 
 ### rm (data, path)
+Remove the value of the specified data for the path.
+
+**Example:**
 
 ```
 rm(data, '/menu/id/');
@@ -78,6 +90,9 @@ get(data, '/menu/id/');
 
 
 ### mv (data, pathA, pathB, sequence)
+Data A moved to target B before or after.
+
+**Example:**
 
 ```
 mv(data, '/menu/list/0', '/menu/list/3');
@@ -93,6 +108,9 @@ get(data, '/menu/list/');
 ```
 
 ### swap (data, pathA, pathB)
+Data swap in an array.
+
+**Example:**
 
 ```
 swap(data, '/menu/list/0', '/menu/list/4');
@@ -108,6 +126,10 @@ get(data, '/menu/list/');
 
 ### insert (data, pathA, value, direction)
 
+Insert data into an `array` that is described in the path.
+
+**Example:**
+
 ```
 insert(data, '/menu/list/0', 9999, 'before');
 //[9999,0,1,2,3,4]
@@ -116,4 +138,20 @@ insert(data, '/menu/list/0', 9999, 'before');
 
 ### up(data, path, gap)
 
+
+
 ### down(data, path, gap)
+
+
+
+### walk(data, descentionFn, ascentionFn)
+
+
+**Example:**
+
+```
+walk({a:2}, function(obj, key, raw, path){
+  console.log(obj, key, raw, path)
+})
+// 2 "a" Object {a: 2} "/a/"
+```
