@@ -14,7 +14,11 @@ let exObj = {
 
 
 JsonUri.walk(exObj, function(obj, key, raw, path) {
-  console.log(obj,key,raw, path, "入栈")
+  //console.log(obj,key,raw, path, "入栈")
 })
 
-console.log(exObj);
+
+
+JsonUri.walk({a:{a1:'x'}}, function(obj, key, raw, path){
+  console.log(obj, key, raw, path)
+})
