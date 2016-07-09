@@ -38,7 +38,7 @@ export function arrayMove(arr, old_index, new_index) {
  * @return {[type]}              [description]
  */
 export function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
-  let path = []
+  var path = []
   function makePath(pathArr) {
     return '/' + pathArr.join('/') + '/'
   }
@@ -46,7 +46,9 @@ export function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
     objectForeach(obj, (val, key, raw) => {
       path.push(key)
       descentionFn(val, key, raw, makePath(path))
+      path.pop()
       if (val instanceof Object) {
+        path.push(key)
         _walk(val)
         path.pop()
         ascentionFn(val, key, raw, makePath(path))
@@ -76,27 +78,6 @@ export function combingPathKey(keys) {
     var _i = keys.indexOf('.');
     keys.splice(_i, 1);
   }
-  
-/*
-  // ~
-  while (~keys.indexOf('~')) {
-    keys = [];
-  }
-
-  // ...
-  while (~keys.indexOf('...')) {
-    var _i = keys.indexOf('...');
-    if ((_i - 2) <= 0) return keys = [];
-
-    keys[_i] = keys[_i - 1] = keys[_i - 2] = null;
-    delete keys[_i];
-    delete keys[_i - 1];
-    delete keys[_i - 2];
-    keys.splice(_i, 1);
-    keys.splice(_i - 1, 1);
-    keys.splice(_i - 2, 1);
-  }
-*/
 
   // ..
   while (~keys.indexOf('..')) {

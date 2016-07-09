@@ -1,17 +1,17 @@
 
 {
   "name": "jsonuri",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "author": "Linkjun <pk.link@163.com>",
   "license": "ISC",
-  "description": "Through the data uri operation complex json data",
+  "description": "Use URI path to get or set data",
   "keywords": [
     "json",
-    "jsonuri",
     "uri",
+    "object",
+    "jsonuri",
     "path",
     "data",
-    "object",
     "array",
     "javascript",
     "nodejs"
