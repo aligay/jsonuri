@@ -139,13 +139,15 @@ insert(data, '/menu/list/0', 9999, 'before');
 
 
 ### walk(data, descentionFn, ascentionFn)
-
+Traverse each data of each node and value.
 
 **Example:**
 
 ```
-walk({a:2}, function(obj, key, raw, path){
+walk({a:{a1:'x'}}, function(obj, key, raw, path){
   console.log(obj, key, raw, path)
 })
-// 2 "a" Object {a: 2} "/a/"
+
+// { a1: 'x' } 'a' { a: { a1: 'x' } } '/a/'
+// x a1 { a1: 'x' } /a/a1/
 ```
