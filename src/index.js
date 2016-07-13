@@ -1,4 +1,3 @@
-
 /**
  * JsonUri
  * @author Linkjun @linkjun.com
@@ -19,7 +18,7 @@
  *         isArray,
  *         arrayMove
  */
-import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey} from './util';
+import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalizePath} from './util';
 
 /**
  * Get
@@ -254,4 +253,5 @@ function JsonUri(data, path, value) {
   return cur;
 }
 
-export default {get, set, rm, swap, mv, up, down, insert, walk};
+export default {get, set, rm, swap, mv, up, down, insert, walk, normalizePath};
+export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath};
