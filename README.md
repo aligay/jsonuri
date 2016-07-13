@@ -151,3 +151,17 @@ walk({a:{a1:'x'}}, function(obj, key, raw, path){
 // { a1: 'x' } 'a' { a: { a1: 'x' } } '/a/'
 // x a1 { a1: 'x' } /a/a1/
 ```
+
+### normalizePath(path1, path2, ...)
+
+**Example:**
+
+```
+normalizePath('a', 'b')  
+// /a/b/
+
+normalizePath(['a', 'b', '../'], 'c')
+// /a/c/
+
+
+```
