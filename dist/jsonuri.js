@@ -1,13 +1,13 @@
 /*!
- * JsonUri.js v1.4.3
+ * JsonUri.js v1.5.1
  * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.JsonUri = factory());
-}(this, function () { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (factory((global.JsonUri = global.JsonUri || {})));
+}(this, function (exports) { 'use strict';
 
   function noop() {}
 
@@ -41,6 +41,22 @@
     return arr;
   }
 
+  var arrPro = Array.prototype;
+
+  function normalizePath() {
+    for (var _len = arguments.length, path = Array(_len), _key = 0; _key < _len; _key++) {
+      path[_key] = arguments[_key];
+    }
+
+    //path = isArray(path) ? path : [path]
+    path = arrPro.concat.apply(arrPro, path).join('/').split('/');
+    path = ['/', combingPathKey(path).join('/')].join('');
+    if (path !== '/') {
+      path += '/';
+    }
+    return path;
+  }
+
   /**
    * [walk description] 遍历一个对象, 提供入栈和出栈两个回调, 操作原对象
    * @param  {object} obj          [description]
@@ -55,19 +71,17 @@
     var ascentionFn = arguments.length <= 2 || arguments[2] === undefined ? noop : arguments[2];
 
     var path = [];
-    function makePath(pathArr) {
-      return '/' + pathArr.join('/') + '/';
-    }
+
     function _walk(obj) {
       objectForeach(obj, function (val, key, raw) {
         path.push(key);
-        descentionFn(val, key, raw, makePath(path));
+        descentionFn(val, key, raw, { path: normalizePath(path) });
         path.pop();
         if (val instanceof Object) {
           path.push(key);
           _walk(val);
           path.pop();
-          ascentionFn(val, key, raw, makePath(path));
+          ascentionFn(val, key, raw, { path: normalizePath(path) });
         }
       });
       return obj;
@@ -347,8 +361,18 @@
     return cur;
   }
 
-  var index = { get: get, set: set, rm: rm, swap: swap, mv: mv, up: up, down: down, insert: insert, walk: walk };
+  var index = { get: get, set: set, rm: rm, swap: swap, mv: mv, up: up, down: down, insert: insert, walk: walk, normalizePath: normalizePath };
 
-  return index;
+  exports['default'] = index;
+  exports.get = get;
+  exports.set = set;
+  exports.rm = rm;
+  exports.swap = swap;
+  exports.mv = mv;
+  exports.up = up;
+  exports.down = down;
+  exports.insert = insert;
+  exports.walk = walk;
+  exports.normalizePath = normalizePath;
 
 }));
