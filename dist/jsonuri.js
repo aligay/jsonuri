@@ -1,5 +1,5 @@
 /*!
- * JsonUri.js v1.5.1
+ * JsonUri.js v1.5.2
  * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
@@ -222,7 +222,7 @@
     var dataArray = get(data, path + '/../');
     var targetIndex = dataArray.indexOf(dataItem);
 
-    var gap = gap || 1;
+    var gap = gap || 0;
 
     if (!isArray(dataArray)) return;
     targetIndex = targetIndex - gap >= 0 ? targetIndex - gap : 0;

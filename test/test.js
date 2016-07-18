@@ -9,7 +9,8 @@ let exObj = {
       b12: 312
     },
     b2: 32
-  }
+  },
+  list:[0,1,2,3,4,5,6,7,8,9]
 };
 
 
@@ -22,3 +23,7 @@ JsonUri.walk(exObj, function(obj, key, raw, path) {
 JsonUri.walk({a:{a1:'x'}}, function(obj, key, raw, path){
   console.log(obj, key, raw, path)
 })
+
+JsonUri.up(exObj, '/list/2/')
+console.log(JsonUri.get(exObj, '/list/'))
+
