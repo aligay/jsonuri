@@ -24,6 +24,8 @@ JsonUri.walk({a:{a1:'x'}}, function(obj, key, raw, path){
   console.log(obj, key, raw, path)
 })
 
-JsonUri.up(exObj, '/list/2/')
+JsonUri.up(exObj, '/list/0/')
+JsonUri.up(exObj, '/list/1/')
+JsonUri.up(exObj, '/list/9/')
 console.log(JsonUri.get(exObj, '/list/'))
 
