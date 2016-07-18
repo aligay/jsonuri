@@ -68,6 +68,10 @@ export function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
   return _walk(obj)
 }
 
+export function indexOf(path) {
+  return path.split('/').filter(item => item).slice(-1)[0] - 0
+}
+
 /**
  * Combing path keys
  * @param  {Array} keys  ['','menu','id','','.']
