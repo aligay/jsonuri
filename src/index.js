@@ -81,12 +81,12 @@ function swap(data, pathA, pathB) {
  * @description Move data in the array.
  */
 function mv(data, pathA, pathB, direction = 'after') {
-  let a_parent = JsonUri(data, pathA + '/../');
-  let b_parent = JsonUri(data, pathB + '/../');
-  let _a = JsonUri(data, pathA);
-  let _b = JsonUri(data, pathB);
-  let a_index = a_parent.indexOf(_a);
-  let b_index = a_parent.indexOf(_b);
+  let a_parent = get(data, pathA + '/../');
+  let b_parent = get(data, pathB + '/../');
+  let _a = get(data, pathA);
+  let _b = get(data, pathB);
+  let a_index = indexOf(pathA);
+  let b_index = indexOf(pathB);
 
 
   /*
@@ -127,19 +127,22 @@ function mv(data, pathA, pathB, direction = 'after') {
  * @param  {String} pathA     ex: '/menu/nav/list/0'.
  * @description Move up data in the array.
  */
-function up(data, path, gap) {
-  var dataItem = get(data, path);
-  var dataArray = get(data, path + '/../');
-  var targetIndex = dataArray.indexOf(dataItem);
+function up(data, path, gap = 1) {
+  let parent = get(data, path + '/../');
+  let index = indexOf(path);
+  let target_index = index - gap;
+  let pathB = normalizePath(path, `/../${target_index}/`);
 
-  var gap = (gap || 1) - 1;
+  if(!isArray(parent)){
+    console.error('操作的不是数组')
+    return;
+  }
+  //移动溢出
+  if(index <= 0 || index >= parent.length){
+    return ;
+  }
 
-  if (!isArray(dataArray)) return;
-  targetIndex = (targetIndex - gap) >= 0 ? targetIndex - gap : 0;
-
-  var pathA = path;
-  var pathB = path + `/../${targetIndex}/`;
-  mv(data, pathA, pathB, 'before');
+  mv(data, path, pathB, 'before');
 }
 
 /**
@@ -148,19 +151,24 @@ function up(data, path, gap) {
  * @param  {String} pathA     ex: '/menu/nav/list/0'.
  * @description Move up data in the array.
  */
-function down(data, path, gap) {
-  var dataItem = get(data, path);
-  var dataArray = get(data, path + '/../');
-  var targetIndex = dataArray.indexOf(dataItem);
-  var gap = gap || 1;
+function down(data, path, gap = 1) {
+  let parent = get(data, path + '/../');
+  let index = indexOf(path);
+  let target_index = index + gap;
+  let pathB = normalizePath(path, `/../${target_index}/`);
 
-  if (!isArray(dataArray)) return false;
-  targetIndex = (targetIndex + gap) >= dataArray.length - 1 ? dataArray.length - 1 : targetIndex + gap;
+  if(!isArray(parent)){
+    console.error('操作的不是数组')
+    return;
+  }
+  //移动溢出
+  if(index < 0 || index >= parent.length){
+    return ;
+  }
 
-  var pathA = path;
-  var pathB = path + `/../${targetIndex}/`;
-  mv(data, pathA, pathB, 'after');
+  mv(data, path, pathB, 'after');
 }
+
 
 /**
  * 在 path 之前 或者之后插入一个数据, 如果不是数组,控制台报错
