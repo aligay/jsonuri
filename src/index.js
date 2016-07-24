@@ -18,7 +18,8 @@
  *         isArray,
  *         arrayMove
  */
-import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalizePath} from './util';
+import JsonUri from './jsonuri';
+import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalizePath, indexOf} from './util';
 
 /**
  * Get
@@ -50,7 +51,7 @@ function set(data, path, value) {
  */
 function rm(data, path) {
   var tmp = JsonUri(data, path);
-  JsonUri(data, path, null);
+  set(data, path, null);
   return tmp;
 }
 
@@ -66,8 +67,8 @@ function swap(data, pathA, pathB) {
   var _a = JsonUri(data, pathA);
   var _b = JsonUri(data, pathB);
 
-  JsonUri(data, pathA, _b);
-  JsonUri(data, pathB, _a);
+  set(data, pathA, _b);
+  set(data, pathB, _a);
   return data;
 }
 
@@ -79,33 +80,45 @@ function swap(data, pathA, pathB) {
  * @param  {String} sequence  ex: 'before', default 'after'.
  * @description Move data in the array.
  */
-function mv(data, pathA, pathB, sequence) {
-  var a_parent = JsonUri(data, pathA + '/../');
-  var b_parent = JsonUri(data, pathB + '/../');
-  var _index = sequence === 'before' ? -1 : 0;
+function mv(data, pathA, pathB, direction = 'after') {
+  let a_parent = JsonUri(data, pathA + '/../');
+  let b_parent = JsonUri(data, pathB + '/../');
+  let _a = JsonUri(data, pathA);
+  let _b = JsonUri(data, pathB);
+  let a_index = a_parent.indexOf(_a);
+  let b_index = a_parent.indexOf(_b);
 
-  if (a_parent != b_parent) {
-    console.error(`${pathA} , ${pathB} not in the same Array.`);
-    return;
+
+  /*
+    如果同个数组中移动，要考虑移动后所需要移除的路径（PathA）数据指针有变，
+    所以要判断是同个数组，并且
+  */
+  
+  if(a_parent !== b_parent){
+    //放入新值
+    insert(data, pathB, _a, direction);
+    //删除PathA
+    rm(data, pathA);
+    return ;
   }
-  if (!isArray(a_parent)) {
-    console.error(`target parent not Array.`);
-    return;
+
+  //移动位置相同直接退出
+  if(a_index === b_index) return;
+  
+  //放入新值
+  insert(data, pathB, _a, direction);
+  
+  //更新b_index
+  b_index += direction === 'before' ? -1 : 0;
+
+  //向👈移动a_index + 1
+  if(b_index < a_index){
+    a_index ++;
   }
 
-  var _a = JsonUri(data, pathA);
-  var _b = JsonUri(data, pathB);
-  var a_index = a_parent.indexOf(_a);
-  var b_index = a_parent.indexOf(_b);
+  pathA = normalizePath(pathA,`/../${a_index}`);
+  rm(data, normalizePath(pathA,`/../${a_index}`));
 
-  //target index
-  _index += b_index;
-
-  //target index the overflow
-  if (_index >= a_parent.length) _index = a_parent.length;
-  if (_index <= 0) _index = 0;
-
-  a_parent = arrayMove(a_parent, a_index, _index);
 }
 
 /**
@@ -180,78 +193,6 @@ function insert(data, path, value, direction = 'after') {
   return data
 }
 
-/**
- * JsonUri
- * @author Linkjun
- * @param {Object | Array}    data  {k:1,s:[..]}
- * @param {String}            path  '/s/0/'
- * @param {Any}               value [0,{s:0},2,3,4]
- */
-function JsonUri(data, path, value) {
-  //Data must be Object.
-  if (!(data instanceof Object)) return;
-
-  //Path must be valid.
-  if (!path) return data;
-
-  //Combing Path Key.
-  var keys = combingPathKey(String(path).split('/'));
-  //Initialize data to the pointer.
-  var cur = data;
-
-  for (var i = 0; i < keys.length; i++) {
-    //Key must be valid.
-    if (!keys[i]) continue;
-
-    if (i === keys.length - 1) {
-      if (value != undefined) {
-
-        //set value.
-        cur[keys[i]] = value;
-      } else if (value === null) {
-
-        //delete value in the object.
-        if (isObject(cur)) {
-          cur[keys[i]] = null;
-          delete cur[keys[i]];
-        }
-
-        //delete value in the array.
-        if (isArray(cur)) {
-          cur[keys[i]] = null;
-          cur.splice(keys[i], 1);
-        }
-      }
-    } else if (value) {
-
-      //if set value
-      var _nextKey = keys[i + 1];
-
-      //curData is undefined.
-      if (!cur[keys[i]]) {
-
-        //create data container.
-        var _curType = (_nextKey * 0 === 0) ? 'Array' : 'Object';
-        if (_curType === 'Array') {
-          cur[keys[i]] = [];
-        } else if (_curType === 'Object') {
-          cur[keys[i]] = {};
-        }
-      }
-    } else {
-      if (cur[keys[i]] === undefined) {
-        //Data path is undefined and return.
-        return undefined;
-      } else if (cur[keys[i]] === null) {
-        return null;
-      }
-    }
-
-    cur = cur[keys[i]];
-  };
-
-  return cur;
-}
 
 export default {get, set, rm, swap, mv, up, down, insert, walk, normalizePath};
 export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath};
