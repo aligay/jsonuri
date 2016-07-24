@@ -79,6 +79,12 @@
     return _walk(obj);
   }
 
+  function indexOf(path) {
+    return path.split('/').filter(function (item) {
+      return item;
+    }).slice(-1)[0] - 0;
+  }
+
   /**
    * Combing path keys
    * @param  {Array} keys  ['','menu','id','','.']
@@ -247,12 +253,12 @@
   function mv(data, pathA, pathB) {
     var direction = arguments.length <= 3 || arguments[3] === undefined ? 'after' : arguments[3];
 
-    var a_parent = JsonUri(data, pathA + '/../');
-    var b_parent = JsonUri(data, pathB + '/../');
-    var _a = JsonUri(data, pathA);
-    var _b = JsonUri(data, pathB);
-    var a_index = a_parent.indexOf(_a);
-    var b_index = a_parent.indexOf(_b);
+    var a_parent = get(data, pathA + '/../');
+    var b_parent = get(data, pathB + '/../');
+    var _a = get(data, pathA);
+    var _b = get(data, pathB);
+    var a_index = indexOf(pathA);
+    var b_index = indexOf(pathB);
 
     /*
       如果同个数组中移动，要考虑移动后所需要移除的路径（PathA）数据指针有变，
@@ -291,19 +297,24 @@
    * @param  {String} pathA     ex: '/menu/nav/list/0'.
    * @description Move up data in the array.
    */
-  function up(data, path, gap) {
-    var dataItem = get(data, path);
-    var dataArray = get(data, path + '/../');
-    var targetIndex = dataArray.indexOf(dataItem);
+  function up(data, path) {
+    var gap = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
 
-    var gap = (gap || 1) - 1;
+    var parent = get(data, path + '/../');
+    var index = indexOf(path);
+    var target_index = index - gap;
+    var pathB = normalizePath(path, '/../' + target_index + '/');
 
-    if (!isArray(dataArray)) return;
-    targetIndex = targetIndex - gap >= 0 ? targetIndex - gap : 0;
+    if (!isArray(parent)) {
+      console.error('操作的不是数组');
+      return;
+    }
+    //移动溢出
+    if (index <= 0 || index >= parent.length) {
+      return;
+    }
 
-    var pathA = path;
-    var pathB = path + ('/../' + targetIndex + '/');
-    mv(data, pathA, pathB, 'before');
+    mv(data, path, pathB, 'before');
   }
 
   /**
@@ -312,18 +323,24 @@
    * @param  {String} pathA     ex: '/menu/nav/list/0'.
    * @description Move up data in the array.
    */
-  function down(data, path, gap) {
-    var dataItem = get(data, path);
-    var dataArray = get(data, path + '/../');
-    var targetIndex = dataArray.indexOf(dataItem);
-    var gap = gap || 1;
+  function down(data, path) {
+    var gap = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
 
-    if (!isArray(dataArray)) return false;
-    targetIndex = targetIndex + gap >= dataArray.length - 1 ? dataArray.length - 1 : targetIndex + gap;
+    var parent = get(data, path + '/../');
+    var index = indexOf(path);
+    var target_index = index + gap;
+    var pathB = normalizePath(path, '/../' + target_index + '/');
 
-    var pathA = path;
-    var pathB = path + ('/../' + targetIndex + '/');
-    mv(data, pathA, pathB, 'after');
+    if (!isArray(parent)) {
+      console.error('操作的不是数组');
+      return;
+    }
+    //移动溢出
+    if (index < 0 || index >= parent.length) {
+      return;
+    }
+
+    mv(data, path, pathB, 'after');
   }
 
   /**
