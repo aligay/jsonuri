@@ -6,7 +6,7 @@
 [![dependencies Status](https://david-dm.org/haozime/safe-trim/status.svg)](https://david-dm.org/haozime/safe-trim)
 [![devDependencies Status](https://david-dm.org/haozime/safe-trim/dev-status.svg)](https://david-dm.org/haozime/safe-trim?type=dev)
 
-[Enlish](README.md)
+[English](README.md)
 
 `Use URI path to get or set data.`
 
