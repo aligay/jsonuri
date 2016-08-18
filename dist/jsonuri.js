@@ -114,13 +114,13 @@ function combingPathKey(keys) {
 }
 
 /**
- * JsonUri
+ * Jsonuri
  * @author Linkjun
  * @param {Object | Array}    data  {k:1,s:[..]}
  * @param {String}            path  '/s/0/'
  * @param {Any}               value [0,{s:0},2,3,4]
  */
-function JsonUri(data, path, value) {
+function Jsonuri(data, path, value) {
   //Data must be Object.
   if (!(data instanceof Object)) return;
 
@@ -208,7 +208,7 @@ function JsonUri(data, path, value) {
  * @param {[type]}        return value.
  */
 function get(data, path) {
-  return JsonUri(data, path);
+  return Jsonuri(data, path);
 }
 
 /**
@@ -219,7 +219,7 @@ function get(data, path) {
  * @param {[type]}        return data this.
  */
 function set(data, path, value) {
-  JsonUri(data, path, value);
+  Jsonuri(data, path, value);
   return data;
 }
 
@@ -230,7 +230,7 @@ function set(data, path, value) {
  * @return {Any}          The deleted value.
  */
 function rm(data, path) {
-  var tmp = JsonUri(data, path);
+  var tmp = Jsonuri(data, path);
   set(data, path, null);
   return tmp;
 }
@@ -244,8 +244,8 @@ function rm(data, path) {
  * @description  `pathA` the data swap `pathB`.
  */
 function swap(data, pathA, pathB) {
-  var _a = JsonUri(data, pathA);
-  var _b = JsonUri(data, pathB);
+  var _a = Jsonuri(data, pathA);
+  var _b = Jsonuri(data, pathB);
 
   set(data, pathA, _b);
   set(data, pathB, _a);

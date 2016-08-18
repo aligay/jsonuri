@@ -1,13 +1,13 @@
 import {combingPathKey, isObject, isArray} from './util'
 
 /**
- * JsonUri
+ * Jsonuri
  * @author Linkjun
  * @param {Object | Array}    data  {k:1,s:[..]}
  * @param {String}            path  '/s/0/'
  * @param {Any}               value [0,{s:0},2,3,4]
  */
-function JsonUri(data, path, value) {
+function Jsonuri(data, path, value) {
   //Data must be Object.
   if (!(data instanceof Object)) return
 
@@ -69,4 +69,4 @@ function JsonUri(data, path, value) {
   return cur
 }
 
-export default JsonUri
+export default Jsonuri

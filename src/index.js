@@ -17,7 +17,7 @@
  *         isArray,
  *         arrayMove
  */
-import JsonUri from './jsonuri'
+import Jsonuri from './jsonuri'
 import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalizePath, indexOf} from './util'
 
 /**
@@ -27,7 +27,7 @@ import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalize
  * @param {[type]}        return value.
  */
 function get(data, path) {
-  return JsonUri(data, path)
+  return Jsonuri(data, path)
 }
 
 /**
@@ -38,7 +38,7 @@ function get(data, path) {
  * @param {[type]}        return data this.
  */
 function set(data, path, value) {
-  JsonUri(data, path, value)
+  Jsonuri(data, path, value)
   return data
 }
 
@@ -49,7 +49,7 @@ function set(data, path, value) {
  * @return {Any}          The deleted value.
  */
 function rm(data, path) {
-  let tmp = JsonUri(data, path)
+  let tmp = Jsonuri(data, path)
   set(data, path, null)
   return tmp
 }
@@ -63,8 +63,8 @@ function rm(data, path) {
  * @description  `pathA` the data swap `pathB`.
  */
 function swap(data, pathA, pathB) {
-  let _a = JsonUri(data, pathA)
-  let _b = JsonUri(data, pathB)
+  let _a = Jsonuri(data, pathA)
+  let _b = Jsonuri(data, pathB)
 
   set(data, pathA, _b)
   set(data, pathB, _a)
