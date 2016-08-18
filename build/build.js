@@ -71,6 +71,26 @@ rollup.rollup({
        var res = uglify.minify(code, {
          fromString: true,
          outSourceMap: `${name}.min.js.map`,
+         compress: {
+           warnings: false,
+           hoist_vars: true,
+           hoist_funs: true,
+           drop_debugger: true,
+           unused: true,
+           drop_console: true,
+           sequences: true,
+           conditionals: true,
+           booleans: true,
+           if_return: true,
+           join_vars: true,
+           screw_ie8: true,
+           comparisons: true,
+           evaluate: true,
+           loops: true,
+           cascade: true,
+           negate_iife: true
+         },
+         comments: false,
          output: {
            preamble: banner,
            ascii_only: true
