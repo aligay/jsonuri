@@ -1,6 +1,6 @@
 # JSON URI
 
-[简体中文](README_zh-cn.md)
+[Enlish](README.md)
 ---
 
 `Use URI path to get or set data.`

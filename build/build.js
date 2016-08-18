@@ -30,63 +30,63 @@ rollup.rollup({
   }).code
 
   write(resolvePath(`../dist/index.js`), code)
-  // return write(resolvePath(`../dist/${name}.common.js`), code)
+  return write(resolvePath(`../dist/${name}.common.js`), code)
 })
 
-// // umd
-//   .then(() => {
-//     return rollup.rollup({
-//       entry: mainPath,
-//       plugins: [
-//         replace({
-//           'process.env.NODE_ENV': "'development'"
-//         }),
-//         babel()
-//       ]
-//     }).then((bundle) => {
-//       return write(resolvePath(`../dist/${name}.js`), bundle.generate({
-//         format: 'umd',
-//         banner: banner,
-//         moduleName: 'safeTrim'
-//       }).code)
-//     })
-//   })
+ // umd
+   .then(() => {
+     return rollup.rollup({
+       entry: mainPath,
+       plugins: [
+         replace({
+           'process.env.NODE_ENV': "'development'"
+         }),
+         babel()
+       ]
+     }).then((bundle) => {
+       return write(resolvePath(`../dist/${name}.js`), bundle.generate({
+         format: 'umd',
+         banner: banner,
+         moduleName: 'safeTrim'
+       }).code)
+     })
+   })
 
-//   // uglify
-//   .then(function () {
-//     return rollup.rollup({
-//       entry: mainPath,
-//       plugins: [
-//         replace({
-//           'process.env.NODE_ENV': "'production'"
-//         }),
-//         babel()
-//       ]
-//     }).then((bundle) => {
-//       var code = bundle.generate({
-//         format: 'umd',
-//         moduleName: 'safeTrim',
-//         banner: banner
-//       }).code
-//       var res = uglify.minify(code, {
-//         fromString: true,
-//         outSourceMap: `${name}.min.js.map`,
-//         output: {
-//           preamble: banner,
-//           ascii_only: true
-//         }
-//       })
-//       // fix uglifyjs sourcemap
-//       var map = JSON.parse(res.map)
-//       map.sources = [`${name}.js`]
-//       map.sourcesContent = [code]
-//       map.file = `${name}.min.js`
-//       return [
-//         write(resolvePath(`../dist/${name}.min.js`), res.code),
-//         write(resolvePath(`../dist/${name}.min.js.map`), JSON.stringify(map))
-//       ]
-//     })
-//   })
+   // uglify
+   .then(function () {
+     return rollup.rollup({
+       entry: mainPath,
+       plugins: [
+         replace({
+           'process.env.NODE_ENV': "'production'"
+         }),
+         babel()
+       ]
+     }).then((bundle) => {
+       var code = bundle.generate({
+         format: 'umd',
+         moduleName: 'safeTrim',
+         banner: banner
+       }).code
+       var res = uglify.minify(code, {
+         fromString: true,
+         outSourceMap: `${name}.min.js.map`,
+         output: {
+           preamble: banner,
+           ascii_only: true
+         }
+       })
+       // fix uglifyjs sourcemap
+       var map = JSON.parse(res.map)
+       map.sources = [`${name}.js`]
+       map.sourcesContent = [code]
+       map.file = `${name}.min.js`
+       return [
+         write(resolvePath(`../dist/${name}.min.js`), res.code),
+         write(resolvePath(`../dist/${name}.min.js.map`), JSON.stringify(map))
+       ]
+     })
+   })
   .catch(logError)
 
 // htmlMin('./demo/index.html', './dist/index.html');

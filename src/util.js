@@ -4,11 +4,11 @@ export function isInteger(num) {
   return Number.isInteger(num)
 }
 export function isObject(val) {
-  return Object.prototype.toString.call(val) === '[object Object]';
+  return Object.prototype.toString.call(val) === '[object Object]'
 }
 
 export function isArray(val) {
-  return Object.prototype.toString.call(val) === '[object Array]';
+  return Object.prototype.toString.call(val) === '[object Array]'
 }
 
 export function objectForeach(obj, callback) {
@@ -18,15 +18,15 @@ export function objectForeach(obj, callback) {
   return obj
 }
 
-export function arrayMove(arr, old_index, new_index) {
-  if (new_index >= arr.length) {
-    var k = new_index - arr.length;
+export function arrayMove(arr, oldIndex, newIndex) {
+  if (newIndex >= arr.length) {
+    let k = newIndex - arr.length
     while ((k--) + 1) {
-      arr.push(undefined);
+      arr.push(undefined)
     }
   }
-  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-  return arr;
+  arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0])
+  return arr
 }
 
 const arrPro = Array.prototype
@@ -48,8 +48,8 @@ export function normalizePath(...path) {
  * @return {[type]}              [description]
  */
 export function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
-  var path = []
-  
+  let path = []
+
   function _walk(obj) {
     objectForeach(obj, (val, key, raw) => {
       path.push(key)
@@ -64,7 +64,7 @@ export function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
     })
     return obj
   }
-  
+
   return _walk(obj)
 }
 
@@ -78,28 +78,27 @@ export function indexOf(path) {
  * @return {Array}       ['menu','id']
  */
 export function combingPathKey(keys) {
-  
   // {empty}
   while (~keys.indexOf('')) {
-    var _i = keys.indexOf('');
-    keys.splice(_i, 1);
+    let _i = keys.indexOf('')
+    keys.splice(_i, 1)
   }
-  
+
   // .
   while (~keys.indexOf('.')) {
-    var _i = keys.indexOf('.');
-    keys.splice(_i, 1);
+    let _i = keys.indexOf('.')
+    keys.splice(_i, 1)
   }
-  
+
   // ..
   while (~keys.indexOf('..')) {
-    var _i = keys.indexOf('..');
-    keys[_i] = keys[_i - 1] = null;
-    delete keys[_i];
-    delete keys[_i - 1];
-    keys.splice(_i, 1);
-    keys.splice(_i - 1, 1);
+    let _i = keys.indexOf('..')
+    keys[_i] = keys[_i - 1] = null
+    delete keys[_i]
+    delete keys[_i - 1]
+    keys.splice(_i, 1)
+    keys.splice(_i - 1, 1)
   }
-  
-  return keys;
+
+  return keys
 }

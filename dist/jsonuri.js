@@ -3,9 +3,11 @@
  * (c) 2016 Linkjun <pk.link@163.com>
  * Released under the MIT License.
  */
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (factory((global.safeTrim = global.safeTrim || {})));
+}(this, (function (exports) { 'use strict';
 
 function noop() {}
 
@@ -401,3 +403,7 @@ exports.down = down;
 exports.insert = insert;
 exports.walk = walk;
 exports.normalizePath = normalizePath;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));

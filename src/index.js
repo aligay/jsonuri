@@ -12,14 +12,13 @@
  *   rm(data, '/menu/value/');
  */
 
-
 /**
  * require isObject,
  *         isArray,
  *         arrayMove
  */
-import JsonUri from './jsonuri';
-import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalizePath, indexOf} from './util';
+import JsonUri from './jsonuri'
+import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalizePath, indexOf} from './util'
 
 /**
  * Get
@@ -28,7 +27,7 @@ import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalize
  * @param {[type]}        return value.
  */
 function get(data, path) {
-  return JsonUri(data, path);
+  return JsonUri(data, path)
 }
 
 /**
@@ -39,8 +38,8 @@ function get(data, path) {
  * @param {[type]}        return data this.
  */
 function set(data, path, value) {
-  JsonUri(data, path, value);
-  return data;
+  JsonUri(data, path, value)
+  return data
 }
 
 /**
@@ -50,9 +49,9 @@ function set(data, path, value) {
  * @return {Any}          The deleted value.
  */
 function rm(data, path) {
-  var tmp = JsonUri(data, path);
-  set(data, path, null);
-  return tmp;
+  let tmp = JsonUri(data, path)
+  set(data, path, null)
+  return tmp
 }
 
 /**
@@ -64,12 +63,12 @@ function rm(data, path) {
  * @description  `pathA` the data swap `pathB`.
  */
 function swap(data, pathA, pathB) {
-  var _a = JsonUri(data, pathA);
-  var _b = JsonUri(data, pathB);
+  let _a = JsonUri(data, pathA)
+  let _b = JsonUri(data, pathB)
 
-  set(data, pathA, _b);
-  set(data, pathB, _a);
-  return data;
+  set(data, pathA, _b)
+  set(data, pathB, _a)
+  return data
 }
 
 /**
@@ -81,44 +80,42 @@ function swap(data, pathA, pathB) {
  * @description Move data in the array.
  */
 function mv(data, pathA, pathB, direction = 'after') {
-  let a_parent = get(data, pathA + '/../');
-  let b_parent = get(data, pathB + '/../');
-  let _a = get(data, pathA);
-  let _b = get(data, pathB);
-  let a_index = indexOf(pathA);
-  let b_index = indexOf(pathB);
-
+  let aParent = get(data, pathA + '/../')
+  let bParent = get(data, pathB + '/../')
+  let _a = get(data, pathA)
+  let _b = get(data, pathB)
+  let aIndex = indexOf(pathA)
+  let bIndex = indexOf(pathB)
 
   /*
-    如果同个数组中移动，要考虑移动后所需要移除的路径（PathA）数据指针有变，
-    所以要判断是同个数组，并且
-  */
-  
-  if(a_parent !== b_parent){
+   如果同个数组中移动，要考虑移动后所需要移除的路径（PathA）数据指针有变，
+   所以要判断是同个数组，并且
+   */
+
+  if (aParent !== bParent) {
     //放入新值
-    insert(data, pathB, _a, direction);
+    insert(data, pathB, _a, direction)
     //删除PathA
-    rm(data, pathA);
-    return ;
+    rm(data, pathA)
+    return
   }
 
   //移动位置相同直接退出
-  if(a_index === b_index) return;
-  
-  //放入新值
-  insert(data, pathB, _a, direction);
-  
-  //更新b_index
-  b_index += direction === 'before' ? -1 : 0;
+  if (aIndex === bIndex) return
 
-  //向👈移动a_index + 1
-  if(b_index < a_index){
-    a_index ++;
+  //放入新值
+  insert(data, pathB, _a, direction)
+
+  //更新bIndex
+  bIndex += direction === 'before' ? -1 : 0
+
+  //向👈移动aIndex + 1
+  if (bIndex < aIndex) {
+    aIndex++
   }
 
-  pathA = normalizePath(pathA,`/../${a_index}`);
-  rm(data, normalizePath(pathA,`/../${a_index}`));
-
+  pathA = normalizePath(pathA, `/../${aIndex}`)
+  rm(data, normalizePath(pathA, `/../${aIndex}`))
 }
 
 /**
@@ -128,21 +125,21 @@ function mv(data, pathA, pathB, direction = 'after') {
  * @description Move up data in the array.
  */
 function up(data, path, gap = 1) {
-  let parent = get(data, path + '/../');
-  let index = indexOf(path);
-  let target_index = index - gap;
-  let pathB = normalizePath(path, `/../${target_index}/`);
+  let parent = get(data, path + '/../')
+  let index = indexOf(path)
+  let targetIndex = index - gap
+  let pathB = normalizePath(path, `/../${targetIndex}/`)
 
-  if(!isArray(parent)){
+  if (!isArray(parent)) {
     console.error('操作的不是数组')
-    return;
+    return
   }
   //移动溢出
-  if(index <= 0 || index >= parent.length){
-    return ;
+  if (index <= 0 || index >= parent.length) {
+    return
   }
 
-  mv(data, path, pathB, 'before');
+  mv(data, path, pathB, 'before')
 }
 
 /**
@@ -152,23 +149,22 @@ function up(data, path, gap = 1) {
  * @description Move up data in the array.
  */
 function down(data, path, gap = 1) {
-  let parent = get(data, path + '/../');
-  let index = indexOf(path);
-  let target_index = index + gap;
-  let pathB = normalizePath(path, `/../${target_index}/`);
+  let parent = get(data, path + '/../')
+  let index = indexOf(path)
+  let targetIndex = index + gap
+  let pathB = normalizePath(path, `/../${targetIndex}/`)
 
-  if(!isArray(parent)){
+  if (!isArray(parent)) {
     console.error('操作的不是数组')
-    return;
+    return
   }
   //移动溢出
-  if(index < 0 || index >= parent.length){
-    return ;
+  if (index < 0 || index >= parent.length) {
+    return
   }
 
-  mv(data, path, pathB, 'after');
+  mv(data, path, pathB, 'after')
 }
-
 
 /**
  * 在 path 之前 或者之后插入一个数据, 如果不是数组,控制台报错
@@ -201,6 +197,5 @@ function insert(data, path, value, direction = 'after') {
   return data
 }
 
-
-export default {get, set, rm, swap, mv, up, down, insert, walk, normalizePath};
-export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath};
+export default {get, set, rm, swap, mv, up, down, insert, walk, normalizePath}
+export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath}
