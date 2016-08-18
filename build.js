@@ -4,7 +4,7 @@ var rollup = require('rollup')
 var uglify = require('uglify-js')
 var babel = require('rollup-plugin-babel')
 var replace = require('rollup-plugin-replace')
-var package = require('./package.json');
+var package = require('./a/package.json');
 var version = process.env.VERSION || package.version
 var htmlMinify = require('html-minifier').minify;
 
