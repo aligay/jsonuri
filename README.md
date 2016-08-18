@@ -1,7 +1,12 @@
 # JSON URI
 
-[简体中文](README_zh-cn.md)
 ---
+[![Build Status](https://travis-ci.org/haozime/safe-trim.svg?branch=master)](https://travis-ci.org/haozime/safe-trim/branches)
+[![codecov](https://codecov.io/gh/haozime/safe-trim/branch/master/graph/badge.svg)](https://codecov.io/gh/haozime/safe-trim)
+[![dependencies Status](https://david-dm.org/haozime/safe-trim/status.svg)](https://david-dm.org/haozime/safe-trim)
+[![devDependencies Status](https://david-dm.org/haozime/safe-trim/dev-status.svg)](https://david-dm.org/haozime/safe-trim?type=dev)
+
+[简体中文](README_zh-cn.md)
 
 `Use URI path to get or set data.`
 
