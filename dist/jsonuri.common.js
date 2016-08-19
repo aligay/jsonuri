@@ -1,5 +1,5 @@
 /*!
- * JsonUri.js v1.5.4
+ * JsonUri.js v1.5.5
  * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
@@ -20,10 +20,28 @@ function isArray(val) {
 }
 
 function objectForeach(obj, callback) {
-  Object.keys(obj).forEach(function (prop) {
-    callback(obj[prop], prop, obj);
-  });
-  return obj;
+  var isBreak = false;
+  function _break() {
+    isBreak = true;
+  }
+
+  for (var _iterator = Object.keys(obj), _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+    var _ref;
+
+    if (_isArray) {
+      if (_i2 >= _iterator.length) break;
+      _ref = _iterator[_i2++];
+    } else {
+      _i2 = _iterator.next();
+      if (_i2.done) break;
+      _ref = _i2.value;
+    }
+
+    var prop = _ref;
+
+    if (isBreak) break;
+    callback(obj[prop], prop, obj, { _break: _break });
+  }
 }
 
 var arrPro = Array.prototype;
@@ -56,17 +74,31 @@ function walk() {
   var ascentionFn = arguments.length <= 2 || arguments[2] === undefined ? noop : arguments[2];
 
   var path = [];
-
   function _walk(obj) {
-    objectForeach(obj, function (val, key, raw) {
+    objectForeach(obj, function (val, key, raw, _ref2) {
+      var _break = _ref2._break;
+
+      var isBreak = false;
+      function _gBreak() {
+        _break();
+        isBreak = true;
+      }
+
+      if (val === raw) {
+        console.log('Circular-reference: ' + normalizePath(path));
+        _break(); // break 只会跳出当前一层循环
+        return;
+      }
+
       path.push(key);
-      descentionFn(val, key, raw, { path: normalizePath(path) });
+      descentionFn(val, key, raw, { path: normalizePath(path), _break: _gBreak });
       path.pop();
       if (val instanceof Object) {
         path.push(key);
+        if (isBreak) return;
         _walk(val);
         path.pop();
-        ascentionFn(val, key, raw, { path: normalizePath(path) });
+        ascentionFn(val, key, raw, { path: normalizePath(path), _break: _gBreak });
       }
     });
     return obj;
