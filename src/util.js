@@ -12,10 +12,15 @@ export function isArray(val) {
 }
 
 export function objectForeach(obj, callback) {
-  Object.keys(obj).forEach((prop) => {
-    callback(obj[prop], prop, obj)
-  })
-  return obj
+  let isBreak = false
+  function _break() {
+    isBreak = true
+  }
+
+  for(let prop of Object.keys(obj)) {
+    if(isBreak) break
+    callback(obj[prop], prop, obj, {_break})
+  }
 }
 
 export function arrayMove(arr, old_index, new_index) {
@@ -49,22 +54,34 @@ export function normalizePath(...path) {
  */
 export function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
   var path = []
-  
   function _walk(obj) {
-    objectForeach(obj, (val, key, raw) => {
+    objectForeach(obj, (val, key, raw, {_break}) => {
+      let isBreak = false
+      function _gBreak() {
+        _break()
+        isBreak = true
+      }
+
+      if(val === raw) {
+        console.log('Circular-reference: ' + normalizePath(path));
+        _break() // break 只会跳出当前一层循环
+        return
+      }
+
       path.push(key)
-      descentionFn(val, key, raw, {path: normalizePath(path)})
+      descentionFn(val, key, raw, {path: normalizePath(path), _break: _gBreak})
       path.pop()
       if (val instanceof Object) {
         path.push(key)
+        if(isBreak) return
         _walk(val)
         path.pop()
-        ascentionFn(val, key, raw, {path: normalizePath(path)})
+        ascentionFn(val, key, raw, {path: normalizePath(path), _break: _gBreak})
       }
     })
     return obj
   }
-  
+
   return _walk(obj)
 }
 
@@ -78,19 +95,19 @@ export function indexOf(path) {
  * @return {Array}       ['menu','id']
  */
 export function combingPathKey(keys) {
-  
+
   // {empty}
   while (~keys.indexOf('')) {
     var _i = keys.indexOf('');
     keys.splice(_i, 1);
   }
-  
+
   // .
   while (~keys.indexOf('.')) {
     var _i = keys.indexOf('.');
     keys.splice(_i, 1);
   }
-  
+
   // ..
   while (~keys.indexOf('..')) {
     var _i = keys.indexOf('..');
@@ -100,6 +117,6 @@ export function combingPathKey(keys) {
     keys.splice(_i, 1);
     keys.splice(_i - 1, 1);
   }
-  
+
   return keys;
 }
