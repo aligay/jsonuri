@@ -139,27 +139,26 @@ function blue(str) {
 function htmlMin(src, target) {
   var html = fs.readFileSync(src, 'utf-8')
   var result = htmlMinify(html, {
-    removeAttributeQuotes: true,
     minifyCSS: true,
     minifyJS: true,
-    "collapseBooleanAttributes": true,
-    "collapseWhitespace": true,
-    "decodeEntities": true,
+    collapseBooleanAttributes: true,
+    collapseWhitespace: true,
+    decodeEntities: true,
 
-    "html5": true,
-    "processConditionalComments": true,
-    "processScripts": [
-      "text/html"
+    html5: true,
+    processConditionalComments: true,
+    processScripts: [
+      'text/html'
     ],
-    "removeAttributeQuotes": true,
-    "removeComments": true,
-    "removeEmptyAttributes": true,
-    "removeOptionalTags": true,
-    "removeRedundantAttributes": true,
-    "removeScriptTypeAttributes": true,
-    "removeStyleLinkTypeAttributes": true,
-    "removeTagWhitespace": true,
-    "useShortDoctype": true
+    removeAttributeQuotes: true,
+    removeComments: true,
+    removeEmptyAttributes: true,
+    removeOptionalTags: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    removeTagWhitespace: true,
+    useShortDoctype: true
   });
 
   write(target, result)

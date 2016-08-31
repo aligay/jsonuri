@@ -5,8 +5,6 @@
  */
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 function noop() {}
 
 function isInteger(num) {
@@ -389,15 +387,6 @@ function insert(data, path, value) {
 }
 
 var index = { get: get, set: set, rm: rm, swap: swap, mv: mv, up: up, down: down, insert: insert, walk: walk, normalizePath: normalizePath };
+// export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath}
 
-exports['default'] = index;
-exports.get = get;
-exports.set = set;
-exports.rm = rm;
-exports.swap = swap;
-exports.mv = mv;
-exports.up = up;
-exports.down = down;
-exports.insert = insert;
-exports.walk = walk;
-exports.normalizePath = normalizePath;
+module.exports = index;

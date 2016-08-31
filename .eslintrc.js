@@ -14,7 +14,7 @@ module.exports = {
     jquery: true
   },
   globals: {
-    dialog: true
+    jsonuri: true,
   },
   rules: {
     'generator-star-spacing': 0,

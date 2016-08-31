@@ -1,6 +1,6 @@
 /*!
- * jsonuri v2.0.0
- * (c) 2016 Linkjun <pk.link@163.com>
+ * JsonUri.js v1.5.5
+ * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
 'use strict';
@@ -10,6 +10,7 @@ function noop() {}
 function isInteger(num) {
   return Number.isInteger(num);
 }
+
 function isObject(val) {
   return Object.prototype.toString.call(val) === '[object Object]';
 }
@@ -19,13 +20,32 @@ function isArray(val) {
 }
 
 function objectForeach(obj, callback) {
-  Object.keys(obj).forEach(function (prop) {
-    callback(obj[prop], prop, obj);
-  });
-  return obj;
+  var isBreak = false;
+  function _break() {
+    isBreak = true;
+  }
+
+  for (var _iterator = Object.keys(obj), _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+    var _ref;
+
+    if (_isArray) {
+      if (_i2 >= _iterator.length) break;
+      _ref = _iterator[_i2++];
+    } else {
+      _i2 = _iterator.next();
+      if (_i2.done) break;
+      _ref = _i2.value;
+    }
+
+    var prop = _ref;
+
+    if (isBreak) break;
+    callback(obj[prop], prop, obj, { _break: _break });
+  }
 }
 
 var arrPro = Array.prototype;
+
 function normalizePath() {
   for (var _len = arguments.length, path = Array(_len), _key = 0; _key < _len; _key++) {
     path[_key] = arguments[_key];
@@ -47,23 +67,38 @@ function normalizePath() {
  * @param  {[type]} ascentionFn  [description]
  * @return {[type]}              [description]
  */
+
 function walk() {
   var obj = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   var descentionFn = arguments.length <= 1 || arguments[1] === undefined ? noop : arguments[1];
   var ascentionFn = arguments.length <= 2 || arguments[2] === undefined ? noop : arguments[2];
 
   var path = [];
-
   function _walk(obj) {
-    objectForeach(obj, function (val, key, raw) {
+    objectForeach(obj, function (val, key, raw, _ref2) {
+      var _break = _ref2._break;
+
+      var isBreak = false;
+      function _gBreak() {
+        _break();
+        isBreak = true;
+      }
+
+      if (val === raw) {
+        console.log('Circular-reference: ' + normalizePath(path));
+        _break(); // break 只会跳出当前一层循环
+        return;
+      }
+
       path.push(key);
-      descentionFn(val, key, raw, { path: normalizePath(path) });
+      descentionFn(val, key, raw, { path: normalizePath(path), _break: _gBreak });
       path.pop();
       if (val instanceof Object) {
         path.push(key);
+        if (isBreak) return;
         _walk(val);
         path.pop();
-        ascentionFn(val, key, raw, { path: normalizePath(path) });
+        ascentionFn(val, key, raw, { path: normalizePath(path), _break: _gBreak });
       }
     });
     return obj;
@@ -83,7 +118,9 @@ function indexOf(path) {
  * @param  {Array} keys  ['','menu','id','','.']
  * @return {Array}       ['menu','id']
  */
+
 function combingPathKey(keys) {
+
   // {empty}
   while (~keys.indexOf('')) {
     var _i = keys.indexOf('');
@@ -92,31 +129,31 @@ function combingPathKey(keys) {
 
   // .
   while (~keys.indexOf('.')) {
-    var _i2 = keys.indexOf('.');
-    keys.splice(_i2, 1);
+    var _i = keys.indexOf('.');
+    keys.splice(_i, 1);
   }
 
   // ..
   while (~keys.indexOf('..')) {
-    var _i3 = keys.indexOf('..');
-    keys[_i3] = keys[_i3 - 1] = null;
-    delete keys[_i3];
-    delete keys[_i3 - 1];
-    keys.splice(_i3, 1);
-    keys.splice(_i3 - 1, 1);
+    var _i = keys.indexOf('..');
+    keys[_i] = keys[_i - 1] = null;
+    delete keys[_i];
+    delete keys[_i - 1];
+    keys.splice(_i, 1);
+    keys.splice(_i - 1, 1);
   }
 
   return keys;
 }
 
 /**
- * Jsonuri
+ * JsonUri
  * @author Linkjun
  * @param {Object | Array}    data  {k:1,s:[..]}
  * @param {String}            path  '/s/0/'
  * @param {Any}               value [0,{s:0},2,3,4]
  */
-function Jsonuri(data, path, value) {
+function JsonUri(data, path, value) {
   //Data must be Object.
   if (!(data instanceof Object)) return;
 
@@ -133,10 +170,12 @@ function Jsonuri(data, path, value) {
     if (!keys[i]) continue;
 
     if (i === keys.length - 1) {
-      if (value !== undefined) {
+      if (value != undefined) {
+
         //set value.
         cur[keys[i]] = value;
       } else if (value === null) {
+
         //delete value in the object.
         if (isObject(cur)) {
           cur[keys[i]] = null;
@@ -150,11 +189,13 @@ function Jsonuri(data, path, value) {
         }
       }
     } else if (value) {
+
       //if set value
       var _nextKey = keys[i + 1];
 
       //curData is undefined.
       if (!cur[keys[i]]) {
+
         //create data container.
         var _curType = _nextKey * 0 === 0 ? 'Array' : 'Object';
         if (_curType === 'Array') {
@@ -173,30 +214,11 @@ function Jsonuri(data, path, value) {
     }
 
     cur = cur[keys[i]];
-  }
+  };
 
   return cur;
 }
 
-/**
- * JsonUri
- * @author Linkjun @linkjun.com
- * @description
- *   get(data, '/menu/id/');
- *   get(data, '/menu/id/../');
- *   get(data, '/menu/id/.../');
- *   get(data, '/menu/id/~/');
- *   set(data, '/menu/id/',[0,1,2,3,4]);
- *   mv(data, '/menu/id/0', '/menu/id/2');
- *   swap(data, '/menu/id/0', '/menu/id/1');
- *   rm(data, '/menu/value/');
- */
-
-/**
- * require isObject,
- *         isArray,
- *         arrayMove
- */
 /**
  * Get
  * @param  {Object} data  typeof Object or Array.
@@ -204,7 +226,7 @@ function Jsonuri(data, path, value) {
  * @param {[type]}        return value.
  */
 function get(data, path) {
-  return Jsonuri(data, path);
+  return JsonUri(data, path);
 }
 
 /**
@@ -215,7 +237,7 @@ function get(data, path) {
  * @param {[type]}        return data this.
  */
 function set(data, path, value) {
-  Jsonuri(data, path, value);
+  JsonUri(data, path, value);
   return data;
 }
 
@@ -226,7 +248,7 @@ function set(data, path, value) {
  * @return {Any}          The deleted value.
  */
 function rm(data, path) {
-  var tmp = Jsonuri(data, path);
+  var tmp = JsonUri(data, path);
   set(data, path, null);
   return tmp;
 }
@@ -240,8 +262,8 @@ function rm(data, path) {
  * @description  `pathA` the data swap `pathB`.
  */
 function swap(data, pathA, pathB) {
-  var _a = Jsonuri(data, pathA);
-  var _b = Jsonuri(data, pathB);
+  var _a = JsonUri(data, pathA);
+  var _b = JsonUri(data, pathB);
 
   set(data, pathA, _b);
   set(data, pathB, _a);
@@ -259,19 +281,19 @@ function swap(data, pathA, pathB) {
 function mv(data, pathA, pathB) {
   var direction = arguments.length <= 3 || arguments[3] === undefined ? 'after' : arguments[3];
 
-  var aParent = get(data, pathA + '/../');
-  var bParent = get(data, pathB + '/../');
+  var a_parent = get(data, pathA + '/../');
+  var b_parent = get(data, pathB + '/../');
   var _a = get(data, pathA);
   var _b = get(data, pathB);
-  var aIndex = indexOf(pathA);
-  var bIndex = indexOf(pathB);
+  var a_index = indexOf(pathA);
+  var b_index = indexOf(pathB);
 
   /*
-   如果同个数组中移动，要考虑移动后所需要移除的路径（PathA）数据指针有变，
-   所以要判断是同个数组，并且
-   */
+    如果同个数组中移动，要考虑移动后所需要移除的路径（PathA）数据指针有变，
+    所以要判断是同个数组，并且
+  */
 
-  if (aParent !== bParent) {
+  if (a_parent !== b_parent) {
     //放入新值
     insert(data, pathB, _a, direction);
     //删除PathA
@@ -280,21 +302,21 @@ function mv(data, pathA, pathB) {
   }
 
   //移动位置相同直接退出
-  if (aIndex === bIndex) return;
+  if (a_index === b_index) return;
 
   //放入新值
   insert(data, pathB, _a, direction);
 
-  //更新bIndex
-  bIndex += direction === 'before' ? -1 : 0;
+  //更新b_index
+  b_index += direction === 'before' ? -1 : 0;
 
-  //向👈移动aIndex + 1
-  if (bIndex < aIndex) {
-    aIndex++;
+  //向👈移动a_index + 1
+  if (b_index < a_index) {
+    a_index++;
   }
 
-  pathA = normalizePath(pathA, '/../' + aIndex);
-  rm(data, normalizePath(pathA, '/../' + aIndex));
+  pathA = normalizePath(pathA, '/../' + a_index);
+  rm(data, normalizePath(pathA, '/../' + a_index));
 }
 
 /**
@@ -308,8 +330,8 @@ function up(data, path) {
 
   var parent = get(data, path + '/../');
   var index = indexOf(path);
-  var targetIndex = index - gap;
-  var pathB = normalizePath(path, '/../' + targetIndex + '/');
+  var target_index = index - gap;
+  var pathB = normalizePath(path, '/../' + target_index + '/');
 
   if (!isArray(parent)) {
     console.error('操作的不是数组');
@@ -334,8 +356,8 @@ function down(data, path) {
 
   var parent = get(data, path + '/../');
   var index = indexOf(path);
-  var targetIndex = index + gap;
-  var pathB = normalizePath(path, '/../' + targetIndex + '/');
+  var target_index = index + gap;
+  var pathB = normalizePath(path, '/../' + target_index + '/');
 
   if (!isArray(parent)) {
     console.error('操作的不是数组');
@@ -358,7 +380,6 @@ function down(data, path) {
  */
 var max = Math.max;
 var min = Math.min;
-
 
 function insert(data, path, value) {
   var direction = arguments.length <= 3 || arguments[3] === undefined ? 'after' : arguments[3];
@@ -387,6 +408,15 @@ function insert(data, path, value) {
 }
 
 var index = { get: get, set: set, rm: rm, swap: swap, mv: mv, up: up, down: down, insert: insert, walk: walk, normalizePath: normalizePath };
-// export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath}
 
-module.exports = index;
+exports['default'] = index;
+exports.get = get;
+exports.set = set;
+exports.rm = rm;
+exports.swap = swap;
+exports.mv = mv;
+exports.up = up;
+exports.down = down;
+exports.insert = insert;
+exports.walk = walk;
+exports.normalizePath = normalizePath;

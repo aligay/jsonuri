@@ -198,4 +198,4 @@ function insert(data, path, value, direction = 'after') {
 }
 
 export default {get, set, rm, swap, mv, up, down, insert, walk, normalizePath}
-export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath}
+// export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath}

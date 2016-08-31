@@ -4,10 +4,10 @@
  * Released under the MIT License.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global.safeTrim = global.safeTrim || {})));
-}(this, (function (exports) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.safeTrim = factory());
+}(this, (function () { 'use strict';
 
 function noop() {}
 
@@ -391,19 +391,8 @@ function insert(data, path, value) {
 }
 
 var index = { get: get, set: set, rm: rm, swap: swap, mv: mv, up: up, down: down, insert: insert, walk: walk, normalizePath: normalizePath };
+// export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath}
 
-exports['default'] = index;
-exports.get = get;
-exports.set = set;
-exports.rm = rm;
-exports.swap = swap;
-exports.mv = mv;
-exports.up = up;
-exports.down = down;
-exports.insert = insert;
-exports.walk = walk;
-exports.normalizePath = normalizePath;
-
-Object.defineProperty(exports, '__esModule', { value: true });
+return index;
 
 })));
