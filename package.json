@@ -26,7 +26,7 @@
     "test": "npm run lint && npm run build && npm run jasmine",
     "clean": "rm -rf dist && mkdir dist",
     "build": "npm run clean && node build/build.js",
-    "jasmine": "istanbul cover jasmine-node spec",
+    "jasmine": "istanbul cover jasmine-node test",
     "watch": "npm run clean && babel --presets es2015 --plugins transform-runtime,add-module-exports src/ --out-dir dist/ --source-maps --watch",
     "lint": "NODE_ENV=production eslint --ext .js src .config test/unit/specs test/e2e/specs"
   },

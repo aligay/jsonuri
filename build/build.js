@@ -1,19 +1,20 @@
-var fs = require('fs')
-var path = require('path')
-var zlib = require('zlib')
-var rollup = require('rollup')
-var uglify = require('uglify-js')
-var babel = require('rollup-plugin-babel')
-var replace = require('rollup-plugin-replace')
-var package = require('../package.json');
-var htmlMinify = require('html-minifier').minify;
+'use strict'
+const fs = require('fs')
+const path = require('path')
+const zlib = require('zlib')
+const rollup = require('rollup')
+const uglify = require('uglify-js')
+const babel = require('rollup-plugin-babel')
+const replace = require('rollup-plugin-replace')
+const pkg = require('../package.json')
+const htmlMinify = require('html-minifier').minify
 
-var name = package.name
-var mainPath = resolvePath('../src/index.js')
-var banner =
+const name = pkg.name
+const mainPath = resolvePath('../src/index.js')
+const banner =
   '/*!\n' +
-  ' * ' + name + ' v' + package.version + '\n' +
-  ' * (c) ' + new Date().getFullYear() + ' ' + package.author + '\n' +
+  ' * ' + name + ' v' + pkg.version + '\n' +
+  ' * (c) ' + new Date().getFullYear() + ' ' + pkg.author + '\n' +
   ' * Released under the MIT License.\n' +
   ' */'
 
@@ -63,17 +64,17 @@ rollup.rollup({
          babel()
        ]
      }).then((bundle) => {
-       var code = bundle.generate({
+       const code = bundle.generate({
          format: 'umd',
          moduleName: 'safeTrim',
          banner: banner
        }).code
-       var res = uglify.minify(code, {
+       const res = uglify.minify(code, {
          fromString: true,
          outSourceMap: `${name}.min.js.map`,
          compress: {
            warnings: false,
-           hoist_vars: true,
+           hoist_consts: true,
            hoist_funs: true,
            drop_debugger: true,
            unused: true,
@@ -82,7 +83,7 @@ rollup.rollup({
            conditionals: true,
            booleans: true,
            if_return: true,
-           join_vars: true,
+           join_consts: true,
            screw_ie8: true,
            comparisons: true,
            evaluate: true,
@@ -97,7 +98,7 @@ rollup.rollup({
          }
        })
        // fix uglifyjs sourcemap
-       var map = JSON.parse(res.map)
+       const map = JSON.parse(res.map)
        map.sources = [`${name}.js`]
        map.sourcesContent = [code]
        map.file = `${name}.min.js`
@@ -150,28 +151,28 @@ function blue(str) {
 }
 
 function htmlMin(src, target) {
-  var html = fs.readFileSync(src, 'utf-8')
-  var result = htmlMinify(html, {
+  const html = fs.readFileSync(src, 'utf-8')
+  const result = htmlMinify(html, {
     removeAttributeQuotes: true,
     minifyCSS: true,
     minifyJS: true,
-    "collapseBooleanAttributes": true,
-    "collapseWhitespace": true,
-    "decodeEntities": true,
+    collapseBooleanAttributes: true,
+    collapseWhitespace: true,
+    decodeEntities: true,
 
-    "html5": true,
-    "processConditionalComments": true,
-    "processScripts": [
-      "text/html"
+    html5: true,
+    processConditionalComments: true,
+    processScripts: [
+      'text/html'
     ],
-    "removeComments": true,
-    "removeEmptyAttributes": true,
-    "removeOptionalTags": true,
-    "removeRedundantAttributes": true,
-    "removeScriptTypeAttributes": true,
-    "removeStyleLinkTypeAttributes": true,
-    "removeTagWhitespace": true,
-    "useShortDoctype": true
+    removeComments: true,
+    removeEmptyAttributes: true,
+    removeOptionalTags: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    removeTagWhitespace: true,
+    useShortDoctype: true
   });
 
   write(target, result)
