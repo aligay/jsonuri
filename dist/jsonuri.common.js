@@ -1,5 +1,5 @@
 /*!
- * JsonUri.js v1.5.5
+ * JsonUri.js v1.5.9
  * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
@@ -82,6 +82,9 @@ function walk() {
       function _gBreak() {
         _break();
         isBreak = true;
+        if (isArray(raw)) {
+          path.pop();
+        }
       }
 
       if (val === raw) {

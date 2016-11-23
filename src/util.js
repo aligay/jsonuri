@@ -60,6 +60,9 @@ export function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
       function _gBreak() {
         _break()
         isBreak = true
+        if(isArray(raw)) {
+          path.pop()
+        }
       }
 
       if(val === raw) {
