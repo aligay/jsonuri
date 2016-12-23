@@ -1,5 +1,5 @@
 /*!
- * JsonUri.js v1.5.10
+ * JsonUri.js v1.5.11
  * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
@@ -295,31 +295,18 @@ function mv(data, pathA, pathB) {
     如果同个数组中移动，要考虑移动后所需要移除的路径（PathA）数据指针有变，
     所以要判断是同个数组，并且
   */
-
-  if (a_parent !== b_parent) {
+  if (a_parent === b_parent) return;
+  if (direction === 'before') {
     //删除PathA
     rm(data, pathA);
     //放入新值
     insert(data, pathB, _a, direction);
-    return;
   }
-
-  //移动位置相同直接退出
-  if (a_index === b_index) return;
 
   //放入新值
   insert(data, pathB, _a, direction);
-
-  //更新b_index
-  b_index += direction === 'before' ? -1 : 0;
-
-  //向👈移动a_index + 1
-  if (b_index < a_index) {
-    a_index++;
-  }
-
-  pathA = normalizePath(pathA, '/../' + a_index);
-  rm(data, normalizePath(pathA, '/../' + a_index));
+  //删除PathA
+  rm(data, pathA);
 }
 
 /**
