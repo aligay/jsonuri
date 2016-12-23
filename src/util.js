@@ -123,3 +123,23 @@ export function combingPathKey(keys) {
 
   return keys;
 }
+
+export function findParents(arr1, arr2) {
+  
+}
+
+/**
+ * getType
+ * @type {Object}
+ * @return {String} 返回类型
+ */
+let __class2types = {}
+objectForeach(['Boolean', 'Number', 'String', 'Function', 'Array', 'Date', 'RegExp', 'Object', 'Error'], function(item, index){
+  __class2types[`[object ${item}]`] = item.toLowerCase();
+})
+export function getType(obj){
+  if ( obj == null ) return String( obj )
+  return (typeof obj === "object" || typeof obj === "function") ?
+  __class2types[__class2types.toString.call(obj)] || "object" : typeof obj;
+}
+

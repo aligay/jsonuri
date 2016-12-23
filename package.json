@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "1.5.9",
+  "version": "1.5.13",
   "author": "Linkjun <pk.link@163.com>",
   "license": "ISC",
   "description": "Use URI path to get or set data",
