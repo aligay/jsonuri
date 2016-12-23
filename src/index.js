@@ -95,10 +95,10 @@ function mv(data, pathA, pathB, direction = 'after') {
   */
   
   if(a_parent !== b_parent){
-    //放入新值
-    insert(data, pathB, _a, direction);
     //删除PathA
     rm(data, pathA);
+    //放入新值
+    insert(data, pathB, _a, direction);
     return ;
   }
 

@@ -20,21 +20,21 @@ JsonUri.walk(exObj, function(obj, key, raw, path) {
 })
 
 
-
 JsonUri.walk({a:{a1:'x'}}, function(obj, key, raw, path){
   console.log(obj, key, raw, path)
 })
 
 
-JsonUri.up(exObj, '/list/1/');
-console.log(JsonUri.get(exObj, '/list/'))
+//JsonUri.up(exObj, '/list/1/');
+//console.log(JsonUri.get(exObj, '/list/'))
 
-/*
+console.log('mv', JsonUri.get(exObj, '/list/'))
 JsonUri.mv(exObj, '/list/9', '/list/2', 'before')
 //7
-console.log(JsonUri.get(exObj, '/list/'))
+console.log('mv', JsonUri.get(exObj, '/list/'))
 
 
+/*
 JsonUri.mv(exObj, '/list/0', '/list/1', 'before')
 //2
 console.log(JsonUri.get(exObj, '/list/'))*/

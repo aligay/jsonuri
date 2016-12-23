@@ -1,5 +1,5 @@
 /*!
- * JsonUri.js v1.5.9
+ * JsonUri.js v1.5.10
  * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
@@ -297,10 +297,10 @@ function mv(data, pathA, pathB) {
   */
 
   if (a_parent !== b_parent) {
-    //放入新值
-    insert(data, pathB, _a, direction);
     //删除PathA
     rm(data, pathA);
+    //放入新值
+    insert(data, pathB, _a, direction);
     return;
   }
 
