@@ -357,17 +357,6 @@
     //先删后插
     rm(data, pathA);
     insert(data, pathB, _a, direction);
-
-    //放入新值
-
-    /*//更新bIndex
-    bIndex += direction === 'before' ? -1 : 0
-     //向👈移动aIndex + 1
-    if (bIndex < aIndex) {
-      aIndex++
-    }
-     pathA = normalizePath(pathA, `/../${aIndex}`)
-    rm(data, normalizePath(pathA, `/../${aIndex}`))*/
   }
 
   /**
