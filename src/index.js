@@ -19,7 +19,7 @@
  *         arrayMove
  */
 import JsonUri from './jsonuri';
-import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalizePath, indexOf} from './util';
+import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalizePath, indexOf, getType} from './util';
 
 /**
  * Get
@@ -81,29 +81,60 @@ function swap(data, pathA, pathB) {
  * @description Move data in the array.
  */
 function mv(data, pathA, pathB, direction = 'after') {
-  let a_parent = get(data, pathA + '/../');
-  let b_parent = get(data, pathB + '/../');
-  let _a = get(data, pathA);
-  let _b = get(data, pathB);
-  let a_index = indexOf(pathA);
-  let b_index = indexOf(pathB);
+  let aParent = get(data, pathA + '/../')
+  let bParent = get(data, pathB + '/../')
+  let _a = get(data, pathA)
+  let _b = get(data, pathB)
+  let aIndex = indexOf(pathA)
+  let bIndex = indexOf(pathB)
 
-  /*
-    如果同个数组中移动，要考虑移动后所需要移除的路径（PathA）数据指针有变，
-    所以要判断是同个数组，并且
-  */
-  if(a_parent === b_parent) return
-  if(direction === 'before'){
-     //删除PathA
-      rm(data, pathA);
-      //放入新值
-      insert(data, pathB, _a, direction);
+  if(getType(aParent) !== 'array'){
+    console.error(`${pathA} 路径的父级不是数组类型`)
+    return
+  }
+  if(getType(bParent) !== 'array'){
+    console.error(`${pathB} 路径的父级不是数组类型`)
+    return
   }
 
-  //放入新值
-  insert(data, pathB, _a, direction);
-  //删除PathA
-  rm(data, pathA);
+  //不同父节点也要考虑移除A后B的指针会变更，例如：/3/ mvto /6/5/
+  if (aParent !== bParent) {
+    //1、父级别移动到子级中：先插后删
+    //从路径判断pathB是否为pathA的父级
+    if(normalizePath(pathB, '../').indexOf(normalizePath(pathA, '../')) === 0){
+      //先插后删
+      insert(data, pathB, _a, direction)
+      rm(data, pathA)
+      return
+    }
+    //2、子级别移动到父级别：先删后插
+    rm(data, pathA)
+    insert(data, pathB, _a, direction)
+    return
+  }
+
+  //同一数组内移动
+
+  //移动位置相同直接退出
+  if (aIndex === bIndex) return
+
+  //获取目标_index
+  let _targetIndex = bIndex += direction === 'before' ? -1 : 0
+
+  //目标指针依旧相同退出
+  if (aIndex === _targetIndex) return
+
+  //目标指针大于被移动指针
+  if (_targetIndex > aIndex) {
+    //先插后删
+    insert(data, pathB, _a, direction)
+    rm(data, pathA)
+    return
+  }
+
+  //先删后插
+  rm(data, pathA)
+  insert(data, pathB, _a, direction)
 }
 
 /**
@@ -119,12 +150,12 @@ function up(data, path, gap = 1) {
   let pathB = normalizePath(path, `/../${target_index}/`);
 
   if(!isArray(parent)){
-    console.error('操作的不是数组')
-    return;
+    console.error(`${path} 目标必须为数组类型`)
+    return
   }
   //移动溢出
   if(index <= 0 || index >= parent.length){
-    return ;
+    return
   }
 
   mv(data, path, pathB, 'before');
@@ -169,12 +200,12 @@ function insert(data, path, value, direction = 'after') {
   let index = path.split('/').filter(item => item).slice(-1)[0] - 0
 
   if (!isInteger(index)) {
-    console.error(path + '不是数字')
+    console.error(`${path} 路径末尾必须为数字`)
     return
   }
 
   if (!isArray(parent)) {
-    console.error(path + '不是数组')
+    console.error(`${path} 要插入的父级类型不是数组`)
     return
   }
 

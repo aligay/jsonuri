@@ -1,5 +1,5 @@
 /*!
- * JsonUri.js v1.5.11
+ * JsonUri.js v1.5.13
  * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
@@ -150,6 +150,21 @@ function combingPathKey(keys) {
 }
 
 /**
+ * getType
+ * @type {Object}
+ * @return {String} 返回类型
+ */
+var __class2types = {};
+objectForeach(['Boolean', 'Number', 'String', 'Function', 'Array', 'Date', 'RegExp', 'Object', 'Error'], function (item, index) {
+  __class2types['[object ' + item + ']'] = item.toLowerCase();
+});
+
+function getType(obj) {
+  if (obj == null) return String(obj);
+  return typeof obj === "object" || typeof obj === "function" ? __class2types[__class2types.toString.call(obj)] || "object" : typeof obj;
+}
+
+/**
  * JsonUri
  * @author Linkjun
  * @param {Object | Array}    data  {k:1,s:[..]}
@@ -284,29 +299,71 @@ function swap(data, pathA, pathB) {
 function mv(data, pathA, pathB) {
   var direction = arguments.length <= 3 || arguments[3] === undefined ? 'after' : arguments[3];
 
-  var a_parent = get(data, pathA + '/../');
-  var b_parent = get(data, pathB + '/../');
+  var aParent = get(data, pathA + '/../');
+  var bParent = get(data, pathB + '/../');
   var _a = get(data, pathA);
   var _b = get(data, pathB);
-  var a_index = indexOf(pathA);
-  var b_index = indexOf(pathB);
+  var aIndex = indexOf(pathA);
+  var bIndex = indexOf(pathB);
 
-  /*
-    如果同个数组中移动，要考虑移动后所需要移除的路径（PathA）数据指针有变，
-    所以要判断是同个数组，并且
-  */
-  if (a_parent === b_parent) return;
-  if (direction === 'before') {
-    //删除PathA
-    rm(data, pathA);
-    //放入新值
-    insert(data, pathB, _a, direction);
+  if (getType(aParent) !== 'array') {
+    console.error(pathA + ' 路径的父级不是数组类型');
+    return;
+  }
+  if (getType(bParent) !== 'array') {
+    console.error(pathB + ' 路径的父级不是数组类型');
+    return;
   }
 
-  //放入新值
-  insert(data, pathB, _a, direction);
-  //删除PathA
+  //不同父节点也要考虑移除A后B的指针会变更，例如：/3/ mvto /6/5/
+  if (aParent !== bParent) {
+    //1、父级别移动到子级中：先插后删
+    //从路径判断pathB是否为pathA的父级
+    if (normalizePath(pathB, '../').indexOf(normalizePath(pathA, '../')) === 0) {
+      //先插后删
+      insert(data, pathB, _a, direction);
+      rm(data, pathA);
+      return;
+    }
+    //2、子级别移动到父级别：先删后插
+    rm(data, pathA);
+    insert(data, pathB, _a, direction);
+    return;
+  }
+
+  //同一数组内移动
+
+  //移动位置相同直接退出
+  if (aIndex === bIndex) return;
+
+  //获取目标_index
+  var _targetIndex = bIndex += direction === 'before' ? -1 : 0;
+
+  //目标指针依旧相同退出
+  if (aIndex === _targetIndex) return;
+
+  //目标指针大于被移动指针
+  if (_targetIndex > aIndex) {
+    //先插后删
+    insert(data, pathB, _a, direction);
+    rm(data, pathA);
+    return;
+  }
+
+  //先删后插
   rm(data, pathA);
+  insert(data, pathB, _a, direction);
+
+  //放入新值
+
+  /*//更新bIndex
+  bIndex += direction === 'before' ? -1 : 0
+   //向👈移动aIndex + 1
+  if (bIndex < aIndex) {
+    aIndex++
+  }
+   pathA = normalizePath(pathA, `/../${aIndex}`)
+  rm(data, normalizePath(pathA, `/../${aIndex}`))*/
 }
 
 /**
@@ -324,7 +381,7 @@ function up(data, path) {
   var pathB = normalizePath(path, '/../' + target_index + '/');
 
   if (!isArray(parent)) {
-    console.error('操作的不是数组');
+    console.error(path + ' 目标必须为数组类型');
     return;
   }
   //移动溢出
@@ -380,12 +437,12 @@ function insert(data, path, value) {
   }).slice(-1)[0] - 0;
 
   if (!isInteger(index)) {
-    console.error(path + '不是数字');
+    console.error(path + ' 路径末尾必须为数字');
     return;
   }
 
   if (!isArray(parent)) {
-    console.error(path + '不是数组');
+    console.error(path + ' 要插入的父级类型不是数组');
     return;
   }
 
