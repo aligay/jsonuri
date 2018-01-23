@@ -1,6 +1,6 @@
 /*!
- * JsonUri.js v1.5.13
- * (c) 2016 Linkjun <pk.link@163.com> https://jsonuri.com
+ * JsonUri.js v1.5.15
+ * (c) 2018 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
 (function (global, factory) {
@@ -55,7 +55,7 @@
       path[_key] = arguments[_key];
     }
 
-    //path = isArray(path) ? path : [path]
+    // path = isArray(path) ? path : [path]
     path = arrPro.concat.apply(arrPro, path).join('/').split('/');
     path = ['/', combingPathKey(path).join('/')].join('');
     if (path !== '/') {
@@ -77,12 +77,20 @@
     var descentionFn = arguments.length <= 1 || arguments[1] === undefined ? noop : arguments[1];
     var ascentionFn = arguments.length <= 2 || arguments[2] === undefined ? noop : arguments[2];
 
+    var walkMap = [];
     var path = [];
     function _walk(obj) {
       objectForeach(obj, function (val, key, raw, _ref2) {
         var _break = _ref2._break;
 
         var isBreak = false;
+        if (val !== null && typeof val === 'object') {
+          if (walkMap.indexOf(val) > -1) {
+            throw new Error('obj is not a finite set');
+          }
+          walkMap.push(val);
+        }
+
         function _gBreak() {
           _break();
           isBreak = true;
@@ -92,9 +100,7 @@
         }
 
         if (val === raw) {
-          console.log('Circular-reference: ' + normalizePath(path));
-          _break(); // break 只会跳出当前一层循环
-          return;
+          throw new Error('Circular-reference: ' + normalizePath(path));
         }
 
         path.push(key);
@@ -142,12 +148,12 @@
 
     // ..
     while (~keys.indexOf('..')) {
-      var _i = keys.indexOf('..');
-      keys[_i] = keys[_i - 1] = null;
-      delete keys[_i];
-      delete keys[_i - 1];
-      keys.splice(_i, 1);
-      keys.splice(_i - 1, 1);
+      var _i3 = keys.indexOf('..');
+      keys[_i3] = keys[_i3 - 1] = null;
+      delete keys[_i3];
+      delete keys[_i3 - 1];
+      keys.splice(_i3, 1);
+      keys.splice(_i3 - 1, 1);
     }
 
     return keys;
@@ -165,7 +171,7 @@
 
   function getType(obj) {
     if (obj == null) return String(obj);
-    return typeof obj === "object" || typeof obj === "function" ? __class2types[__class2types.toString.call(obj)] || "object" : typeof obj;
+    return typeof obj === 'object' || typeof obj === 'function' ? __class2types[__class2types.toString.call(obj)] || 'object' : typeof obj;
   }
 
   /**
