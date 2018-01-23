@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "1.5.14",
+  "version": "1.5.15",
   "author": "Linkjun <pk.link@163.com>",
   "license": "ISC",
   "description": "Use URI path to get or set data",
@@ -25,9 +25,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jsonuri/jsonuri.git"
+    "url": "https://github.com/aligay/jsonuri.git"
   },
-  "bugs": "https://github.com/jsonuri/jsonuri/issues",
+  "bugs": "https://github.com/aligay/jsonuri/issues",
   "homepage": "https://jsonuri.com",
   "scripts": {
     "build": "node build.js"

@@ -74,9 +74,7 @@ export function walk (obj = {}, descentionFn = noop, ascentionFn = noop) {
       }
 
       if (val === raw) {
-        console.log('Circular-reference: ' + normalizePath(path))
-        _break() // break 只会跳出当前一层循环
-        return
+        throw new Error('Circular-reference: ' + normalizePath(path))
       }
 
       path.push(key)
