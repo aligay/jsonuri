@@ -1,5 +1,5 @@
 /*!
- * JsonUri.js v1.5.15
+ * JsonUri.js v1.6.0
  * (c) 2018 Linkjun <pk.link@163.com> https://jsonuri.com
  * Released under the MIT License.
  */
@@ -60,6 +60,29 @@ function normalizePath() {
   return path;
 }
 
+// 循环引用对象检测
+
+function isCircular(obj) {
+  var seen = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+
+  if (!(obj instanceof Object)) {
+    return false;
+  }
+
+  seen.push(obj);
+
+  for (var key in obj) {
+    var val = obj[key];
+    if (val instanceof Object) {
+      if (~seen.indexOf(val) || isCircular(val, seen.slice())) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 /**
  * [walk description] 遍历一个对象, 提供入栈和出栈两个回调, 操作原对象
  * @param  {object} obj          [description]
@@ -73,19 +96,14 @@ function walk() {
   var descentionFn = arguments.length <= 1 || arguments[1] === undefined ? noop : arguments[1];
   var ascentionFn = arguments.length <= 2 || arguments[2] === undefined ? noop : arguments[2];
 
-  var walkMap = [];
+  if (isCircular(obj)) throw new Error('obj is a circular structure');
+
   var path = [];
   function _walk(obj) {
     objectForeach(obj, function (val, key, raw, _ref2) {
       var _break = _ref2._break;
 
       var isBreak = false;
-      if (val !== null && typeof val === 'object') {
-        if (walkMap.indexOf(val) > -1) {
-          throw new Error('obj is not a finite set');
-        }
-        walkMap.push(val);
-      }
 
       function _gBreak() {
         _break();
@@ -93,10 +111,6 @@ function walk() {
         if (isArray(raw)) {
           path.pop();
         }
-      }
-
-      if (val === raw) {
-        throw new Error('Circular-reference: ' + normalizePath(path));
       }
 
       path.push(key);
@@ -449,7 +463,7 @@ function insert(data, path, value) {
   return data;
 }
 
-var index = { get: get, set: set, rm: rm, swap: swap, mv: mv, up: up, down: down, insert: insert, walk: walk, normalizePath: normalizePath };
+var index = { get: get, set: set, rm: rm, swap: swap, mv: mv, up: up, down: down, insert: insert, walk: walk, normalizePath: normalizePath, isCircular: isCircular };
 
 exports['default'] = index;
 exports.get = get;
@@ -462,3 +476,4 @@ exports.down = down;
 exports.insert = insert;
 exports.walk = walk;
 exports.normalizePath = normalizePath;
+exports.isCircular = isCircular;

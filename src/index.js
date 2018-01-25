@@ -19,7 +19,7 @@
  *         arrayMove
  */
 import JsonUri from './jsonuri';
-import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalizePath, indexOf, getType} from './util';
+import {isInteger, isObject, isArray, arrayMove, walk, combingPathKey, normalizePath, indexOf, getType, isCircular} from './util';
 
 /**
  * Get
@@ -218,5 +218,5 @@ function insert(data, path, value, direction = 'after') {
 }
 
 
-export default {get, set, rm, swap, mv, up, down, insert, walk, normalizePath};
-export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath};
+export default {get, set, rm, swap, mv, up, down, insert, walk, normalizePath, isCircular};
+export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath, isCircular};
