@@ -45,6 +45,26 @@ export function normalizePath (...path) {
   return path
 }
 
+// 循环引用对象检测
+export function isCircular (obj, seen = []) {
+  if (!(obj instanceof Object)) {
+    return false
+  }
+
+  seen.push(obj)
+
+  for (const key in obj) {
+    const val = obj[key]
+    if (val instanceof Object) {
+      if (~seen.indexOf(val) || isCircular(val, seen.slice())) {
+        return true
+      }
+    }
+  }
+
+  return false
+}
+
 /**
  * [walk description] 遍历一个对象, 提供入栈和出栈两个回调, 操作原对象
  * @param  {object} obj          [description]
@@ -53,17 +73,12 @@ export function normalizePath (...path) {
  * @return {[type]}              [description]
  */
 export function walk (obj = {}, descentionFn = noop, ascentionFn = noop) {
-  let walkMap = []
+  if (isCircular(obj)) throw new Error(`obj is a circular structure`)
+
   let path = []
   function _walk (obj) {
     objectForeach(obj, (val, key, raw, {_break}) => {
       let isBreak = false
-      if (val !== null && typeof val === 'object') {
-        if (walkMap.indexOf(val) > -1) {
-          throw new Error(`obj is not a finite set`)
-        }
-        walkMap.push(val)
-      }
 
       function _gBreak () {
         _break()
@@ -71,10 +86,6 @@ export function walk (obj = {}, descentionFn = noop, ascentionFn = noop) {
         if (isArray(raw)) {
           path.pop()
         }
-      }
-
-      if (val === raw) {
-        throw new Error('Circular-reference: ' + normalizePath(path))
       }
 
       path.push(key)
