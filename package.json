@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "1.5.15",
+  "version": "1.6.0",
   "author": "Linkjun <pk.link@163.com>",
   "license": "ISC",
   "description": "Use URI path to get or set data",
@@ -30,7 +30,8 @@
   "bugs": "https://github.com/aligay/jsonuri/issues",
   "homepage": "https://jsonuri.com",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "envify": "^3.4.0"
