@@ -33,6 +33,13 @@ rollup.rollup({
   ]
 })
   .then(function (bundle) {
+    write('dist/jsonuri.es.js', bundle.generate({
+      format: 'es6',
+      banner: banner
+    }).code)
+    return bundle
+  })
+  .then(function (bundle) {
     return write('dist/jsonuri.common.js', bundle.generate({
       format: 'cjs',
       banner: banner

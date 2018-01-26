@@ -12,7 +12,9 @@ $ npm install jsonuri --save
 ```
 
 ```javascript
-import ju from 'jsonuri'
+import * as ju from 'jsonuri'
+// or
+import { get, set, ... } from 'jsonuri' // recommended practice, friendly to tree-shaking
 ```
 
 ### Example Data:
@@ -50,14 +52,14 @@ Get the value of the specified data for the path.
 **Example:**
 
 ```javascript
-ju.get(data, '/menu/id/');
-//123
+ju.get(data, '/menu/id/')
+// return 123
 
-ju.get(data, '/menu/popup/menuitem/0/value/');
-//"New"
+ju.get(data, '/menu/popup/menuitem/0/value/')
+// return 'New'
 
-ju.get(data, '/menu/popup/menuitem/0/value/../');
-//{value: "New", onclick: "CreateNewDoc()"}
+ju.get(data, '/menu/popup/menuitem/0/value/../')
+// {value: "New", onclick: "CreateNewDoc()"}
 
 ```
 
@@ -67,8 +69,8 @@ Set the value of the specified data for the path.
 **Example:**
 
 ```javascript
-ju.set(data, '/menu/id/',789);
-ju.get(data, '/menu/id/');
+ju.set(data, '/menu/id/', 789)
+ju.get(data, '/menu/id/')
 //789
 
 ```
@@ -79,8 +81,8 @@ Remove the value of the specified data for the path.
 **Example:**
 
 ```javascript
-ju.rm(data, '/menu/id/');
-ju.get(data, '/menu/id/'); // undefined
+ju.rm(data, '/menu/id/')
+ju.get(data, '/menu/id/') // undefined
 ```
 
 
@@ -106,8 +108,8 @@ Data swap in an array.
 **Example:**
 
 ```javascript
-ju.swap(data, '/menu/list/0', '/menu/list/4');
-ju.get(data, '/menu/list/'); // [4, 1, 2, 3, 0]
+ju.swap(data, '/menu/list/0', '/menu/list/4')
+ju.get(data, '/menu/list/') // [4, 1, 2, 3, 0]
 
 ju.swap(data, '/menu/list/0', '/menu/list/4')
 ju.get(data, '/menu/list/') // [4, 1, 2, 3, 0]
