@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "author": "Linkjun <pk.link@163.com>",
   "license": "MIT",
   "description": "Use URI path to get or set data",
@@ -16,19 +16,14 @@
     "nodejs"
   ],
   "main": "dist/jsonuri.common.js",
-  "files": [
-    "dist/jsonuri.js",
-    "dist/jsonuri.min.js",
-    "dist/jsonuri.min.js.map",
-    "dist/jsonuri.common.js",
-    "src"
-  ],
+  "module": "dist/jsonuri.es.js",
+  "jsnext:main": "dist/jsonuri.es.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/aligay/jsonuri.git"
   },
   "bugs": "https://github.com/aligay/jsonuri/issues",
-  "homepage": "https://jsonuri.com",
+  "homepage": "https://jsonuri.js.org",
   "scripts": {
     "build": "node build.js",
     "prepublish": "npm run build",

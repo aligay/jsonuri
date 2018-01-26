@@ -3,8 +3,6 @@
  * (c) 2018 Linkjun <pk.link@163.com> https://jsonuri.js.org
  * Released under the MIT License.
  */
-'use strict';
-
 function noop() {}
 
 function isInteger(num) {
@@ -463,14 +461,4 @@ function insert(data, path, value) {
   return data;
 }
 
-exports.get = get;
-exports.set = set;
-exports.rm = rm;
-exports.swap = swap;
-exports.mv = mv;
-exports.up = up;
-exports.down = down;
-exports.insert = insert;
-exports.walk = walk;
-exports.normalizePath = normalizePath;
-exports.isCircular = isCircular;
+export { get, set, rm, swap, mv, up, down, insert, walk, normalizePath, isCircular };

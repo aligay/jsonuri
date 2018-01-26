@@ -217,6 +217,4 @@ function insert(data, path, value, direction = 'after') {
   return data
 }
 
-
-export default {get, set, rm, swap, mv, up, down, insert, walk, normalizePath, isCircular};
 export {get, set, rm, swap, mv, up, down, insert, walk, normalizePath, isCircular};
