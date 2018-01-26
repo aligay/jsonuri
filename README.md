@@ -140,7 +140,7 @@ Traverse each data of each node and value.
 **Example:**
 
 ```javascript
-walk({a:{a1:'x'}}, (value, key, parent, { path }) => {
+ju.walk({a:{a1:'x'}}, (value, key, parent, { path }) => {
   console.log(value, key, parent, path)
 })
 
@@ -153,9 +153,9 @@ walk({a:{a1:'x'}}, (value, key, parent, { path }) => {
 **Example:**
 
 ```javascript
-normalizePath('a', 'b') // /a/b/
+ju.normalizePath('a', 'b') // /a/b/
 
-normalizePath(['a', 'b', '../'], 'c') // /a/c/
+ju.normalizePath(['a', 'b', '../'], 'c') // /a/c/
 
 
 ```

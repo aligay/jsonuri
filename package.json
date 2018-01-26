@@ -2,7 +2,7 @@
   "name": "jsonuri",
   "version": "1.6.0",
   "author": "Linkjun <pk.link@163.com>",
-  "license": "ISC",
+  "license": "MIT",
   "description": "Use URI path to get or set data",
   "keywords": [
     "json",
@@ -31,7 +31,8 @@
   "homepage": "https://jsonuri.com",
   "scripts": {
     "build": "node build.js",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "www": "node gh-pages.js"
   },
   "dependencies": {
     "envify": "^3.4.0"
@@ -50,6 +51,7 @@
     "envify": "^3.4.0",
     "eslint": "^2.9.0",
     "eslint-config-vue": "^1.0.0",
+    "gh-pages": "^1.1.0",
     "html-minifier": "*",
     "istanbul-instrumenter-loader": "^0.1.3",
     "jasmine-core": "^2.4.1",
