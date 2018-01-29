@@ -108,6 +108,7 @@ rollup.rollup({
   .catch(logError)
 
 htmlMin('./demo/index.html', './dist/index.html');
+write('dist/CNAME', 'jsonuri.js.org')
 
 function write(dest, code) {
   return new Promise(function (resolve, reject) {
