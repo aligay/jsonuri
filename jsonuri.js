@@ -1,6 +1,6 @@
 /*!
- * JsonUri.js v1.6.0
- * (c) 2018 Linkjun <pk.link@163.com> https://jsonuri.com
+ * JsonUri.js v1.7.0
+ * (c) 2018 Linkjun <pk.link@163.com> https://jsonuri.js.org
  * Released under the MIT License.
  */
 (function (global, factory) {
@@ -467,9 +467,6 @@
     return data;
   }
 
-  var index = { get: get, set: set, rm: rm, swap: swap, mv: mv, up: up, down: down, insert: insert, walk: walk, normalizePath: normalizePath, isCircular: isCircular };
-
-  exports['default'] = index;
   exports.get = get;
   exports.set = set;
   exports.rm = rm;
