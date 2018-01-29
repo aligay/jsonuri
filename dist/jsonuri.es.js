@@ -190,35 +190,35 @@ function getType(obj) {
  * @param {Any}               value [0,{s:0},2,3,4]
  */
 function JsonUri(data, path, value) {
-  //Data must be Object.
+  // Data must be Object.
   if (!(data instanceof Object)) return;
 
-  //Path must be valid.
+  // Path must be valid.
   if (!path) return data;
 
-  //Combing Path Key.
+  // Combing Path Key.
   var keys = combingPathKey(String(path).split('/'));
-  //Initialize data to the pointer.
+  // Initialize data to the pointer.
   var cur = data;
 
   for (var i = 0; i < keys.length; i++) {
-    //Key must be valid.
+    // Key must be valid.
     if (!keys[i]) continue;
 
     if (i === keys.length - 1) {
       if (value != undefined) {
 
-        //set value.
+        // set value.
         cur[keys[i]] = value;
       } else if (value === null) {
 
-        //delete value in the object.
+        // delete value in the object.
         if (isObject(cur)) {
           cur[keys[i]] = null;
           delete cur[keys[i]];
         }
 
-        //delete value in the array.
+        // delete value in the array.
         if (isArray(cur)) {
           cur[keys[i]] = null;
           cur.splice(keys[i], 1);
@@ -226,13 +226,13 @@ function JsonUri(data, path, value) {
       }
     } else if (value) {
 
-      //if set value
+      // if set value
       var _nextKey = keys[i + 1];
 
-      //curData is undefined.
+      // curData is undefined.
       if (!cur[keys[i]]) {
 
-        //create data container.
+        // create data container.
         var _curType = _nextKey * 0 === 0 ? 'Array' : 'Object';
         if (_curType === 'Array') {
           cur[keys[i]] = [];
@@ -242,7 +242,7 @@ function JsonUri(data, path, value) {
       }
     } else {
       if (cur[keys[i]] === undefined) {
-        //Data path is undefined and return.
+        // Data path is undefined and return.
         return undefined;
       } else if (cur[keys[i]] === null) {
         return null;
@@ -250,7 +250,7 @@ function JsonUri(data, path, value) {
     }
 
     cur = cur[keys[i]];
-  };
+  }
 
   return cur;
 }
@@ -333,42 +333,42 @@ function mv(data, pathA, pathB) {
     return;
   }
 
-  //不同父节点也要考虑移除A后B的指针会变更，例如：/3/ mvto /6/5/
+  // 不同父节点也要考虑移除A后B的指针会变更，例如：/3/ mvto /6/5/
   if (aParent !== bParent) {
-    //1、父级别移动到子级中：先插后删
-    //从路径判断pathB是否为pathA的父级
+    // 1、父级别移动到子级中：先插后删
+    // 从路径判断pathB是否为pathA的父级
     if (normalizePath(pathB, '../').indexOf(normalizePath(pathA, '../')) === 0) {
-      //先插后删
+      // 先插后删
       insert(data, pathB, _a, direction);
       rm(data, pathA);
       return;
     }
-    //2、子级别移动到父级别：先删后插
+    // 2、子级别移动到父级别：先删后插
     rm(data, pathA);
     insert(data, pathB, _a, direction);
     return;
   }
 
-  //同一数组内移动
+  // 同一数组内移动
 
-  //移动位置相同直接退出
+  // 移动位置相同直接退出
   if (aIndex === bIndex) return;
 
-  //获取目标_index
+  // 获取目标_index
   var _targetIndex = bIndex += direction === 'before' ? -1 : 0;
 
-  //目标指针依旧相同退出
+  // 目标指针依旧相同退出
   if (aIndex === _targetIndex) return;
 
-  //目标指针大于被移动指针
+  // 目标指针大于被移动指针
   if (_targetIndex > aIndex) {
-    //先插后删
+    // 先插后删
     insert(data, pathB, _a, direction);
     rm(data, pathA);
     return;
   }
 
-  //先删后插
+  // 先删后插
   rm(data, pathA);
   insert(data, pathB, _a, direction);
 }
@@ -391,7 +391,7 @@ function up(data, path) {
     console.error(path + ' 目标必须为数组类型');
     return;
   }
-  //移动溢出
+  // 移动溢出
   if (index <= 0 || index >= parent.length) {
     return;
   }
@@ -417,7 +417,7 @@ function down(data, path) {
     console.error('操作的不是数组');
     return;
   }
-  //移动溢出
+  // 移动溢出
   if (index < 0 || index >= parent.length) {
     return;
   }

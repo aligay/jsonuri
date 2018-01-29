@@ -72,7 +72,7 @@ export function isCircular (obj, seen = []) {
  * @param  {[type]} ascentionFn  [description]
  * @return {[type]}              [description]
  */
-export function walk (obj = {}, descentionFn = noop, ascentionFn = noop) {
+export function walk (obj = {} , descentionFn = noop , ascentionFn = noop) {
   if (isCircular(obj)) throw new Error(`obj is a circular structure`)
 
   let path = []
