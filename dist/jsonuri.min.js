@@ -1,5 +1,5 @@
 /*!
- * JsonUri.js v1.7.0
+ * JsonUri.js v1.7.1
  * (c) 2018 Linkjun <pk.link@163.com> https://jsonuri.js.org
  * Released under the MIT License.
  */
