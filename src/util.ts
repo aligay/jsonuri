@@ -6,13 +6,58 @@ export function isString (s) {
   return typeof s === 'string'
 }
 
+function isInteger (n) {
+  return typeof n === 'number' && isFinite(n) && Math.ceil(n) === n
+}
+
+function isNatural (n) {
+  return isInteger(n) && n >= 0
+}
 const pathReg = /\//
 export function isComplexPath (s) {
   return pathReg.test(s)
 }
 
-export function throwError (s) {
-  throw new Error(s)
+export function showError (s) {
+  console.error(new Error(s))
+}
+
+/**
+ * 让数组的变化可被监听
+ * @param obj
+ * @param key
+ * @param value
+ */
+export function setValue (obj, key, value) {
+  if (!isArray(obj)) {
+    obj[key] = value
+    return
+  }
+  const msg = 'must be a natural number'
+  if (key === 'length') {
+    if (!isNatural(value)) {
+      showError(`value: ${value} ${msg}`)
+      return
+    }
+
+    if (value > obj.length) {
+      obj.length = value
+      return
+    }
+
+    obj.splice(value)
+    return
+  }
+
+  // if isArray, key should be a number
+  key = +key
+  if (!isNatural(key)) {
+    showError(`key: ${key} ${msg}`)
+    return
+  }
+
+  obj.length = Math.max(obj.length, key)
+  obj.splice(key, 1, value)
 }
 
 /**
