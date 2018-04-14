@@ -2,6 +2,7 @@ import { isString, isArray, throwError, MUST_BE_ARRAY } from './util'
 import get from './get'
 
 function upDown (data, path, direction: 1 | -1, gap = 1) {
+  console.log(direction, gap)
   if (!(data && isString(path))) return
 
   const parent = get(data, path + '/..')
