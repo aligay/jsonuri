@@ -1,0 +1,9 @@
+{
+  "extends": "tslint-config-standard",
+  "rules": {
+    "semicolon": false,
+    "no-floating-promises": false,
+    "no-unused-variable": false
+  }
+}
+
