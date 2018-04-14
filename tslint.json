@@ -1,5 +1,8 @@
 {
   "extends": "tslint-config-standard",
+  "rulesDirectory": [
+    "node_modules/tslint-jasmine-rules/dist"
+  ],
   "rules": {
     "semicolon": false,
     "no-floating-promises": false,
