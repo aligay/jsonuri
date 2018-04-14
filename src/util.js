@@ -54,15 +54,30 @@ function setValue(obj, key, value) {
         return;
     }
     // if isArray, key should be a number
-    key = +key;
-    if (!isNatural(key)) {
+    var index = +key;
+    if (!isNatural(index)) {
         showError("key: " + key + " " + msg);
         return;
     }
-    obj.length = Math.max(obj.length, key);
-    obj.splice(key, 1, value);
+    obj.length = Math.max(obj.length, index);
+    obj.splice(index, 1, value);
 }
 exports.setValue = setValue;
+/**
+ * 让数组的删除可被监听
+ */
+function delValue(obj, key) {
+    if (exports.isArray(obj)) {
+        var index = +key;
+        if (!isNatural(index))
+            return;
+        obj.splice(index, 1);
+    }
+    else {
+        delete obj[key];
+    }
+}
+exports.delValue = delValue;
 function combingPathKey(param) {
     var keys;
     if (!param.keys) {

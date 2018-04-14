@@ -37,7 +37,7 @@ export function showError (s) {
  * @param key
  * @param value
  */
-export function setValue (obj, key, value) {
+export function setValue (obj, key: string, value) {
   if (!isArray(obj)) {
     obj[key] = value
     return
@@ -59,14 +59,27 @@ export function setValue (obj, key, value) {
   }
 
   // if isArray, key should be a number
-  key = +key
-  if (!isNatural(key)) {
+  let index: number = +key
+  if (!isNatural(index)) {
     showError(`key: ${key} ${msg}`)
     return
   }
 
-  obj.length = Math.max(obj.length, key)
-  obj.splice(key, 1, value)
+  obj.length = Math.max(obj.length, index)
+  obj.splice(index, 1, value)
+}
+
+/**
+ * 让数组的删除可被监听
+ */
+export function delValue (obj, key: string) {
+  if (isArray(obj)) {
+    let index: number = +key
+    if (!isNatural(index)) return
+    obj.splice(index, 1)
+  } else {
+    delete obj[key]
+  }
 }
 
 /**
