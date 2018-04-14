@@ -1,8 +1,8 @@
-import { combingPathKey, isString, throwError, isComplexPath } from './util'
+import { combingPathKey, isString, isComplexPath } from './util'
 
 export default function get (data: any, path: string): any {
   if (!(data && isString(path))) return
-  if (!isComplexPath(path)) return data.path
+  if (!isComplexPath(path)) return data[path]
 
   let ret
   const keys = combingPathKey({ path }).keys

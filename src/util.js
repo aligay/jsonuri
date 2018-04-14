@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
-// function noop () {}
+function noop() { }
+exports.noop = noop;
 exports.isArray = Array.isArray;
 function isString(s) {
     return typeof s === 'string';
@@ -17,6 +18,13 @@ function isComplexPath(s) {
     return pathReg.test(s);
 }
 exports.isComplexPath = isComplexPath;
+function isObject(o) {
+    // [^Undefined, Null, boolean, Number, String, Symbol]
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures
+    var type = typeof o;
+    return o != null && (type === 'object' || type === 'function');
+}
+exports.isObject = isObject;
 function showError(s) {
     console.error(new Error(s));
 }
@@ -59,6 +67,9 @@ function combingPathKey(param) {
     var keys;
     if (!param.keys) {
         keys = param.path.split('/');
+    }
+    else if (!param.path) {
+        keys = param.keys;
     }
     // {empty}
     while (~keys.indexOf('')) {

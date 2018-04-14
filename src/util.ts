@@ -1,5 +1,6 @@
 
-// function noop () {}
+export function noop () { /* noop */ }
+
 export const isArray = Array.isArray
 
 export function isString (s) {
@@ -13,9 +14,17 @@ function isInteger (n) {
 function isNatural (n) {
   return isInteger(n) && n >= 0
 }
+
 const pathReg = /\//
 export function isComplexPath (s) {
   return pathReg.test(s)
+}
+
+export function isObject (o) {
+  // [^Undefined, Null, boolean, Number, String, Symbol]
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures
+  const type = typeof o
+  return o != null && (type === 'object' || type === 'function')
 }
 
 export function showError (s) {
@@ -74,6 +83,8 @@ export function combingPathKey (param: CombingOptions): { keys: string[], path: 
   let keys
   if (!param.keys) {
     keys = (param.path as string).split('/')
+  } else if (!param.path) {
+    keys = param.keys
   }
 
   // {empty}
