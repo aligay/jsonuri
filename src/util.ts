@@ -1,4 +1,7 @@
 
+export const IS_NOT_A_NATURAL_NUMBER = 'is not a natural number'
+export const MUST_BE_ARRAY = 'must be a Array'
+
 export function noop () { /* noop */ }
 
 export const isArray = Array.isArray
@@ -11,7 +14,7 @@ function isInteger (n) {
   return typeof n === 'number' && isFinite(n) && Math.ceil(n) === n
 }
 
-function isNatural (n) {
+export function isNatural (n) {
   return isInteger(n) && n >= 0
 }
 
@@ -28,9 +31,12 @@ export function isObject (o) {
 }
 
 export function showError (s) {
-  console.error(new Error(s))
+  console.error(s)
 }
 
+export function throwError (s) {
+  throw new Error(s)
+}
 /**
  * 让数组的变化可被监听
  * @param obj
@@ -38,6 +44,7 @@ export function showError (s) {
  * @param value
  */
 export function setValue (obj, key: string, value) {
+  debugger
   if (!isArray(obj)) {
     obj[key] = value
     return
@@ -82,6 +89,10 @@ export function delValue (obj, key: string) {
   }
 }
 
+// export function insertValue (arr, index, value) {
+
+// }
+
 /**
  * Combing path keys
  * @author @linkjun
@@ -92,13 +103,25 @@ export interface CombingOptions {
   keys?: (string | null)[]
   path?: string
 }
+
+// let combingCache: any = {}
 export function combingPathKey (param: CombingOptions): { keys: string[], path: string } {
+  const path = param.path || ''
+  // if (combingCache[path]) {
+  //   return combingCache[path]
+  // }
   let keys
   if (!param.keys) {
     keys = (param.path as string).split('/')
-  } else if (!param.path) {
+  } else if (!path) {
     keys = param.keys
   }
+  keys = keys.filter(Boolean)
+
+  // // 处理 a../,  ../b../ 此类错误路径 待优化
+  // if (/\b\.\.+\/*/.test(keys.join(''))) {
+  //   throw new Error(`error path ${path || keys.join('')}`)
+  // }
 
   // {empty}
   while (~keys.indexOf('')) {
@@ -121,10 +144,13 @@ export function combingPathKey (param: CombingOptions): { keys: string[], path: 
     keys.splice(_i, 1)
     keys.splice(_i - 1, 1)
   }
-  return {
+  const ret = {
     keys,
     path: keys.join('/')
   }
+
+  // combingCache[path] = ret
+  return ret
 }
 
 // export function isInteger (num) {

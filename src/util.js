@@ -1,5 +1,7 @@
 "use strict";
 exports.__esModule = true;
+exports.IS_NOT_A_NATURAL_NUMBER = 'is not a natural number';
+exports.MUST_BE_ARRAY = 'must be a Array';
 function noop() { }
 exports.noop = noop;
 exports.isArray = Array.isArray;
@@ -13,6 +15,7 @@ function isInteger(n) {
 function isNatural(n) {
     return isInteger(n) && n >= 0;
 }
+exports.isNatural = isNatural;
 var pathReg = /\//;
 function isComplexPath(s) {
     return pathReg.test(s);
@@ -26,9 +29,13 @@ function isObject(o) {
 }
 exports.isObject = isObject;
 function showError(s) {
-    console.error(new Error(s));
+    console.error(s);
 }
 exports.showError = showError;
+function throwError(s) {
+    throw new Error(s);
+}
+exports.throwError = throwError;
 /**
  * 让数组的变化可被监听
  * @param obj
@@ -36,6 +43,7 @@ exports.showError = showError;
  * @param value
  */
 function setValue(obj, key, value) {
+    debugger;
     if (!exports.isArray(obj)) {
         obj[key] = value;
         return;
@@ -78,14 +86,24 @@ function delValue(obj, key) {
     }
 }
 exports.delValue = delValue;
+// let combingCache: any = {}
 function combingPathKey(param) {
+    var path = param.path || '';
+    // if (combingCache[path]) {
+    //   return combingCache[path]
+    // }
     var keys;
     if (!param.keys) {
         keys = param.path.split('/');
     }
-    else if (!param.path) {
+    else if (!path) {
         keys = param.keys;
     }
+    keys = keys.filter(Boolean);
+    // // 处理 a../,  ../b../ 此类错误路径 待优化
+    // if (/\b\.\.+\/*/.test(keys.join(''))) {
+    //   throw new Error(`error path ${path || keys.join('')}`)
+    // }
     // {empty}
     while (~keys.indexOf('')) {
         var _i = keys.indexOf('');
@@ -105,10 +123,12 @@ function combingPathKey(param) {
         keys.splice(_i, 1);
         keys.splice(_i - 1, 1);
     }
-    return {
+    var ret = {
         keys: keys,
         path: keys.join('/')
     };
+    // combingCache[path] = ret
+    return ret;
 }
 exports.combingPathKey = combingPathKey;
 // export function isInteger (num) {
