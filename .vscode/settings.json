@@ -1,0 +1,18 @@
+{
+  "editor.tabSize": 2,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": {
+    "USE_GITIGNORE": true,
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "{src,test,scripts}/**/*.d.ts": true,
+    "**/*.map": true,
+    "run": true,
+    "logs": true,
+    "out": true,
+    "node_modules": true
+  }
+}
