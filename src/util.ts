@@ -1,12 +1,63 @@
 
 // function noop () {}
+export const isArray = Array.isArray
+
 export function isString (s) {
   return typeof s === 'string'
+}
+
+const pathReg = /\//
+export function isComplexPath (s) {
+  return pathReg.test(s)
 }
 
 export function throwError (s) {
   throw new Error(s)
 }
+
+/**
+ * Combing path keys
+ * @author @linkjun
+ * @param  {Array} keys  ['','menu','id','','.']
+ * @return {Array}       ['menu','id']
+ */
+export interface CombingOptions {
+  keys?: (string | null)[]
+  path?: string
+}
+export function combingPathKey (param: CombingOptions): { keys: string[], path: string } {
+  let keys
+  if (!param.keys) {
+    keys = (param.path as string).split('/')
+  }
+
+  // {empty}
+  while (~keys.indexOf('')) {
+    let _i = keys.indexOf('')
+    keys.splice(_i, 1)
+  }
+
+  // .
+  while (~keys.indexOf('.')) {
+    let _i = keys.indexOf('.')
+    keys.splice(_i, 1)
+  }
+
+  // ..
+  while (~keys.indexOf('..')) {
+    let _i = keys.indexOf('..')
+    keys[_i] = keys[_i - 1] = ''
+    delete keys[_i]
+    delete keys[_i - 1]
+    keys.splice(_i, 1)
+    keys.splice(_i - 1, 1)
+  }
+  return {
+    keys,
+    path: keys.join('/')
+  }
+}
+
 // export function isInteger (num) {
 //   return Number.isInteger(num)
 // }

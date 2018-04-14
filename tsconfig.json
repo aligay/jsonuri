@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "target": "es6",
     "module": "commonjs",
     "lib": ["esnext"],
     "types": ["node"],
@@ -20,7 +19,8 @@
     "sourceMap": true,
     "importHelpers": true,
     "strict": true,
-    "declaration": true
+    "declaration": true,
+    "moduleResolution": "node"
   },
   "exclude": ["node_modules"]
 }

@@ -1,15 +1,15 @@
-import normalizePath from './normalizePath'
-import { isString, throwError } from './util'
-export default function get (data, path: string): any {
-  if (!(data && isString(path))) return
+import { combingPathKey, isString, throwError, isComplexPath } from './util'
 
-  path = normalizePath(path)
+export default function get (data: any, path: string): any {
+  if (!(data && isString(path))) return
+  if (!isComplexPath(path)) return data.path
+
   let ret
-  const p = path.split('/')
-  const len = p.length
+  const keys = combingPathKey({ path }).keys
+  const len = keys.length
   let i = 0
   for (; i < len; ++i) {
-    ret = (ret || data)[p[i]]
+    ret = (ret || data)[keys[i]]
     if (ret == null) break
   }
   return ret

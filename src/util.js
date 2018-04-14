@@ -1,14 +1,50 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 // function noop () {}
+exports.isArray = Array.isArray;
 function isString(s) {
     return typeof s === 'string';
 }
 exports.isString = isString;
+var pathReg = /\//;
+function isComplexPath(s) {
+    return pathReg.test(s);
+}
+exports.isComplexPath = isComplexPath;
 function throwError(s) {
     throw new Error(s);
 }
 exports.throwError = throwError;
+function combingPathKey(param) {
+    var keys;
+    if (!param.keys) {
+        keys = param.path.split('/');
+    }
+    // {empty}
+    while (~keys.indexOf('')) {
+        var _i = keys.indexOf('');
+        keys.splice(_i, 1);
+    }
+    // .
+    while (~keys.indexOf('.')) {
+        var _i = keys.indexOf('.');
+        keys.splice(_i, 1);
+    }
+    // ..
+    while (~keys.indexOf('..')) {
+        var _i = keys.indexOf('..');
+        keys[_i] = keys[_i - 1] = '';
+        delete keys[_i];
+        delete keys[_i - 1];
+        keys.splice(_i, 1);
+        keys.splice(_i - 1, 1);
+    }
+    return {
+        keys: keys,
+        path: keys.join('/')
+    };
+}
+exports.combingPathKey = combingPathKey;
 // export function isInteger (num) {
 //   return Number.isInteger(num)
 // }
