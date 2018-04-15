@@ -37,9 +37,6 @@
       "pre-commit": "sh scripts/pre-commit.sh"
     }
   },
-  "publishConfig": {
-    "registry": "http://registry.npm.alibaba-inc.com"
-  },
   "engines": {
     "node": ">=6"
   },
