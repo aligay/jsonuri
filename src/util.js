@@ -86,6 +86,10 @@ function delValue(obj, key) {
     }
 }
 exports.delValue = delValue;
+function insertValue(arr, key, value) {
+    arr.splice(key, 0, value);
+}
+exports.insertValue = insertValue;
 // let combingCache: any = {}
 function combingPathKey(param) {
     var path = param.path || '';
