@@ -1,4 +1,4 @@
-import { isString, isArray, combingPathKey, isNatural, showError, IS_NOT_A_NATURAL_NUMBER, throwError } from './util'
+import { isString, isArray, combingPathKey, isNatural, showError, insertValue, IS_NOT_A_NATURAL_NUMBER, throwError } from './util'
 import get from './get'
 
 export default function insert (data, path: string, value: any, direction: 'before' | 'after' = 'after') {
@@ -16,6 +16,5 @@ export default function insert (data, path: string, value: any, direction: 'befo
   } else {
     toIndex = Math.max(0, index)
   }
-
-  parent.splice(toIndex, 0, value)
+  insertValue(parent, toIndex, value)
 }
