@@ -43,3 +43,4 @@ typings
 *.map
 *.d.ts
 !types/**/*.d.ts
+!test/**/*.js

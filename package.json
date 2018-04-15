@@ -9,8 +9,8 @@
     "build": "npm run clean && npm run lint && tsc",
     "dev": "npm run clean && tsc -w",
     "debug": "node --inspect-brk lib/index.js",
-    "lint": "# tslint --project tsconfig.json --format stylish",
-    "prepublish": "npm run build",
+    "lint": "tslint --project tsconfig.json --format stylish",
+    "prepublish": "npm test",
     "test": "npm run lint && npm run build && npm run jasmine",
     "jasmine": "istanbul cover jasmine-node test"
   },
@@ -19,12 +19,18 @@
   },
   "devDependencies": {
     "@types/node": "8.x.x",
+    "ghooks": "^2.0.2",
     "istanbul": "^0.4.5",
     "jasmine-node": "^1.14.5",
     "rimraf": "*",
     "tslint": "5.x.x",
     "tslint-config-standard": "7.x.x",
     "typescript": "2.x.x"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "sh scripts/pre-commit.sh"
+    }
   },
   "publishConfig": {
     "registry": "http://registry.npm.alibaba-inc.com"

@@ -1,6 +1,5 @@
-import { isString, isArray, isComplexPath, combingPathKey, delValue } from './util'
+import { isString, isComplexPath, combingPathKey, delValue } from './util'
 import get from './get'
-import { debug } from 'util';
 
 export default function rm (data: any, path: string): void {
   if (!(data && path && isString(path))) return

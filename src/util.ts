@@ -43,7 +43,7 @@ export function throwError (s) {
  * @param key
  * @param value
  */
-export function setValue (obj, key: string, value) {
+export function setValue (obj, key: string | number, value) {
   debugger
   if (!isArray(obj)) {
     obj[key] = value
@@ -79,7 +79,7 @@ export function setValue (obj, key: string, value) {
 /**
  * 让数组的删除可被监听
  */
-export function delValue (obj, key: string) {
+export function delValue (obj, key: string | number) {
   if (isArray(obj)) {
     let index: number = +key
     if (!isNatural(index)) return
@@ -89,9 +89,12 @@ export function delValue (obj, key: string) {
   }
 }
 
-// export function insertValue (arr, index, value) {
-
-// }
+/**
+ * insertValue
+ */
+export function insertValue (arr: any[], key: number, value) {
+  arr.splice(key, 0, value)
+}
 
 /**
  * Combing path keys

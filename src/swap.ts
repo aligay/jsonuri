@@ -1,4 +1,4 @@
-import { isString, isArray, setValue, showError } from './util'
+import { isString, showError } from './util'
 import get from './get'
 import set from './set'
 
