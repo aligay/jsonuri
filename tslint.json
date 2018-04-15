@@ -1,12 +1,8 @@
 {
   "extends": "tslint-config-standard",
-  "rulesDirectory": [
-    "node_modules/tslint-jasmine-rules/dist"
-  ],
   "rules": {
     "no-floating-promises": false,
-    "no-unused-variable": false,
+    "no-unused-variable": true,
     "one-variable-per-declaration": false
   }
 }
-

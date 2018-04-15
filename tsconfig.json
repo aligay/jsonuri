@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "outDir": "./dist/",
+    "target": "ES5",
     "lib": ["esnext"],
     "types": ["node"],
     "noImplicitAny": false,
@@ -17,9 +19,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "sourceMap": true,
+    "inlineSources": false,
     "importHelpers": true,
     "strict": true,
     "declaration": true,
+    "declarationDir": "./typings",
     "moduleResolution": "node"
   },
   "exclude": ["node_modules"]
