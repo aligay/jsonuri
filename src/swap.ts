@@ -10,12 +10,3 @@ export default function swap (data, pathA: string, pathB: string) {
   set(data, pathB, dataA)
   set(data, pathA, dataB)
 }
-
-// let data = {
-//   a: 'a',
-//   c: {
-//     d: '666'
-//   }
-// }
-// swap(data, 'a', 'c/d')
-// console.log(data)

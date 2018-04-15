@@ -1,5 +1,5 @@
 /* global describe beforeEach it expect */
-const jsonuri = require('../../src/index.js')
+const jsonuri = require('../../dist/index.js')
 describe('jsonuri.walk', () => {
   let obj
   beforeEach(() => {

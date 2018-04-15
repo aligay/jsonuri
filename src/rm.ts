@@ -14,8 +14,3 @@ export default function rm (data: any, path: string): void {
 
   delValue(parent, key)
 }
-
-// let arr = [1, 2, 3]
-// debugger
-// rm(arr, '1')
-// console.log(arr)

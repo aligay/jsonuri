@@ -1,5 +1,5 @@
 /* global describe it beforeEach expect */
-const jsonuri = require('../../src/index.js')
+const jsonuri = require('../../dist/index.js')
 describe('insert', () => {
   let arr
   beforeEach(() => {

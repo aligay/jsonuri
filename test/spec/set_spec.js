@@ -1,5 +1,5 @@
 /* global describe it expect beforeEach */
-const jsonuri = require('../../src/index.js')
+const jsonuri = require('../../dist/index.js')
 function s (json) {
   return JSON.stringify(json)
 }
