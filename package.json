@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
-    "clean": "rimraf {src}/**/*.{js,map,d.ts}",
+    "clean": "rimraf src/**/*.{js,map,d.ts}",
     "build": "npm run clean && npm run lint && tsc",
     "dev": "npm run clean && tsc -w",
     "debug": "node --inspect-brk lib/index.js",
