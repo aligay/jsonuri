@@ -1,4 +1,4 @@
-import { isString, setValue, combingPathKey, isArray, isComplexPath, showError } from './util'
+import { isString, setValue, combingPathKey, isComplexPath } from './util'
 
 export default function set (data: any, path: string, value: any): void {
   if (!(data && path && isString(path))) return
