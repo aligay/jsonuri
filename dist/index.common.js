@@ -234,7 +234,7 @@ function normalizePath() {
     for (var _i = 0; _i < arguments.length; _i++) {
         path[_i] = arguments[_i];
     }
-    var pathArr = arrPro.concat.apply(Array.prototype, path).join('/').split('/');
+    var pathArr = arrPro.concat.apply(arrPro, path).join('/').split('/');
     var pathStr = combingPathKey({ keys: pathArr }).path;
     return pathStr;
 }

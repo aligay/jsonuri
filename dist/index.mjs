@@ -225,7 +225,7 @@ function insert(data, path, value, direction) {
 
 const arrPro = Array.prototype;
 function normalizePath(...path) {
-    const pathArr = arrPro.concat.apply(Array.prototype, path).join('/').split('/');
+    const pathArr = arrPro.concat.apply(arrPro, path).join('/').split('/');
     const pathStr = combingPathKey({ keys: pathArr }).path;
     return pathStr;
 }
