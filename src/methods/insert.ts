@@ -1,9 +1,9 @@
-import { THE_PARAMETER_IS_ILLEGAL, DIRECTION_REQUIRED, MUST_BE_ARRAY, isString, isArray, combingPathKey, insertValue, showError } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, DIRECTION_REQUIRED, MUST_BE_ARRAY, isArray, combingPathKey, insertValue, showError } from '../util'
 import get from './get'
 
-export default function insert (data, path: string | number, value: any, direction: 'before' | 'after' | 'append') {
+export default function insert (data, path: string | number, value: any, direction: 'before' | 'after' | 'append'): void {
   path = path + ''
-  if (!(data && isString(path))) return showError(THE_PARAMETER_IS_ILLEGAL)
+  if (!(data)) return showError(THE_PARAMETER_IS_ILLEGAL)
   if (!direction) throw new Error(DIRECTION_REQUIRED)
 
   const parent = get(data, path + '/..')

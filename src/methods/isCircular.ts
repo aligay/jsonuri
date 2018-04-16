@@ -1,7 +1,7 @@
-import { isObject } from './util'
+import { isObject } from '../util'
 
 // check circular obj
-export default function isCircular (obj, seen: any[] = []) {
+export default function isCircular (obj, seen: any[] = []): boolean {
   if (!isObject(obj)) {
     return false
   }
