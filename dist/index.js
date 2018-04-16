@@ -140,8 +140,9 @@
   }
 
   function get(data, path) {
+      path = path + '';
       if (!(data && isString(path)))
-          return;
+          return showError(THE_PARAMETER_IS_ILLEGAL);
       if (path === '')
           return data;
       if (!isComplexPath(path))
@@ -162,8 +163,9 @@
   }
 
   function set(data, path, value) {
+      path = path + '';
       if (!(data && path && isString(path)))
-          return;
+          return showError(THE_PARAMETER_IS_ILLEGAL);
       if (!isComplexPath(path))
           return setValue(data, path, value);
       var keys = combingPathKey({ path: path }).keys;
@@ -182,6 +184,7 @@
   }
 
   function rm(data, path) {
+      path = path + '';
       if (!(data && path && isString(path)))
           return;
       if (!isComplexPath(path)) {
@@ -196,8 +199,10 @@
   }
 
   function swap(data, pathA, pathB) {
+      pathA = pathA + '';
+      pathB = pathB + '';
       if (!(data && pathA && pathB && isString(pathA) && isString(pathB)))
-          return showError('参数不合法');
+          return showError(THE_PARAMETER_IS_ILLEGAL);
       var dataA = get(data, pathA);
       var dataB = get(data, pathB);
       set(data, pathB, dataA);
@@ -205,6 +210,7 @@
   }
 
   function insert(data, path, value, direction) {
+      path = path + '';
       if (!(data && isString(path)))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       if (!direction)
@@ -238,6 +244,8 @@
   }
 
   function mv(data, from, to, direction) {
+      from = from + '';
+      to = to + '';
       if (!(data && from && to && isString(from) && isString(to)))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       if (from === to)
@@ -268,6 +276,7 @@
 
   function upDown(data, path, direction, gap) {
       if (gap === void 0) { gap = 1; }
+      path = path + '';
       if (!(isNatural(gap) && gap > 0))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       if (!(data && isString(path)))

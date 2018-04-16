@@ -7,8 +7,8 @@ const merge = require('lodash.merge')
 ;(async () => {
   await sh('npm run clean && npx rollup -c scripts/rollup.config.js')
   rollupEach([
-    { format: 'cjs', name: 'jsonuri', file: 'dist/index.common.js', _ts: { module: 'ESNext' } },
-    { format: 'es', name: 'jsonuri', file: 'dist/index.mjs', _ts: { module: 'ESNext', target: 'ES2016' } }
+    { format: 'cjs', name: 'jsonuri', file: 'dist/index.common.js', _ts: { module: 'esnext' } },
+    { format: 'es', name: 'jsonuri', file: 'dist/index.mjs', _ts: { module: 'esnext', target: 'es2016' } }
   ])
   await sh(`npx uglifyjs dist/index.js \
     -c hoist_funs,hoist_vars \

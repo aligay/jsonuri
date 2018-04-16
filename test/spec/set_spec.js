@@ -114,4 +114,10 @@ describe('jsonuri.set', () => {
     jsonuri.set(o, 'a/b/c.d.e/../', {c: 1})
     expect(o).toEqual({ a: { b: { c: 1 } } })
   })
+  // ==========
+  it('number path', () => {
+    let o = []
+    jsonuri.set(o, 5, 1)
+    expect(o).toEqual([undefined, undefined, undefined, undefined, undefined, 1])
+  })
 })

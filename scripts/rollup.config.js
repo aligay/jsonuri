@@ -12,7 +12,9 @@ module.exports = {
       verbosity: 2,
       tsconfigOverride: {
         compilerOptions: {
-          module: 'ESNext',
+          declaration: true,
+          declarationDir: './typings',
+          module: 'esnext',
           target: 'es5',
           sourceMap: true
         }

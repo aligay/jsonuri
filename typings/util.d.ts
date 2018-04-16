@@ -9,6 +9,7 @@ export declare function isString(s: any): boolean;
 export declare function isNatural(n: any): boolean;
 export declare function isComplexPath(s: any): boolean;
 export declare function isObject(o: any): boolean;
+export declare function toString(s: any): string;
 export declare function showError(s: any): void;
 export declare function throwError(s: any): void;
 /**

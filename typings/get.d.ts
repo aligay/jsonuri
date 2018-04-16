@@ -1,1 +1,1 @@
-export default function get(data: any, path: string): any;
+export default function get(data: any, path: string | number): any;

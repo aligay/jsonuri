@@ -1,7 +1,9 @@
-import { combingPathKey, isString, isComplexPath } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, combingPathKey, isString, isComplexPath, showError } from './util'
 
-export default function get (data: any, path: string): any {
-  if (!(data && isString(path))) return
+export default function get (data: any, path: string | number): any {
+  path = path + ''
+  if (!(data && isString(path))) return showError(THE_PARAMETER_IS_ILLEGAL)
+
   if (path === '') return data
   if (!isComplexPath(path)) return data[path]
 

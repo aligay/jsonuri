@@ -33,6 +33,10 @@ export function isObject (o) {
   return o != null && (type === 'object' || type === 'function')
 }
 
+export function toString (s) {
+  return s + ''
+}
+
 export function showError (s) {
   console.error(s)
 }
