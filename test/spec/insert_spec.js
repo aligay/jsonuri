@@ -57,4 +57,11 @@ describe('insert', () => {
       jsonuri.insert(arr, '/999/', 'hello kitty', 'before')
     }).toThrow()
   })
+
+  it('get number path', () => {
+    let arr = [1, 2]
+    jsonuri.insert(arr, 0, 'hello kitty', 'after')
+    expect(arr).toEqual([1, 'hello kitty', 2])
+  })
+
 })

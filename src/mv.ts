@@ -5,7 +5,10 @@ import rm from './rm'
 import insert from './insert'
 import normalizePath from './normalizePath'
 
-export default function mv (data, from: string, to: string, direction: 'before' | 'after' | 'append') {
+export default function mv (data, from: string | number, to: string | number, direction: 'before' | 'after' | 'append') {
+  from = from + ''
+  to = to + ''
+
   if (!(data && from && to && isString(from) && isString(to))) return showError(THE_PARAMETER_IS_ILLEGAL)
   if (from === to) return
 

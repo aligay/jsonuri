@@ -1,1 +1,1 @@
-export default function set(data: any, path: string, value: any): void;
+export default function set(data: any, path: string | number, value: any): void;

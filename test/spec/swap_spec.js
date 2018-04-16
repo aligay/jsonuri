@@ -36,4 +36,10 @@ describe('jsonuri.swap', () => {
     jsonuri.swap(obj, 'a', 'b/c')
     expect(obj).toEqual({'a': 'c', 'b': { c: [1, 2, 3] }})
   })
+
+  it('number path', () => {
+    const arr = [1, 2, 3]
+    jsonuri.swap(arr, 1, 2)
+    expect(arr).toEqual([1, 3, 2])
+  })
 })

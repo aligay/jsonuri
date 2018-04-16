@@ -1,1 +1,1 @@
-export default function swap(data: any, pathA: string, pathB: string): void;
+export default function swap(data: any, pathA: string | number, pathB: string | number): void;
