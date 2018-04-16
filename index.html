@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue test</title>
+  <script src="https://lib.baomitu.com/vue/2.5.16/vue.js"></script>
+  <script src="jsonuri.js"></script>
+</head>
+<body>
+  <div id="app">
+    <pre>{{data}}</pre>
+    <button @click="changeLength">change1</button>
+    <button @click="changeLength2">change2</button>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          data: {
+            a: [1, 2]
+          }
+        }
+      },
+      methods: {
+        changeLength () {
+          this.data.a.length = 1
+        },
+
+        changeLength2 () {
+          jsonuri.set(this.data, 'a/15', 1)
+        }
+      }
+    })
+  </script>
+</body>
+</html>
