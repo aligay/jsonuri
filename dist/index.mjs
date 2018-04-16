@@ -1,4 +1,7 @@
 const MUST_BE_ARRAY = 'must be a Array';
+const THE_PARAMETER_IS_ILLEGAL = 'the parameter is illegal';
+const DIRECTION_REQUIRED = `direction must be 'before' | 'after' | 'append'`;
+const THE_INDEX_OUT_OF_BOUNDS = 'the Index Out of Bounds';
 function noop() { }
 const isArray = Array.isArray;
 function isString(s) {
@@ -73,7 +76,16 @@ function delValue(obj, key) {
 /**
  * insertValue
  */
-function insertValue(arr, key, value) {
+function insertValue(arr, key, value, direction = 'after') {
+    if (key < 0 || key > arr.length)
+        throw new Error(THE_INDEX_OUT_OF_BOUNDS);
+    switch (direction) {
+        case 'before':
+            key = key - 1;
+            break;
+        case 'append':
+            showError('TODO');
+    }
     arr.splice(key, 0, value);
 }
 // let combingCache: any = {}
@@ -185,21 +197,11 @@ function swap(data, pathA, pathB) {
     set(data, pathA, dataB);
 }
 
-function mv(data, from, to) {
-    if (!(data && from && to && isString(from) && isString(to)))
-        return showError('参数不合法');
-    const DataTo = get(data, to);
-    if (!isObject(DataTo)) {
-        throw new Error(`'${to}': ${DataTo} is primitive values`);
-    }
-    const dataFrom = get(data, from);
-    set(data, to + '/' + from, dataFrom);
-    rm(data, from);
-}
-
-function insert(data, path, value, direction = 'after') {
+function insert(data, path, value, direction) {
     if (!(data && isString(path)))
-        return;
+        return showError(THE_PARAMETER_IS_ILLEGAL);
+    if (!direction)
+        throw new Error(DIRECTION_REQUIRED);
     const parent = get(data, path + '/..');
     if (!isArray(parent))
         throw new Error(`insert node ${MUST_BE_ARRAY}`);
@@ -208,17 +210,56 @@ function insert(data, path, value, direction = 'after') {
     if (direction === 'after') {
         toIndex = index + 1;
     }
-    else {
-        toIndex = Math.max(0, index);
+    else if (direction === 'before') {
+        toIndex = index;
+    }
+    else if (direction === 'append') {
+        // TODO
     }
     insertValue(parent, toIndex, value);
 }
 
+const arrPro = Array.prototype;
+function normalizePath(...path) {
+    const pathArr = arrPro.concat.apply(Array.prototype, path).join('/').split('/');
+    const pathStr = combingPathKey({ keys: pathArr }).path;
+    return pathStr;
+}
+
+function mv(data, from, to, direction) {
+    if (!(data && from && to && isString(from) && isString(to)))
+        return showError(THE_PARAMETER_IS_ILLEGAL);
+    if (from === to)
+        return;
+    const DataTo = get(data, to);
+    const dataFrom = get(data, from);
+    const parentTo = get(data, to + '/..');
+    const fromIndex = +(combingPathKey({ path: from }).keys.pop() || '');
+    const toIndex = +(combingPathKey({ path: to }).keys.pop() || '');
+    if (isArray(parentTo)) {
+        if (!direction)
+            throw new Error(DIRECTION_REQUIRED);
+        const isInSameArray = normalizePath(from + '/..') === normalizePath(to + '/..');
+        insert(data, to, dataFrom, direction);
+        if (isInSameArray) {
+            delValue(parentTo, fromIndex + (toIndex > fromIndex ? 0 : 1));
+            return;
+        }
+        rm(data, from);
+        return;
+    }
+    if (!isObject(DataTo)) {
+        throw new Error(`'${to}': ${DataTo} is primitive values`);
+    }
+    set(data, to + '/' + from, dataFrom);
+    rm(data, from);
+}
+
 function upDown(data, path, direction, gap = 1) {
     if (!(isNatural(gap) && gap > 0))
-        return;
+        return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!(data && isString(path)))
-        return;
+        return showError(THE_PARAMETER_IS_ILLEGAL);
     const parent = get(data, path + '/..');
     if (!isArray(parent))
         return showError(MUST_BE_ARRAY);
@@ -229,6 +270,8 @@ function upDown(data, path, direction, gap = 1) {
     let toIndex = index + direction * gap;
     if (toIndex <= 0)
         toIndex = 0;
+    if (toIndex > len - 1)
+        toIndex = len - 1;
     const fromData = parent[index];
     delValue(parent, index);
     insertValue(parent, toIndex, fromData);
@@ -238,13 +281,6 @@ function up(data, path, gap) {
 }
 function down(data, path, gap) {
     upDown(data, path, 1, gap);
-}
-
-const arrPro = Array.prototype;
-function normalizePath(...path) {
-    const pathArr = arrPro.concat.apply(Array.prototype, path).join('/').split('/');
-    const pathStr = combingPathKey({ keys: pathArr }).path;
-    return pathStr;
 }
 
 // check circular obj

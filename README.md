@@ -4,6 +4,10 @@
 
 `Use URI path to get or set data.`
 
+<!-- [![Build Status](https://travis-ci.org/haozi/jsonuri.svg?branch=1.0.7)](https://travis-ci.org/haozi/jsonuri/branches)
+[![codecov](https://codecov.io/gh/haozi/jsonuri/branch/master/graph/badge.svg)](https://codecov.io/gh/haozi/jsonuri)
+[![dependencies Status](https://david-dm.org/haozi/jsonuri/status.svg)](https://david-dm.org/haozi/jsonuri)
+[![devDependencies Status](https://david-dm.org/haozi/jsonuri/dev-status.svg)](https://david-dm.org/haozi/jsonuri?type=dev) -->
 
 ## Use
 
