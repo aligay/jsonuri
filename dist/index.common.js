@@ -1,9 +1,13 @@
-const MUST_BE_ARRAY = 'must be a Array';
-const THE_PARAMETER_IS_ILLEGAL = 'the parameter is illegal';
-const DIRECTION_REQUIRED = `direction must be 'before' | 'after' | 'append'`;
-const THE_INDEX_OUT_OF_BOUNDS = 'the Index Out of Bounds';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var MUST_BE_ARRAY = 'must be a Array';
+var THE_PARAMETER_IS_ILLEGAL = 'the parameter is illegal';
+var DIRECTION_REQUIRED = "direction must be 'before' | 'after' | 'append'";
+var THE_INDEX_OUT_OF_BOUNDS = 'the Index Out of Bounds';
 function noop() { }
-const isArray = Array.isArray;
+var isArray = Array.isArray;
 function isString(s) {
     return typeof s === 'string';
 }
@@ -13,14 +17,14 @@ function isInteger(n) {
 function isNatural(n) {
     return isInteger(n) && n >= 0;
 }
-const pathReg = /\//;
+var pathReg = /\//;
 function isComplexPath(s) {
     return pathReg.test(s);
 }
 function isObject(o) {
     // [^Undefined, Null, boolean, Number, String, Symbol]
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures
-    const type = typeof o;
+    var type = typeof o;
     return o != null && (type === 'object' || type === 'function');
 }
 function showError(s) {
@@ -37,10 +41,10 @@ function setValue(obj, key, value) {
         obj[key] = value;
         return;
     }
-    const msg = 'must be a natural number';
+    var msg = 'must be a natural number';
     if (key === 'length') {
         if (!isNatural(value)) {
-            showError(`value: ${value} ${msg}`);
+            showError("value: " + value + " " + msg);
             return;
         }
         if (value > obj.length) {
@@ -51,9 +55,9 @@ function setValue(obj, key, value) {
         return;
     }
     // if isArray, key should be a number
-    let index = +key;
+    var index = +key;
     if (!isNatural(index)) {
-        showError(`key: ${key} ${msg}`);
+        showError("key: " + key + " " + msg);
         return;
     }
     obj.length = Math.max(obj.length, index);
@@ -64,7 +68,7 @@ function setValue(obj, key, value) {
  */
 function delValue(obj, key) {
     if (isArray(obj)) {
-        let index = +key;
+        var index = +key;
         if (!isNatural(index))
             return;
         obj.splice(index, 1);
@@ -76,7 +80,8 @@ function delValue(obj, key) {
 /**
  * insertValue
  */
-function insertValue(arr, key, value, direction = 'after') {
+function insertValue(arr, key, value, direction) {
+    if (direction === void 0) { direction = 'after'; }
     if (key < 0 || key > arr.length)
         throw new Error(THE_INDEX_OUT_OF_BOUNDS);
     switch (direction) {
@@ -90,11 +95,11 @@ function insertValue(arr, key, value, direction = 'after') {
 }
 // let combingCache: any = {}
 function combingPathKey(param) {
-    const path = param.path || '';
+    var path = param.path || '';
     // if (combingCache[path]) {
     //   return combingCache[path]
     // }
-    let keys;
+    var keys;
     if (!param.keys) {
         keys = param.path.split('/');
     }
@@ -108,25 +113,25 @@ function combingPathKey(param) {
     // }
     // {empty}
     while (~keys.indexOf('')) {
-        let _i = keys.indexOf('');
+        var _i = keys.indexOf('');
         keys.splice(_i, 1);
     }
     // .
     while (~keys.indexOf('.')) {
-        let _i = keys.indexOf('.');
+        var _i = keys.indexOf('.');
         keys.splice(_i, 1);
     }
     // ..
     while (~keys.indexOf('..')) {
-        let _i = keys.indexOf('..');
+        var _i = keys.indexOf('..');
         keys[_i] = keys[_i - 1] = '';
         delete keys[_i];
         delete keys[_i - 1];
         keys.splice(_i, 1);
         keys.splice(_i - 1, 1);
     }
-    const ret = {
-        keys,
+    var ret = {
+        keys: keys,
         path: keys.join('/')
     };
     return ret;
@@ -139,13 +144,13 @@ function get(data, path) {
         return data;
     if (!isComplexPath(path))
         return data[path];
-    let ret;
-    const keys = combingPathKey({ path }).keys;
+    var ret;
+    var keys = combingPathKey({ path: path }).keys;
     if (!keys.length) {
         return data;
     }
-    const len = keys.length;
-    let i = 0;
+    var len = keys.length;
+    var i = 0;
     for (; i < len; ++i) {
         ret = (ret || data)[keys[i]];
         if (ret == null)
@@ -159,9 +164,9 @@ function set(data, path, value) {
         return;
     if (!isComplexPath(path))
         return setValue(data, path, value);
-    const keys = combingPathKey({ path }).keys;
-    for (let i = 0, len = keys.length; i < len; i++) {
-        let key = keys[i];
+    var keys = combingPathKey({ path: path }).keys;
+    for (var i = 0, len = keys.length; i < len; i++) {
+        var key = keys[i];
         if (data[key] == null) {
             data[key] = {};
         }
@@ -181,18 +186,18 @@ function rm(data, path) {
         delValue(data, path);
         return;
     }
-    let parent = get(data, path + '/..');
+    var parent = get(data, path + '/..');
     if (!parent)
         return;
-    let key = combingPathKey({ path }).keys.pop() || '';
+    var key = combingPathKey({ path: path }).keys.pop() || '';
     delValue(parent, key);
 }
 
 function swap(data, pathA, pathB) {
     if (!(data && pathA && pathB && isString(pathA) && isString(pathB)))
         return showError('参数不合法');
-    const dataA = get(data, pathA);
-    const dataB = get(data, pathB);
+    var dataA = get(data, pathA);
+    var dataB = get(data, pathB);
     set(data, pathB, dataA);
     set(data, pathA, dataB);
 }
@@ -202,11 +207,11 @@ function insert(data, path, value, direction) {
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!direction)
         throw new Error(DIRECTION_REQUIRED);
-    const parent = get(data, path + '/..');
+    var parent = get(data, path + '/..');
     if (!isArray(parent))
-        throw new Error(`insert node ${MUST_BE_ARRAY}`);
-    const index = +(combingPathKey({ path }).keys.pop() || '');
-    let toIndex = index;
+        throw new Error("insert node " + MUST_BE_ARRAY);
+    var index = +(combingPathKey({ path: path }).keys.pop() || '');
+    var toIndex = index;
     if (direction === 'after') {
         toIndex = index + 1;
     }
@@ -219,10 +224,14 @@ function insert(data, path, value, direction) {
     insertValue(parent, toIndex, value);
 }
 
-const arrPro = Array.prototype;
-function normalizePath(...path) {
-    const pathArr = arrPro.concat.apply(Array.prototype, path).join('/').split('/');
-    const pathStr = combingPathKey({ keys: pathArr }).path;
+var arrPro = Array.prototype;
+function normalizePath() {
+    var path = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        path[_i] = arguments[_i];
+    }
+    var pathArr = arrPro.concat.apply(Array.prototype, path).join('/').split('/');
+    var pathStr = combingPathKey({ keys: pathArr }).path;
     return pathStr;
 }
 
@@ -231,15 +240,15 @@ function mv(data, from, to, direction) {
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (from === to)
         return;
-    const DataTo = get(data, to);
-    const dataFrom = get(data, from);
-    const parentTo = get(data, to + '/..');
-    const fromIndex = +(combingPathKey({ path: from }).keys.pop() || '');
-    const toIndex = +(combingPathKey({ path: to }).keys.pop() || '');
+    var DataTo = get(data, to);
+    var dataFrom = get(data, from);
+    var parentTo = get(data, to + '/..');
+    var fromIndex = +(combingPathKey({ path: from }).keys.pop() || '');
+    var toIndex = +(combingPathKey({ path: to }).keys.pop() || '');
     if (isArray(parentTo)) {
         if (!direction)
             throw new Error(DIRECTION_REQUIRED);
-        const isInSameArray = normalizePath(from + '/..') === normalizePath(to + '/..');
+        var isInSameArray = normalizePath(from + '/..') === normalizePath(to + '/..');
         insert(data, to, dataFrom, direction);
         if (isInSameArray) {
             delValue(parentTo, fromIndex + (toIndex > fromIndex ? 0 : 1));
@@ -249,30 +258,31 @@ function mv(data, from, to, direction) {
         return;
     }
     if (!isObject(DataTo)) {
-        throw new Error(`'${to}': ${DataTo} is primitive values`);
+        throw new Error("'" + to + "': " + DataTo + " is primitive values");
     }
     set(data, to + '/' + from, dataFrom);
     rm(data, from);
 }
 
-function upDown(data, path, direction, gap = 1) {
+function upDown(data, path, direction, gap) {
+    if (gap === void 0) { gap = 1; }
     if (!(isNatural(gap) && gap > 0))
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!(data && isString(path)))
         return showError(THE_PARAMETER_IS_ILLEGAL);
-    const parent = get(data, path + '/..');
+    var parent = get(data, path + '/..');
     if (!isArray(parent))
         return showError(MUST_BE_ARRAY);
-    const len = parent.length;
-    const index = +(combingPathKey({ path }).keys.pop() || '');
+    var len = parent.length;
+    var index = +(combingPathKey({ path: path }).keys.pop() || '');
     if (!isNatural(index) || index > len - 1)
         return;
-    let toIndex = index + direction * gap;
+    var toIndex = index + direction * gap;
     if (toIndex <= 0)
         toIndex = 0;
     if (toIndex > len - 1)
         toIndex = len - 1;
-    const fromData = parent[index];
+    var fromData = parent[index];
     delValue(parent, index);
     insertValue(parent, toIndex, fromData);
 }
@@ -284,13 +294,14 @@ function down(data, path, gap) {
 }
 
 // check circular obj
-function isCircular(obj, seen = []) {
+function isCircular(obj, seen) {
+    if (seen === void 0) { seen = []; }
     if (!isObject(obj)) {
         return false;
     }
     seen.push(obj);
-    for (const key in obj) {
-        const val = obj[key];
+    for (var key in obj) {
+        var val = obj[key];
         if (isObject(val)) {
             if (~seen.indexOf(val) || isCircular(val, seen.slice())) {
                 return true;
@@ -301,23 +312,28 @@ function isCircular(obj, seen = []) {
 }
 
 function objectForeach(obj, callback) {
-    let isBreak = false;
+    var isBreak = false;
     function _break() {
         isBreak = true;
     }
-    for (let prop of Object.keys(obj)) {
+    for (var _i = 0, _a = Object.keys(obj); _i < _a.length; _i++) {
+        var prop = _a[_i];
         if (isBreak)
             break;
-        callback(obj[prop], prop, obj, { _break });
+        callback(obj[prop], prop, obj, { _break: _break });
     }
 }
-function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
+function walk(obj, descentionFn, ascentionFn) {
+    if (obj === void 0) { obj = {}; }
+    if (descentionFn === void 0) { descentionFn = noop; }
+    if (ascentionFn === void 0) { ascentionFn = noop; }
     if (isCircular(obj))
-        throw new Error(`obj is a circular structure`);
-    let path = [];
+        throw new Error("obj is a circular structure");
+    var path = [];
     function _walk(obj) {
-        objectForeach(obj, (val, key, parent, { _break }) => {
-            let isBreak = false;
+        objectForeach(obj, function (val, key, parent, _a) {
+            var _break = _a._break;
+            var isBreak = false;
             function _gBreak() {
                 _break();
                 isBreak = true;
@@ -342,4 +358,14 @@ function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
     return _walk(obj);
 }
 
-export { get, set, rm, swap, mv, insert, up, down, walk, normalizePath, isCircular };
+exports.get = get;
+exports.set = set;
+exports.rm = rm;
+exports.swap = swap;
+exports.mv = mv;
+exports.insert = insert;
+exports.up = up;
+exports.down = down;
+exports.walk = walk;
+exports.normalizePath = normalizePath;
+exports.isCircular = isCircular;

@@ -1,8 +1,9 @@
-import { isString, isArray, combingPathKey, insertValue, MUST_BE_ARRAY } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, DIRECTION_REQUIRED, MUST_BE_ARRAY, isString, isArray, combingPathKey, insertValue, showError } from './util'
 import get from './get'
 
-export default function insert (data, path: string, value: any, direction: 'before' | 'after' = 'after') {
-  if (!(data && isString(path))) return
+export default function insert (data, path: string, value: any, direction: 'before' | 'after' | 'append') {
+  if (!(data && isString(path))) return showError(THE_PARAMETER_IS_ILLEGAL)
+  if (!direction) throw new Error(DIRECTION_REQUIRED)
 
   const parent = get(data, path + '/..')
   if (!isArray(parent)) throw new Error(`insert node ${MUST_BE_ARRAY}`)
@@ -13,8 +14,10 @@ export default function insert (data, path: string, value: any, direction: 'befo
 
   if (direction === 'after') {
     toIndex = index + 1
-  } else {
-    toIndex = Math.max(0, index)
+  } else if (direction === 'before') {
+    toIndex = index
+  } else if (direction === 'append') {
+    // TODO
   }
   insertValue(parent, toIndex, value)
 }

@@ -1,6 +1,9 @@
 
 export const IS_NOT_A_NATURAL_NUMBER = 'is not a natural number'
 export const MUST_BE_ARRAY = 'must be a Array'
+export const THE_PARAMETER_IS_ILLEGAL = 'the parameter is illegal'
+export const DIRECTION_REQUIRED = `direction must be 'before' | 'after' | 'append'`
+export const THE_INDEX_OUT_OF_BOUNDS = 'the Index Out of Bounds'
 
 export function noop () { /* noop */ }
 
@@ -91,7 +94,16 @@ export function delValue (obj, key: string | number) {
 /**
  * insertValue
  */
-export function insertValue (arr: any[], key: number, value) {
+export function insertValue (arr: any[], key: number, value, direction: 'before' | 'after' | 'append' = 'after') {
+  if (key < 0 || key > arr.length) throw new Error(THE_INDEX_OUT_OF_BOUNDS)
+  switch (direction) {
+    case 'before':
+      key = key - 1
+      break
+    case 'append':
+      showError('TODO')
+  }
+
   arr.splice(key, 0, value)
 }
 

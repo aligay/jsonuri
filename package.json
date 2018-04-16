@@ -1,12 +1,12 @@
 {
   "name": "jsonuri",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "",
   "main": "dist/index.common.js",
   "module": "dist/index.mjs",
   "types": "typings/index.d.ts",
   "scripts": {
-    "clean": "rimraf dist typings",
+    "clean": "rimraf ./dist ./typings",
     "build": "npm run clean && npm run lint && node scripts/build.js",
     "dev": "npm run clean && tsc -w",
     "debug": "node --inspect-brk lib/index.js",

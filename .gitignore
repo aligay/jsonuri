@@ -37,11 +37,4 @@ jspm_packages
 .node_repl_history
 
 # Typescript definition files
-typings
-
-*.js
-*.map
-*.d.ts
-!types/**/*.d.ts
-!test/**/*.js
 .rpt2_cache
