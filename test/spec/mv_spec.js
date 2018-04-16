@@ -1,5 +1,6 @@
 /* global describe it beforeEach expect */
 const jsonuri = require('../../dist/index.js')
+
 describe('jsonuri.mv', () => {
   let obj
   beforeEach(() => {
@@ -34,6 +35,62 @@ describe('jsonuri.mv', () => {
     }
     jsonuri.mv(obj, 'a', 'b/a')
     expect(obj).toEqual({ b: { a: { a: 1 } } })
+  })
+
+  it('mv a array', () => {
+    const arr = [0, 1, 2, 3, 4]
+    jsonuri.mv(arr, '1', '3', 'before')
+    expect(arr).toEqual([0, 2, 1, 3, 4])
+  })
+
+  it('mv a array 2', () => {
+    const arr = [0, 1, 2, 3, 4]
+    jsonuri.mv(arr, '1', '3', 'after')
+    expect(arr).toEqual([0, 2, 3, 1, 4])
+  })
+
+  it('mv a array 3', () => {
+    const o = {a: [0, 1, 2, 3, 4]}
+    jsonuri.mv(o, 'a/1', 'a/3', 'after')
+    expect(o.a).toEqual([0, 2, 3, 1, 4])
+  })
+
+  it('mv a array 4', () => {
+    const o = {a: [0, 1, 2, 3, 4]}
+    jsonuri.mv(o, 'a/3', 'a/1', 'before')
+    expect(o.a).toEqual([0, 3, 1, 2, 4])
+  })
+
+  it('mv a array 5', () => {
+    const o = {a: [0, 1, 2, 3, 4]}
+    jsonuri.mv(o, 'a/3', 'a/1', 'after')
+    expect(o.a).toEqual([0, 1, 3, 2, 4])
+  })
+
+  it('mv a array 6', () => {
+    const o = {a: [0, 1, 2, 3, 4]}
+    expect(() => {
+      jsonuri.mv(o, 'a/3', 'a/-99', 'before')
+    }).toThrow()
+  })
+
+  it('mv a array 7', () => {
+    const o = {a: [0, 1, 2, 3, 4]}
+    jsonuri.mv(o, 'a/3', 'a/3', 'before')
+    expect(o.a).toEqual([0, 1, 2, 3, 4])
+  })
+
+// ======
+  it('mv a array to anothor array', () => {
+    const o = {
+      a: [0, 1, 2, 3, 4],
+      b: ['a', 'b', 'c']
+    }
+    jsonuri.mv(o, 'a/3', 'b/1', 'before')
+    expect(o).toEqual({
+      a: [0, 1, 2, 4],
+      b: ['a', 3, 'b', 'c']
+    })
   })
 
   it('to is not object', () => {

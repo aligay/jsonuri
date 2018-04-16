@@ -1,9 +1,9 @@
-import { isString, isArray, MUST_BE_ARRAY, showError, combingPathKey, isNatural , delValue, insertValue } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, isString, isArray, MUST_BE_ARRAY, showError, combingPathKey, isNatural , delValue, insertValue } from './util'
 import get from './get'
 
 function upDown (data, path, direction: 1 | -1, gap = 1) {
-  if (!(isNatural(gap) && gap > 0)) return
-  if (!(data && isString(path))) return
+  if (!(isNatural(gap) && gap > 0)) return showError(THE_PARAMETER_IS_ILLEGAL)
+  if (!(data && isString(path))) return showError(THE_PARAMETER_IS_ILLEGAL)
 
   const parent = get(data, path + '/..')
   if (!isArray(parent)) return showError(MUST_BE_ARRAY)
@@ -12,6 +12,7 @@ function upDown (data, path, direction: 1 | -1, gap = 1) {
   if (!isNatural(index) || index > len - 1) return
   let toIndex = index + direction * gap
   if (toIndex <= 0) toIndex = 0
+  if (toIndex > len - 1) toIndex = len - 1
 
   const fromData = parent[index]
   delValue(parent, index)

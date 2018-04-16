@@ -4,6 +4,10 @@
 
 `Use URI path to get or set data.`
 
+[![Build Status](https://travis-ci.org/aligay/jsonuri.svg?branch=1.0.7)](https://travis-ci.org/aligay/jsonuri/branches)
+[![codecov](https://codecov.io/gh/aligay/jsonuri/branch/master/graph/badge.svg)](https://codecov.io/gh/aligay/jsonuri/branch/master)
+[![dependencies Status](https://david-dm.org/aligay/jsonuri/status.svg)](https://david-dm.org/aligay/jsonuri)
+[![devDependencies Status](https://david-dm.org/aligay/jsonuri/dev-status.svg)](https://david-dm.org/aligay/jsonuri?type=dev)
 
 ## Use
 

@@ -1,17 +1,17 @@
 {
   "name": "jsonuri",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.3",
   "description": "",
   "main": "dist/index.common.js",
   "module": "dist/index.mjs",
   "types": "typings/index.d.ts",
   "scripts": {
-    "clean": "rimraf dist typings",
+    "clean": "rimraf ./dist ./typings",
     "build": "npm run clean && npm run lint && node scripts/build.js",
     "dev": "npm run clean && tsc -w",
     "debug": "node --inspect-brk lib/index.js",
     "lint": "tslint --project tsconfig.json --format stylish",
-    "prepublish": "npm test",
+    "prepublish": "npm test && node scripts/pre-publish.js",
     "test": "npm run lint && npm run build && npm run jasmine",
     "jasmine": "istanbul cover jasmine-node test"
   },
