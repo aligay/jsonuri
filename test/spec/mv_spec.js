@@ -104,4 +104,11 @@ describe('jsonuri.mv', () => {
       jsonuri.mv(obj, 'a', 'b/a')
     }).toThrow()
   })
+
+// =====
+  it('number path', () => {
+    const arr = [1, 2, 3]
+    jsonuri.mv(arr, 2, 1, 'before')
+    expect(arr).toEqual([1, 3, 2])
+  })
 })

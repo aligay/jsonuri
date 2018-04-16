@@ -2,6 +2,7 @@ const MUST_BE_ARRAY = 'must be a Array';
 const THE_PARAMETER_IS_ILLEGAL = 'the parameter is illegal';
 const DIRECTION_REQUIRED = `direction must be 'before' | 'after' | 'append'`;
 const THE_INDEX_OUT_OF_BOUNDS = 'the Index Out of Bounds';
+const MUST_BE_A_NATURAL_NUMBER = 'must be a natural number';
 function noop() { }
 const isArray = Array.isArray;
 function isString(s) {
@@ -37,12 +38,9 @@ function setValue(obj, key, value) {
         obj[key] = value;
         return;
     }
-    const msg = 'must be a natural number';
     if (key === 'length') {
-        if (!isNatural(value)) {
-            showError(`value: ${value} ${msg}`);
-            return;
-        }
+        if (!isNatural(value))
+            throw new Error(`value: ${value} ${MUST_BE_A_NATURAL_NUMBER}`);
         if (value > obj.length) {
             obj.length = value;
             return;
@@ -53,7 +51,7 @@ function setValue(obj, key, value) {
     // if isArray, key should be a number
     let index = +key;
     if (!isNatural(index)) {
-        showError(`key: ${key} ${msg}`);
+        showError(`key: ${key} ${MUST_BE_A_NATURAL_NUMBER}`);
         return;
     }
     obj.length = Math.max(obj.length, index);
@@ -133,8 +131,9 @@ function combingPathKey(param) {
 }
 
 function get(data, path) {
+    path = path + '';
     if (!(data && isString(path)))
-        return;
+        return showError(THE_PARAMETER_IS_ILLEGAL);
     if (path === '')
         return data;
     if (!isComplexPath(path))
@@ -155,8 +154,9 @@ function get(data, path) {
 }
 
 function set(data, path, value) {
+    path = path + '';
     if (!(data && path && isString(path)))
-        return;
+        return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!isComplexPath(path))
         return setValue(data, path, value);
     const keys = combingPathKey({ path }).keys;
@@ -175,6 +175,7 @@ function set(data, path, value) {
 }
 
 function rm(data, path) {
+    path = path + '';
     if (!(data && path && isString(path)))
         return;
     if (!isComplexPath(path)) {
@@ -189,8 +190,10 @@ function rm(data, path) {
 }
 
 function swap(data, pathA, pathB) {
+    pathA = pathA + '';
+    pathB = pathB + '';
     if (!(data && pathA && pathB && isString(pathA) && isString(pathB)))
-        return showError('参数不合法');
+        return showError(THE_PARAMETER_IS_ILLEGAL);
     const dataA = get(data, pathA);
     const dataB = get(data, pathB);
     set(data, pathB, dataA);
@@ -198,6 +201,7 @@ function swap(data, pathA, pathB) {
 }
 
 function insert(data, path, value, direction) {
+    path = path + '';
     if (!(data && isString(path)))
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!direction)
@@ -227,6 +231,8 @@ function normalizePath(...path) {
 }
 
 function mv(data, from, to, direction) {
+    from = from + '';
+    to = to + '';
     if (!(data && from && to && isString(from) && isString(to)))
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (from === to)
@@ -256,6 +262,7 @@ function mv(data, from, to, direction) {
 }
 
 function upDown(data, path, direction, gap = 1) {
+    path = path + '';
     if (!(isNatural(gap) && gap > 0))
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!(data && isString(path)))

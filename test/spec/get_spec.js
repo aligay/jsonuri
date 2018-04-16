@@ -14,6 +14,10 @@ describe('jsonuri.get', () => {
     NULL: null
   }
 
+  it('get number path', () => {
+    expect(jsonuri.get([1, 2, 3], 1)).toEqual(2)
+  })
+
   it('empty path', () => {
     expect(jsonuri.get(obj, '')).toBe(obj)
     expect(jsonuri.get(obj, '/')).toBe(obj)

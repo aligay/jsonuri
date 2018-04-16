@@ -1,9 +1,11 @@
-import { isString, showError } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, isString, showError } from './util'
 import get from './get'
 import set from './set'
 
-export default function swap (data, pathA: string, pathB: string) {
-  if (!(data && pathA && pathB && isString(pathA) && isString(pathB))) return showError('参数不合法')
+export default function swap (data, pathA: string | number, pathB: string | number) {
+  pathA = pathA + ''
+  pathB = pathB + ''
+  if (!(data && pathA && pathB && isString(pathA) && isString(pathB))) return showError(THE_PARAMETER_IS_ILLEGAL)
 
   const dataA = get(data, pathA)
   const dataB = get(data, pathB)

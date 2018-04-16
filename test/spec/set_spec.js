@@ -87,11 +87,19 @@ describe('jsonuri.set', () => {
     expect(s(obj)).toEqual(s({a: [1, 2, 3]}))
   })
 
-  it('set array length 2', () => {
+  it('set array length 3', () => {
     jsonuri.set(obj, '/a', [1, 2, 3])
     jsonuri.set(obj, '/a/length', 2)
     expect(s(obj)).toEqual(s({a: [1, 2]}))
   })
+
+  it('set array length 4', () => {
+    jsonuri.set(obj, '/a', [1, 2, 3])
+    expect(() => {
+      jsonuri.set(obj, '/a/length', -1)
+    }).toThrow()
+  })
+
   // ==============
   it('set null', () => {
     let o = null
@@ -113,5 +121,11 @@ describe('jsonuri.set', () => {
     let o = {}
     jsonuri.set(o, 'a/b/c.d.e/../', {c: 1})
     expect(o).toEqual({ a: { b: { c: 1 } } })
+  })
+  // ==========
+  it('number path', () => {
+    let o = []
+    jsonuri.set(o, 5, 1)
+    expect(o).toEqual([undefined, undefined, undefined, undefined, undefined, 1])
   })
 })

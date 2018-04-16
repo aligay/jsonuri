@@ -1,7 +1,7 @@
 /* global describe it expect */
 const jsonuri = require('../../dist/index.js')
 describe('jsonuri.isCircular', () => {
-  it('{}', () => {
+  it('1', () => {
     expect(jsonuri.isCircular({})).toBeFalsy()
     expect(jsonuri.isCircular(global)).toBeTruthy()
   })
