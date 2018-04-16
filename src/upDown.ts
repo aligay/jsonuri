@@ -2,6 +2,7 @@ import { THE_PARAMETER_IS_ILLEGAL, isString, isArray, MUST_BE_ARRAY, showError, 
 import get from './get'
 
 function upDown (data, path, direction: 1 | -1, gap = 1) {
+  path = path + ''
   if (!(isNatural(gap) && gap > 0)) return showError(THE_PARAMETER_IS_ILLEGAL)
   if (!(data && isString(path))) return showError(THE_PARAMETER_IS_ILLEGAL)
 
@@ -19,10 +20,10 @@ function upDown (data, path, direction: 1 | -1, gap = 1) {
   insertValue(parent, toIndex, fromData)
 }
 
-export function up (data, path, gap?) {
+export function up (data, path: string | number, gap?: number) {
   upDown(data, path, -1, gap)
 }
 
-export function down (data, path, gap?) {
+export function down (data, path: string | number, gap?: number) {
   upDown(data, path, 1, gap)
 }

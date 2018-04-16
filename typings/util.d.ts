@@ -3,12 +3,14 @@ export declare const MUST_BE_ARRAY = "must be a Array";
 export declare const THE_PARAMETER_IS_ILLEGAL = "the parameter is illegal";
 export declare const DIRECTION_REQUIRED = "direction must be 'before' | 'after' | 'append'";
 export declare const THE_INDEX_OUT_OF_BOUNDS = "the Index Out of Bounds";
+export declare const MUST_BE_A_NATURAL_NUMBER = "must be a natural number";
 export declare function noop(): void;
 export declare const isArray: (arg: any) => arg is any[];
 export declare function isString(s: any): boolean;
 export declare function isNatural(n: any): boolean;
 export declare function isComplexPath(s: any): boolean;
 export declare function isObject(o: any): boolean;
+export declare function toString(s: any): string;
 export declare function showError(s: any): void;
 export declare function throwError(s: any): void;
 /**

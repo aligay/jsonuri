@@ -4,6 +4,7 @@ export const MUST_BE_ARRAY = 'must be a Array'
 export const THE_PARAMETER_IS_ILLEGAL = 'the parameter is illegal'
 export const DIRECTION_REQUIRED = `direction must be 'before' | 'after' | 'append'`
 export const THE_INDEX_OUT_OF_BOUNDS = 'the Index Out of Bounds'
+export const MUST_BE_A_NATURAL_NUMBER = 'must be a natural number'
 
 export function noop () { /* noop */ }
 
@@ -33,6 +34,10 @@ export function isObject (o) {
   return o != null && (type === 'object' || type === 'function')
 }
 
+export function toString (s) {
+  return s + ''
+}
+
 export function showError (s) {
   console.error(s)
 }
@@ -51,12 +56,9 @@ export function setValue (obj, key: string | number, value) {
     obj[key] = value
     return
   }
-  const msg = 'must be a natural number'
+
   if (key === 'length') {
-    if (!isNatural(value)) {
-      showError(`value: ${value} ${msg}`)
-      return
-    }
+    if (!isNatural(value)) throw new Error(`value: ${value} ${MUST_BE_A_NATURAL_NUMBER}`)
 
     if (value > obj.length) {
       obj.length = value
@@ -70,7 +72,7 @@ export function setValue (obj, key: string | number, value) {
   // if isArray, key should be a number
   let index: number = +key
   if (!isNatural(index)) {
-    showError(`key: ${key} ${msg}`)
+    showError(`key: ${key} ${MUST_BE_A_NATURAL_NUMBER}`)
     return
   }
 

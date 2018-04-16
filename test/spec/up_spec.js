@@ -44,4 +44,10 @@ describe('jsonuri.up', () => {
     jsonuri.up(obj, 'b/4')
     expect(obj).toEqual(origin)
   })
+
+  it('number path', () => {
+    const arr = [1, 2, 3]
+    jsonuri.up(arr, 1)
+    expect(arr).toEqual([2, 1, 3])
+  })
 })

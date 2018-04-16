@@ -45,10 +45,24 @@ describe('jsonuri.rm', () => {
     jsonuri.rm(arr, 'a/1')
     expect(arr).toEqual({a: [1, 3]})
   })
+
+  it('number path', () => {
+    let arr = [1, 2]
+    jsonuri.rm(arr, 0)
+    expect(arr).toEqual([2])
+  })
+
 // ==============
   it('bad arg', () => {
     let arr = {a: [1, 2, 3]}
     jsonuri.rm(arr, null)
+    expect(arr).toEqual({a: [1, 2, 3]})
+  })
+
+  // ==============
+  it('bad arg', () => {
+    let arr = {a: [1, 2, 3]}
+    jsonuri.rm(arr, 'a/b')
     expect(arr).toEqual({a: [1, 2, 3]})
   })
 })
