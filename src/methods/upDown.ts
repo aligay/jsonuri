@@ -20,10 +20,10 @@ function upDown (data, path, direction: 1 | -1, gap = 1) {
   insertValue(parent, toIndex, fromData)
 }
 
-export function up (data, path: string | number, gap?: number) {
+export function up (data, path: string | number, gap?: number): void {
   upDown(data, path, -1, gap)
 }
 
-export function down (data, path: string | number, gap?: number) {
+export function down (data, path: string | number, gap?: number): void {
   upDown(data, path, 1, gap)
 }

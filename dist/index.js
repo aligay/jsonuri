@@ -20,7 +20,7 @@
       return typeof s === 'string';
   }
   function isInteger(n) {
-      return Number.isInteger(n) || typeof n === 'number' && isFinite(n) && Math.ceil(n) === n;
+      return Number.isInteger(n); // || typeof n === 'number' && isFinite(n) && Math.ceil(n) === n
   }
   function isNatural(n) {
       return isInteger(n) && n >= 0;
