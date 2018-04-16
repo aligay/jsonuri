@@ -15,7 +15,7 @@ export function isString (s) {
 }
 
 function isInteger (n) {
-  return typeof n === 'number' && isFinite(n) && Math.ceil(n) === n
+  return Number.isInteger(n) || typeof n === 'number' && isFinite(n) && Math.ceil(n) === n
 }
 
 export function isNatural (n) {

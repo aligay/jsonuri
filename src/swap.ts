@@ -1,4 +1,4 @@
-import { THE_PARAMETER_IS_ILLEGAL, isString, showError } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, showError, isString } from './util'
 import get from './get'
 import set from './set'
 

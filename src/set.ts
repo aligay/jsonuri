@@ -1,8 +1,8 @@
-import { THE_PARAMETER_IS_ILLEGAL, isString, setValue, combingPathKey, isComplexPath, showError } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, setValue, combingPathKey, isComplexPath, showError } from './util'
 
 export default function set (data: any, path: string | number, value: any): void {
   path = path + ''
-  if (!(data && path && isString(path))) return showError(THE_PARAMETER_IS_ILLEGAL)
+  if (!(data && path)) return showError(THE_PARAMETER_IS_ILLEGAL)
   if (!isComplexPath(path)) return setValue(data, path, value)
 
   const keys = combingPathKey({ path }).keys

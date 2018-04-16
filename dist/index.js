@@ -20,7 +20,7 @@
       return typeof s === 'string';
   }
   function isInteger(n) {
-      return typeof n === 'number' && isFinite(n) && Math.ceil(n) === n;
+      return Number.isInteger(n) || typeof n === 'number' && isFinite(n) && Math.ceil(n) === n;
   }
   function isNatural(n) {
       return isInteger(n) && n >= 0;
@@ -144,7 +144,7 @@
 
   function get(data, path) {
       path = path + '';
-      if (!(data && isString(path)))
+      if (!(data))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       if (path === '')
           return data;
@@ -167,7 +167,7 @@
 
   function set(data, path, value) {
       path = path + '';
-      if (!(data && path && isString(path)))
+      if (!(data && path))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       if (!isComplexPath(path))
           return setValue(data, path, value);
@@ -188,7 +188,7 @@
 
   function rm(data, path) {
       path = path + '';
-      if (!(data && path && isString(path)))
+      if (!(data && path))
           return;
       if (!isComplexPath(path)) {
           delValue(data, path);
@@ -214,7 +214,7 @@
 
   function insert(data, path, value, direction) {
       path = path + '';
-      if (!(data && isString(path)))
+      if (!(data))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       if (!direction)
           throw new Error(DIRECTION_REQUIRED);
@@ -282,7 +282,7 @@
       path = path + '';
       if (!(isNatural(gap) && gap > 0))
           return showError(THE_PARAMETER_IS_ILLEGAL);
-      if (!(data && isString(path)))
+      if (!(data))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       var parent = get(data, path + '/..');
       if (!isArray(parent))
