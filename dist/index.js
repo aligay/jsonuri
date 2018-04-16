@@ -1,3 +1,8 @@
+/*!
+* jsonuri v2.0.0-alpha.4
+* (c) 2018 @aligay
+* Released under the MIT License.
+*/
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :

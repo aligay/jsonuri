@@ -18,13 +18,13 @@ const merge = require('lodash.merge')
 
 function rollupEach (options) {
   options.forEach(async c => {
-    const bundle = await rollup(genRollupConfig(rollupConfig, c._ts))
+    const bundle = await rollup(genRollupConfig(c, c._ts))
     await bundle.write(c)
   })
 }
 
-function genRollupConfig (rollupConfig, tsConfig) {
-  const _rollupConfig = merge({}, rollupConfig)
+function genRollupConfig (c, tsConfig) {
+  const _rollupConfig = merge({}, rollupConfig, { output: c })
   _rollupConfig.plugins[0] = typescript({
     verbosity: 1,
     tsconfigOverride: {
