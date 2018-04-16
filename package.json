@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0-alpha.3",
   "description": "",
   "main": "dist/index.common.js",
   "module": "dist/index.mjs",
@@ -11,7 +11,7 @@
     "dev": "npm run clean && tsc -w",
     "debug": "node --inspect-brk lib/index.js",
     "lint": "tslint --project tsconfig.json --format stylish",
-    "prepublish": "npm test",
+    "prepublish": "npm test && node scripts/pre-publish.js",
     "test": "npm run lint && npm run build && npm run jasmine",
     "jasmine": "istanbul cover jasmine-node test"
   },
