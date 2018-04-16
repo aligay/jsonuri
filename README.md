@@ -2,7 +2,7 @@
 
 ---
 
-`Use URI path to get or set data.`
+`Use URI style methods to operate data.`
 
 [![Build Status](https://api.travis-ci.org/aligay/jsonuri.svg?branch=master)](https://travis-ci.org/aligay/jsonuri/branches)
 [![codecov](https://codecov.io/gh/aligay/jsonuri/branch/master/graph/badge.svg)](https://codecov.io/gh/aligay/jsonuri/branch/master)
@@ -17,7 +17,7 @@ $ npm install jsonuri --save
 ```
 
 ```javascript
-import * as ju from 'jsonuri'
+import jsonuri from 'jsonuri'
 // or
 import { get, set, ... } from 'jsonuri' // recommended practice, friendly to tree-shaking
 ```
@@ -57,28 +57,29 @@ Get the value of the specified data for the path.
 **Example:**
 
 ```javascript
-ju.get(data, '/menu/id/')
+jsonuri.get(data, 'menu/id')
 // return 123
 
-ju.get(data, '/menu/popup/menuitem/0/value/')
+jsonuri.get(data, 'menu/popup/menuitem/0/value')
 // return 'New'
 
-ju.get(data, '/menu/popup/menuitem/0/value/../')
+jsonuri.get(data, 'menu/popup/menuitem/0/value/..')
 // {value: "New", onclick: "CreateNewDoc()"}
 
 ```
-
+[see more](test/spec/get_spec.js)
 ### set (data, path, value)
 Set the value of the specified data for the path.
 
 **Example:**
 
 ```javascript
-ju.set(data, '/menu/id/', 789)
-ju.get(data, '/menu/id/')
+jsonuri.set(data, 'menu/id/', 789)
+jsonuri.get(data, 'menu/id')
 //789
 
 ```
+[see more](test/spec/set_spec.js)
 
 ### rm (data, path)
 Remove the value of the specified data for the path.
@@ -86,9 +87,10 @@ Remove the value of the specified data for the path.
 **Example:**
 
 ```javascript
-ju.rm(data, '/menu/id/')
-ju.get(data, '/menu/id/') // undefined
+jsonuri.rm(data, 'menu/id')
+jsonuri.get(data, 'menu/id') // undefined
 ```
+[see more](test/spec/rm_spec.js)
 
 
 ### mv (data, pathA, pathB, sequence)
@@ -97,15 +99,17 @@ Data A moved to target B before or after.
 **Example:**
 
 ```javascript
-ju.mv(data, '/menu/list/0', '/menu/list/3')
-ju.get(data, '/menu/list/') // [1, 2, 3, 0, 4]
+jsonuri.mv(data, 'menu/list/0', 'menu/list/3')
+jsonuri.get(data, 'menu/list') // [1, 2, 3, 0, 4]
+[see more](test/spec/mv_spec.js)
 
 
-ju.set(data, '/menu/list/',[0,1,2,3,4])
-ju.mv(data, '/menu/list/0', '/menu/list/3', 'before')
-ju.get(data, '/menu/list/') // [1, 2, 0, 3, 4]
+jsonuri.set(data, 'menu/list/',[0,1,2,3,4])
+jsonuri.mv(data, 'menu/list/0', 'menu/list/3', 'before')
+jsonuri.get(data, 'menu/list') // [1, 2, 0, 3, 4]
 
 ```
+[see more](test/spec/mv_spec.js)
 
 ### swap (data, pathA, pathB)
 Data swap in an array.
@@ -113,13 +117,14 @@ Data swap in an array.
 **Example:**
 
 ```javascript
-ju.swap(data, '/menu/list/0', '/menu/list/4')
-ju.get(data, '/menu/list/') // [4, 1, 2, 3, 0]
+jsonuri.swap(data, 'menu/list/0', 'menu/list/4')
+jsonuri.get(data, 'menu/list') // [4, 1, 2, 3, 0]
 
-ju.swap(data, '/menu/list/0', '/menu/list/4')
-ju.get(data, '/menu/list/') // [4, 1, 2, 3, 0]
+jsonuri.swap(data, 'menu/list/0', 'menu/list/4')
+jsonuri.get(data, 'menu/list') // [4, 1, 2, 3, 0]
 
 ```
+[see more](test/spec/swap_spec.js)
 
 
 ### insert (data, pathA, value, direction)
@@ -129,16 +134,19 @@ Insert data into an `array` that is described in the path.
 **Example:**
 
 ```javascript
-ju.insert(data, '/menu/list/0', 9999, 'before') // [9999, 0, 1, 2, 3, 4]
+jsonuri.insert(data, 'menu/list/0', 9999, 'before') // [9999, 0, 1, 2, 3, 4]
 
 ```
+[see more](test/spec/insert_spec.js)
+
 
 ### up(data, path, gap)
-
+[see more](test/spec/up_spec.js)
 
 
 ### down(data, path, gap)
 
+[see more](test/spec/down_spec.js)
 
 
 ### walk(data, descentionFn, ascentionFn)
@@ -147,37 +155,41 @@ Traverse each data of each node and value.
 **Example:**
 
 ```javascript
-ju.walk({a:{a1:'x'}}, (value, key, parent, { path }) => {
+jsonuri.walk({a:{a1:'x'}}, (value, key, parent, { path }) => {
   console.log(value, key, parent, path)
 })
 
 // { a1: 'x' } 'a' { a: { a1: 'x' } } '/a/'
 // x a1 { a1: 'x' } '/a/a1/'
 ```
+[see more](test/spec/walk_spec.js)
 
 ### normalizePath(path1, path2, ...)
 
 **Example:**
 
 ```javascript
-ju.normalizePath('a', 'b') // /a/b/
+jsonuri.normalizePath('a', 'b') // /a/b/
 
-ju.normalizePath(['a', 'b', '../'], 'c') // /a/c/
+jsonuri.normalizePath(['a', 'b', '../'], 'c') // /a/c/
 
 
 ```
+[see more](test/spec/normalizePath_spec.js)
 
 ### isCircular(obj)
 
 **Example:**
 
 ```javascript
-ju.isCircular({}) // return false
-ju.isCircular(window) // return true
+jsonuri.isCircular({}) // return false
+jsonuri.isCircular(window) // return true
 
 var a = {}
-ju.set(a, '/b/c/d/e/f/g', a)
-ju.isCircular(a) // return true
+jsonuri.set(a, '/b/c/d/e/f/g', a)
+jsonuri.isCircular(a) // return true
 
 
 ```
+[see more](test/spec/isCircular_spec.js)
+
