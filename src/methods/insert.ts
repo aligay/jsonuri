@@ -1,4 +1,4 @@
-import { THE_PARAMETER_IS_ILLEGAL, DIRECTION_REQUIRED, MUST_BE_ARRAY, isArray, combingPathKey, insertValue, showError } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, DIRECTION_REQUIRED, MUST_BE_ARRAY, isArray, combingPathKey, insertValue, showError } from '../util'
 import get from './get'
 
 export default function insert (data, path: string | number, value: any, direction: 'before' | 'after' | 'append') {

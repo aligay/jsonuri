@@ -1,4 +1,4 @@
-import { THE_PARAMETER_IS_ILLEGAL, isArray, MUST_BE_ARRAY, showError, combingPathKey, isNatural , delValue, insertValue } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, isArray, MUST_BE_ARRAY, showError, combingPathKey, isNatural , delValue, insertValue } from '../util'
 import get from './get'
 
 function upDown (data, path, direction: 1 | -1, gap = 1) {

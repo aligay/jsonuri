@@ -1,4 +1,4 @@
-import { THE_PARAMETER_IS_ILLEGAL, combingPathKey, isComplexPath, showError } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, combingPathKey, isComplexPath, showError } from '../util'
 
 export default function get (data: any, path: string | number): any {
   path = path + ''

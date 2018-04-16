@@ -1,4 +1,4 @@
-import { isObject } from './util'
+import { isObject } from '../util'
 
 // check circular obj
 export default function isCircular (obj, seen: any[] = []) {

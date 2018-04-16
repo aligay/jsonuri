@@ -1,4 +1,4 @@
-import { THE_PARAMETER_IS_ILLEGAL, DIRECTION_REQUIRED, isObject, isArray, isString, showError, delValue, combingPathKey } from './util'
+import { THE_PARAMETER_IS_ILLEGAL, DIRECTION_REQUIRED, isObject, isArray, isString, showError, delValue, combingPathKey } from '../util'
 import get from './get'
 import set from './set'
 import rm from './rm'
