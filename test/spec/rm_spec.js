@@ -58,4 +58,11 @@ describe('jsonuri.rm', () => {
     jsonuri.rm(arr, null)
     expect(arr).toEqual({a: [1, 2, 3]})
   })
+
+  // ==============
+  it('bad arg', () => {
+    let arr = {a: [1, 2, 3]}
+    jsonuri.rm(arr, 'a/b')
+    expect(arr).toEqual({a: [1, 2, 3]})
+  })
 })
