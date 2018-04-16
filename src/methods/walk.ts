@@ -1,4 +1,4 @@
-import { noop, isArray, isObject } from './util'
+import { noop, isArray, isObject } from '../util'
 import isCircular from './isCircular'
 import normalizePath from './normalizePath'
 
