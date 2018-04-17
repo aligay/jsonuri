@@ -2,11 +2,11 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+var IS_NOT_A_NATURAL_NUMBER = 'is not a natural number';
 var MUST_BE_ARRAY = 'must be a Array';
 var THE_PARAMETER_IS_ILLEGAL = 'the parameter is illegal';
 var DIRECTION_REQUIRED = "direction must be 'before' | 'after' | 'append'";
 var THE_INDEX_OUT_OF_BOUNDS = 'the Index Out of Bounds';
-var MUST_BE_A_NATURAL_NUMBER = 'must be a natural number';
 function noop() { }
 var isArray = Array.isArray;
 function isString(s) {
@@ -44,18 +44,16 @@ function setValue(obj, key, value) {
     }
     if (key === 'length') {
         if (!isNatural(value))
-            throw new Error("value: " + value + " " + MUST_BE_A_NATURAL_NUMBER);
-        if (value > obj.length) {
+            throw new Error("value: " + value + " " + IS_NOT_A_NATURAL_NUMBER);
+        if (value > obj.length)
             obj.length = value;
-            return;
-        }
         obj.splice(value);
         return;
     }
     // if isArray, key should be a number
     var index = +key;
     if (!isNatural(index)) {
-        showError("key: " + key + " " + MUST_BE_A_NATURAL_NUMBER);
+        showError("key: " + key + " " + IS_NOT_A_NATURAL_NUMBER);
         return;
     }
     obj.length = Math.max(obj.length, index);
@@ -234,7 +232,7 @@ function normalizePath() {
     for (var _i = 0; _i < arguments.length; _i++) {
         path[_i] = arguments[_i];
     }
-    var pathArr = arrPro.concat.apply(Array.prototype, path).join('/').split('/');
+    var pathArr = arrPro.concat.apply(arrPro, path).join('/').split('/');
     var pathStr = combingPathKey({ keys: pathArr }).path;
     return pathStr;
 }

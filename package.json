@@ -1,9 +1,9 @@
 {
   "name": "jsonuri",
-  "version": "2.0.0-alpha.4",
-  "description": "",
+  "version": "2.0.0-rc.1",
   "main": "dist/index.common.js",
   "module": "dist/index.mjs",
+  "jsnext:main": "dist/index.mjs",
   "types": "typings/index.d.ts",
   "scripts": {
     "clean": "rimraf ./dist ./typings",
@@ -13,7 +13,8 @@
     "lint": "tslint --project tsconfig.json --format stylish",
     "prepublish": "npm test && node scripts/pre-publish.js",
     "test": "npm run lint && npm run build && npm run jasmine",
-    "jasmine": "istanbul cover jasmine-node test"
+    "jasmine": "istanbul cover jasmine-node test",
+    "deploy:gh-pages": "node scripts/gh-pages.js"
   },
   "dependencies": {
     "tslib": "1.x.x"
@@ -40,5 +41,25 @@
   "engines": {
     "node": ">=6"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aligay/jsonuri.git"
+  },
+  "bugs": "https://github.com/aligay/jsonuri/issues",
+  "homepage": "https://jsonuri.js.org",
+  "description": "Use URI path to get or set data",
+  "keywords": [
+    "vue",
+    "data operator",
+    "json",
+    "uri",
+    "object",
+    "jsonuri",
+    "path",
+    "data",
+    "array",
+    "javascript",
+    "nodejs"
+  ]
 }
