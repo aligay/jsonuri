@@ -14,6 +14,7 @@ const merge = require('lodash.merge')
     -c hoist_funs,hoist_vars \
     -m \
     -o dist/index.min.js`)
+  await sh('cp dist/index.js page/jsonuri.js')
 })()
 
 function rollupEach (options) {
