@@ -9,7 +9,7 @@ export default function insert (data, path: string | number, value: any, directi
   const parent = get(data, path + '/..')
   if (!isArray(parent)) throw new Error(`insert node ${MUST_BE_ARRAY}`)
 
-  const index = +(combingPathKey({ path }).keys.pop() || '')
+  const index = +(combingPathKey({ path }).keys.pop() as string)
 
   let toIndex = index
 

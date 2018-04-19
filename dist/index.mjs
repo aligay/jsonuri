@@ -207,7 +207,7 @@ function insert(data, path, value, direction) {
     const parent = get(data, path + '/..');
     if (!isArray(parent))
         throw new Error(`insert node ${MUST_BE_ARRAY}`);
-    const index = +(combingPathKey({ path }).keys.pop() || '');
+    const index = +combingPathKey({ path }).keys.pop();
     let toIndex = index;
     if (direction === 'after') {
         toIndex = index + 1;
@@ -269,7 +269,7 @@ function upDown(data, path, direction, gap = 1) {
     if (!isArray(parent))
         return showError(MUST_BE_ARRAY);
     const len = parent.length;
-    const index = +(combingPathKey({ path }).keys.pop() || '');
+    const index = +combingPathKey({ path }).keys.pop();
     if (!isNatural(index) || index > len - 1)
         return;
     let toIndex = index + direction * gap;
@@ -286,6 +286,18 @@ function up(data, path, gap) {
 }
 function down(data, path, gap) {
     upDown(data, path, 1, gap);
+}
+
+function _computePath(path, direction) {
+    debugger;
+    let index = +combingPathKey({ path }).keys.pop();
+    if (!isInteger(index))
+        return null;
+    if (direction === 'prev')
+        return normalizePath(path, '..', index - 1);
+    if (direction === 'next')
+        return normalizePath(path, '..', index + 1);
+    return null;
 }
 
 // check circular obj
@@ -347,4 +359,4 @@ function walk(obj = {}, descentionFn = noop, ascentionFn = noop) {
     return _walk(obj);
 }
 
-export { get, set, rm, swap, mv, insert, up, down, walk, normalizePath, isCircular };
+export { get, set, rm, swap, mv, insert, up, down, walk, normalizePath, _computePath, isCircular };

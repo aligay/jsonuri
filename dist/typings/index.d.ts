@@ -6,6 +6,7 @@ import mv from './methods/mv';
 import insert from './methods/insert';
 import { up, down } from './methods/upDown';
 import normalizePath from './methods/normalizePath';
+import _computePath from './methods/_computePath';
 import isCircular from './methods/isCircular';
 import walk from './methods/walk';
-export { get, set, rm, swap, mv, insert, up, down, walk, normalizePath, isCircular };
+export { get, set, rm, swap, mv, insert, up, down, walk, normalizePath, _computePath, isCircular };

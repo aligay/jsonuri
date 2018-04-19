@@ -6,6 +6,7 @@ export declare const THE_INDEX_OUT_OF_BOUNDS = "the Index Out of Bounds";
 export declare function noop(): void;
 export declare const isArray: (arg: any) => arg is any[];
 export declare function isString(s: any): boolean;
+export declare function isInteger(n: any): boolean;
 export declare function isNatural(n: any): boolean;
 export declare function isComplexPath(s: any): boolean;
 export declare function isObject(o: any): boolean;
