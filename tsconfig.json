@@ -19,7 +19,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "sourceMap": true,
-    "inlineSources": false,
+    "inlineSources": true,
     "importHelpers": true,
     "strict": true,
     "moduleResolution": "node"
