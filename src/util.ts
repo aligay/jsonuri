@@ -13,7 +13,7 @@ export function isString (s) {
   return typeof s === 'string'
 }
 
-function isInteger (n) {
+export function isInteger (n) {
   return Number.isInteger(n) // || typeof n === 'number' && isFinite(n) && Math.ceil(n) === n
 }
 

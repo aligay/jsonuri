@@ -20,7 +20,7 @@ module.exports = {
       tsconfigOverride: {
         compilerOptions: {
           declaration: true,
-          declarationDir: './typings',
+          declarationDir: './dist/typings',
           module: 'esnext',
           target: 'es5',
           sourceMap: true

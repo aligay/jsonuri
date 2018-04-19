@@ -9,7 +9,7 @@ function upDown (data, path, direction: 1 | -1, gap = 1) {
   const parent = get(data, path + '/..')
   if (!isArray(parent)) return showError(MUST_BE_ARRAY)
   const len = parent.length
-  const index = +(combingPathKey({ path }).keys.pop() || '')
+  const index = +(combingPathKey({ path }).keys.pop() as string)
   if (!isNatural(index) || index > len - 1) return
   let toIndex = index + direction * gap
   if (toIndex <= 0) toIndex = 0
