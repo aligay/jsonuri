@@ -289,7 +289,6 @@ function down(data, path, gap) {
 }
 
 function _computePath(path, direction) {
-    debugger;
     let index = +combingPathKey({ path }).keys.pop();
     if (!isInteger(index))
         return null;
