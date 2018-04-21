@@ -6,9 +6,9 @@ const merge = require('lodash.merge')
 
 ;(async () => {
   await sh('npm run clean && npx rollup -c scripts/rollup.config.js')
-  rollupEach([
-    { format: 'cjs', name: 'jsonuri', file: 'dist/index.common.js', _ts: { module: 'esnext' } },
-    { format: 'es', name: 'jsonuri', file: 'dist/index.mjs', _ts: { module: 'esnext', target: 'es2016' } }
+  await rollupEach([
+    { format: 'cjs', name: 'jsonuri', file: 'dist/index.common.js', _ts: { module: 'esnext', target: 'es5' } },
+    { format: 'es', name: 'jsonuri', file: 'dist/index.mjs', _ts: { module: 'esnext', target: 'es5' } }
   ])
   await sh(`npx uglifyjs dist/index.js \
     -c hoist_funs,hoist_vars \
@@ -17,11 +17,11 @@ const merge = require('lodash.merge')
   await sh('cp dist/index.js page/jsonuri.js')
 })()
 
-function rollupEach (options) {
-  options.forEach(async c => {
+async function rollupEach (options) {
+  for (let c of options) {
     const bundle = await rollup(genRollupConfig(c, c._ts))
     await bundle.write(c)
-  })
+  }
 }
 
 function genRollupConfig (c, tsConfig) {
