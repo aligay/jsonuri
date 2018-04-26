@@ -1,9 +1,8 @@
 {
   "name": "jsonuri",
-  "version": "2.0.0-rc2",
+  "version": "2.0.0-rc.4",
   "main": "dist/index.common.js",
   "module": "dist/index.mjs",
-  "jsnext:main": "dist/index.mjs",
   "types": "dist/typings/index.d.ts",
   "scripts": {
     "clean": "rimraf ./dist",
