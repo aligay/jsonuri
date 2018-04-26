@@ -17,7 +17,7 @@
     "deploy:gh-pages": "node scripts/gh-pages.js"
   },
   "dependencies": {
-    "tslib": "1.x.x"
+
   },
   "devDependencies": {
     "@types/node": "^9.6.5",
