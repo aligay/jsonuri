@@ -227,9 +227,6 @@
       else if (direction === 'before') {
           toIndex = index;
       }
-      else if (direction === 'append') {
-          // TODO
-      }
       insertValue(parent, toIndex, value);
   }
 
