@@ -1,5 +1,5 @@
 /*!
-* jsonuri v2.0.0-rc2
+* jsonuri v2.0.0-rc.4
 * (c) 2018 @aligay
 * Released under the MIT License.
 */
@@ -226,9 +226,6 @@
       }
       else if (direction === 'before') {
           toIndex = index;
-      }
-      else if (direction === 'append') {
-          // TODO
       }
       insertValue(parent, toIndex, value);
   }
