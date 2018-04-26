@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.0.0-rc.4",
+  "version": "2.0.0-rc.5",
   "main": "dist/index.common.js",
   "module": "dist/index.mjs",
   "types": "dist/typings/index.d.ts",
@@ -16,11 +16,10 @@
     "jasmine": "istanbul cover jasmine-node test",
     "deploy:gh-pages": "node scripts/gh-pages.js"
   },
-  "dependencies": {
-    "tslib": "1.x.x"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^9.6.5",
+    "gh-pages": "^1.1.0",
     "ghooks": "^2.0.2",
     "istanbul": "^0.4.5",
     "jasmine-node": "^1.14.5",
