@@ -16,11 +16,10 @@
     "jasmine": "istanbul cover jasmine-node test",
     "deploy:gh-pages": "node scripts/gh-pages.js"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^9.6.5",
+    "gh-pages": "^1.1.0",
     "ghooks": "^2.0.2",
     "istanbul": "^0.4.5",
     "jasmine-node": "^1.14.5",
