@@ -3,6 +3,9 @@ const rollup = require('rollup').rollup
 const rollupConfig = require('./rollup.config')
 const typescript = require('rollup-plugin-typescript2')
 const merge = require('lodash.merge')
+const pkg = require('../package.json')
+const fs = require('fs')
+const path = require('path')
 
 ;(async () => {
   await sh('npm run clean && npx rollup -c scripts/rollup.config.js')
@@ -14,7 +17,14 @@ const merge = require('lodash.merge')
     -c hoist_funs,hoist_vars \
     -m \
     -o dist/index.min.js`)
-  await sh('cp dist/index.js page/jsonuri.js')
+
+  const htmlPath = path.resolve(__dirname, '../www/index.html')
+  let html = fs.readFileSync(htmlPath, 'utf8')
+  html = html.replace(/jsonuri@[^/]*\//, `jsonuri@${pkg.version}/`)
+             .replace(/(<a href="\/\/www.npmjs.com\/package\/jsonuri">)(2.0)(<\/a>)/, `$1${pkg.version}$3`)
+
+  fs.writeFileSync(htmlPath, html, 'utf8')
+
 })()
 
 async function rollupEach (options) {
