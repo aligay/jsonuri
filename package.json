@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.0.0-rc.5",
+  "version": "2.0.0",
   "main": "dist/index.common.js",
   "module": "dist/index.mjs",
   "types": "dist/typings/index.d.ts",
@@ -18,7 +18,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^9.6.5",
+    "@types/node": "^10.3.0",
     "gh-pages": "^1.1.0",
     "ghooks": "^2.0.2",
     "istanbul": "^0.4.5",
@@ -26,8 +26,8 @@
     "lodash.merge": "^4.6.1",
     "multi-shell": "^1.0.3",
     "rimraf": "*",
-    "rollup": "^0.58.0",
-    "rollup-plugin-typescript2": "^0.13.0",
+    "rollup": "^0.59.4",
+    "rollup-plugin-typescript2": "^0.14.0",
     "tslint": "5.x.x",
     "tslint-config-standard": "7.x.x",
     "typescript": "2.x.x",
