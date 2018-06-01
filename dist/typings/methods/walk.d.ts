@@ -7,7 +7,7 @@
  * @return {[type]}              [description]
  */
 export interface WalkCallback {
-    (val: any, key: string, parent: any, {_break, path}: {
+    (val: any, key: string, parent: any, { _break, path }: {
         _break: any;
         path: any;
     }): void;
