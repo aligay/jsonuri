@@ -3,6 +3,7 @@
 ---
 
 `Use URI style methods to operate data.`
+All operations friendly support Vue-like frameworks.
 
 [![Build Status](https://api.travis-ci.org/aligay/jsonuri.svg?branch=master)](https://travis-ci.org/aligay/jsonuri/branches)
 [![codecov](https://codecov.io/gh/aligay/jsonuri/branch/master/graph/badge.svg)](https://codecov.io/gh/aligay/jsonuri/branch/master)
