@@ -18,7 +18,7 @@ $ npm install jsonuri --save
 ```
 
 ```javascript
-import jsonuri from 'jsonuri'
+import * as jsonuri from 'jsonuri'
 // or
 import { get, set, ... } from 'jsonuri' // recommended practice, friendly to tree-shaking
 ```
