@@ -51,6 +51,10 @@ describe('jsonuri.get', () => {
   })
   it('bad arg', () => {
     expect(jsonuri.get(obj, { foo: 'bar' })).not.toBeDefined()
-    expect(jsonuri.get(null, 'a')).not.toBeDefined()
+  })
+  it('get from null', () => {
+    expect(jsonuri.get(null, 'a')).toBeNull()
+    expect(jsonuri.get(null, 1)).toBeNull()
+    expect(jsonuri.get(undefined, 'a/b/c')).toBeUndefined()
   })
 })
