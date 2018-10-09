@@ -2,7 +2,10 @@ import { THE_PARAMETER_IS_ILLEGAL, combingPathKey, isComplexPath, showError } fr
 
 export default function get (data: any, path: string | number): any {
   path = path + ''
-  if (!(data)) return showError(THE_PARAMETER_IS_ILLEGAL)
+  if (!data) {
+    showError(THE_PARAMETER_IS_ILLEGAL)
+    return data
+  }
 
   if (path === '') return data
   if (!isComplexPath(path)) return data[path]
@@ -15,8 +18,7 @@ export default function get (data: any, path: string | number): any {
   }
 
   const len = keys.length
-  let i = 0
-  for (; i < len; ++i) {
+  for (let i = 0; i < len; ++i) {
     ret = (ret || data)[keys[i]]
     if (ret == null) break
   }

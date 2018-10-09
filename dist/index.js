@@ -1,5 +1,5 @@
 /*!
-* jsonuri v2.0.0
+* jsonuri v2.1.0
 * (c) 2018 @aligay
 * Released under the MIT License.
 */
@@ -142,8 +142,10 @@
 
   function get(data, path) {
       path = path + '';
-      if (!(data))
-          return showError(THE_PARAMETER_IS_ILLEGAL);
+      if (!data) {
+          showError(THE_PARAMETER_IS_ILLEGAL);
+          return data;
+      }
       if (path === '')
           return data;
       if (!isComplexPath(path))
@@ -154,8 +156,7 @@
           return data;
       }
       var len = keys.length;
-      var i = 0;
-      for (; i < len; ++i) {
+      for (var i = 0; i < len; ++i) {
           ret = (ret || data)[keys[i]];
           if (ret == null)
               break;
