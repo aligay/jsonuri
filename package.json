@@ -19,18 +19,18 @@
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^10.3.0",
-    "gh-pages": "^1.1.0",
+    "gh-pages": "^2.0.1",
     "ghooks": "^2.0.2",
     "istanbul": "^0.4.5",
     "jasmine-node": "^1.14.5",
     "lodash.merge": "^4.6.1",
     "multi-shell": "^1.0.3",
     "rimraf": "*",
-    "rollup": "^0.59.4",
-    "rollup-plugin-typescript2": "^0.14.0",
+    "rollup": "^0.66.4",
+    "rollup-plugin-typescript2": "^0.17.1",
     "tslint": "5.x.x",
-    "tslint-config-standard": "7.x.x",
-    "typescript": "2.x.x",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.1.1",
     "uglify-js": "^3.3.21"
   },
   "config": {
