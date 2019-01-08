@@ -1,13 +1,13 @@
 /*!
-* jsonuri v2.1.0
-* (c) 2018 @aligay
+* jsonuri v2.1.1
+* (c) 2019 @aligay
 * Released under the MIT License.
 */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global.jsonuri = {})));
-}(this, (function (exports) { 'use strict';
+  (global = global || self, factory(global.jsonuri = {}));
+}(this, function (exports) { 'use strict';
 
   var IS_NOT_A_NATURAL_NUMBER = 'is not a natural number';
   var MUST_BE_ARRAY = 'must be a Array';
@@ -34,6 +34,9 @@
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures
       var type = typeof o;
       return o != null && (type === 'object' || type === 'function');
+  }
+  function toString(s) {
+      return s + '';
   }
   function showError(s) {
       console.error(s);
@@ -141,7 +144,7 @@
   }
 
   function get(data, path) {
-      path = path + '';
+      path = toString(path);
       if (!data) {
           showError(THE_PARAMETER_IS_ILLEGAL);
           return data;
@@ -157,7 +160,7 @@
       }
       var len = keys.length;
       for (var i = 0; i < len; ++i) {
-          ret = (ret || data)[keys[i]];
+          ret = (i ? ret : data)[keys[i]];
           if (ret == null)
               break;
       }
@@ -165,7 +168,7 @@
   }
 
   function set(data, path, value) {
-      path = path + '';
+      path = toString(path);
       if (!(data && path))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       if (!isComplexPath(path))
@@ -186,7 +189,7 @@
   }
 
   function rm(data, path) {
-      path = path + '';
+      path = toString(path);
       if (!(data && path))
           return;
       if (!isComplexPath(path)) {
@@ -201,8 +204,8 @@
   }
 
   function swap(data, pathA, pathB) {
-      pathA = pathA + '';
-      pathB = pathB + '';
+      pathA = toString(pathA);
+      pathB = toString(pathB);
       if (!(data && pathA && pathB && isString(pathA) && isString(pathB)))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       var dataA = get(data, pathA);
@@ -212,7 +215,7 @@
   }
 
   function insert(data, path, value, direction) {
-      path = path + '';
+      path = toString(path);
       if (!(data))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       if (!direction)
@@ -243,8 +246,8 @@
   }
 
   function mv(data, from, to, direction) {
-      from = from + '';
-      to = to + '';
+      from = toString(from);
+      to = toString(to);
       if (!(data && from && to && isString(from) && isString(to)))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       if (from === to)
@@ -275,7 +278,7 @@
 
   function upDown(data, path, direction, gap) {
       if (gap === void 0) { gap = 1; }
-      path = path + '';
+      path = toString(path);
       if (!(isNatural(gap) && gap > 0))
           return showError(THE_PARAMETER_IS_ILLEGAL);
       if (!(data))
@@ -394,4 +397,4 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));

@@ -57,4 +57,8 @@ describe('jsonuri.get', () => {
     expect(jsonuri.get(null, 1)).toBeNull()
     expect(jsonuri.get(undefined, 'a/b/c')).toBeUndefined()
   })
+
+  it('get false value', () => {
+    expect(jsonuri.get({a: 0}, 'a/toFixed')).toEqual(Number.prototype.toFixed)
+  })
 })

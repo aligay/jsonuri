@@ -24,6 +24,9 @@ function isObject(o) {
     var type = typeof o;
     return o != null && (type === 'object' || type === 'function');
 }
+function toString(s) {
+    return s + '';
+}
 function showError(s) {
     console.error(s);
 }
@@ -130,7 +133,7 @@ function combingPathKey(param) {
 }
 
 function get(data, path) {
-    path = path + '';
+    path = toString(path);
     if (!data) {
         showError(THE_PARAMETER_IS_ILLEGAL);
         return data;
@@ -146,7 +149,7 @@ function get(data, path) {
     }
     var len = keys.length;
     for (var i = 0; i < len; ++i) {
-        ret = (ret || data)[keys[i]];
+        ret = (i ? ret : data)[keys[i]];
         if (ret == null)
             break;
     }
@@ -154,7 +157,7 @@ function get(data, path) {
 }
 
 function set(data, path, value) {
-    path = path + '';
+    path = toString(path);
     if (!(data && path))
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!isComplexPath(path))
@@ -175,7 +178,7 @@ function set(data, path, value) {
 }
 
 function rm(data, path) {
-    path = path + '';
+    path = toString(path);
     if (!(data && path))
         return;
     if (!isComplexPath(path)) {
@@ -190,8 +193,8 @@ function rm(data, path) {
 }
 
 function swap(data, pathA, pathB) {
-    pathA = pathA + '';
-    pathB = pathB + '';
+    pathA = toString(pathA);
+    pathB = toString(pathB);
     if (!(data && pathA && pathB && isString(pathA) && isString(pathB)))
         return showError(THE_PARAMETER_IS_ILLEGAL);
     var dataA = get(data, pathA);
@@ -201,7 +204,7 @@ function swap(data, pathA, pathB) {
 }
 
 function insert(data, path, value, direction) {
-    path = path + '';
+    path = toString(path);
     if (!(data))
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!direction)
@@ -232,8 +235,8 @@ function normalizePath() {
 }
 
 function mv(data, from, to, direction) {
-    from = from + '';
-    to = to + '';
+    from = toString(from);
+    to = toString(to);
     if (!(data && from && to && isString(from) && isString(to)))
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (from === to)
@@ -264,7 +267,7 @@ function mv(data, from, to, direction) {
 
 function upDown(data, path, direction, gap) {
     if (gap === void 0) { gap = 1; }
-    path = path + '';
+    path = toString(path);
     if (!(isNatural(gap) && gap > 0))
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!(data))

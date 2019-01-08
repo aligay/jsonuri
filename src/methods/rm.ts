@@ -1,8 +1,8 @@
-import { isComplexPath, combingPathKey, delValue } from '../util'
+import { isComplexPath, combingPathKey, delValue, toString } from '../util'
 import get from './get'
 
 export default function rm (data: any, path: string | number): void {
-  path = path + ''
+  path = toString(path)
   if (!(data && path)) return
   if (!isComplexPath(path)) {
     delValue(data, path)
