@@ -1,8 +1,8 @@
-import { THE_PARAMETER_IS_ILLEGAL, isArray, MUST_BE_ARRAY, showError, combingPathKey, isNatural , delValue, insertValue } from '../util'
+import { THE_PARAMETER_IS_ILLEGAL, isArray, MUST_BE_ARRAY, showError, combingPathKey, isNatural, delValue, insertValue, toString } from '../util'
 import get from './get'
 
 function upDown (data, path, direction: 1 | -1, gap = 1) {
-  path = path + ''
+  path = toString(path)
   if (!(isNatural(gap) && gap > 0)) return showError(THE_PARAMETER_IS_ILLEGAL)
   if (!(data)) return showError(THE_PARAMETER_IS_ILLEGAL)
 
