@@ -1,4 +1,4 @@
-import { THE_PARAMETER_IS_ILLEGAL, DIRECTION_REQUIRED, isObject, isArray, isString, showError, delValue, combingPathKey } from '../util'
+import { THE_PARAMETER_IS_ILLEGAL, DIRECTION_REQUIRED, isObject, isArray, isString, showError, delValue, combingPathKey, toString } from '../util'
 import get from './get'
 import set from './set'
 import rm from './rm'
@@ -6,8 +6,8 @@ import insert from './insert'
 import normalizePath from './normalizePath'
 
 export default function mv (data, from: string | number, to: string | number, direction: 'before' | 'after' | 'append'): void {
-  from = from + ''
-  to = to + ''
+  from = toString(from)
+  to = toString(to)
 
   if (!(data && from && to && isString(from) && isString(to))) return showError(THE_PARAMETER_IS_ILLEGAL)
   if (from === to) return

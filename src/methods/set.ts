@@ -1,7 +1,7 @@
-import { THE_PARAMETER_IS_ILLEGAL, setValue, combingPathKey, isComplexPath, showError } from '../util'
+import { THE_PARAMETER_IS_ILLEGAL, setValue, combingPathKey, isComplexPath, showError, toString } from '../util'
 
 export default function set (data: any, path: string | number, value: any): void {
-  path = path + ''
+  path = toString(path)
   if (!(data && path)) return showError(THE_PARAMETER_IS_ILLEGAL)
   if (!isComplexPath(path)) return setValue(data, path, value)
 

@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "main": "dist/index.common.js",
   "module": "dist/index.mjs",
   "types": "dist/typings/index.d.ts",
@@ -26,8 +26,8 @@
     "lodash.merge": "^4.6.1",
     "multi-shell": "^1.0.3",
     "rimraf": "*",
-    "rollup": "^0.66.4",
-    "rollup-plugin-typescript2": "^0.17.1",
+    "rollup": "^1.0.2",
+    "rollup-plugin-typescript2": "^0.18.1",
     "tslint": "5.x.x",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.1.1",
