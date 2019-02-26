@@ -1,5 +1,5 @@
 /*!
-* jsonuri v2.1.1
+* jsonuri v2.1.2
 * (c) 2019 @aligay
 * Released under the MIT License.
 */
