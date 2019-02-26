@@ -44,7 +44,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^10.3.0",
+    "@types/node": "^11.9.5",
     "gh-pages": "^2.0.1",
     "ghooks": "^2.0.2",
     "istanbul": "^0.4.5",
@@ -53,7 +53,7 @@
     "multi-shell": "^1.0.3",
     "rimraf": "*",
     "rollup": "^1.0.2",
-    "rollup-plugin-typescript2": "^0.18.1",
+    "rollup-plugin-typescript2": "^0.19.3",
     "tslint": "5.x.x",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.1.1",
