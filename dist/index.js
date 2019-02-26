@@ -1,5 +1,5 @@
 /*!
-* jsonuri v2.1.1
+* jsonuri v2.1.2
 * (c) 2019 @aligay
 * Released under the MIT License.
 */
@@ -99,6 +99,7 @@
       }
       arr.splice(key, 0, value);
   }
+  var REG_PATH_SPLIT = '/';
   // let combingCache: any = {}
   function combingPathKey(param) {
       var path = param.path || '';
@@ -107,7 +108,7 @@
       // }
       var keys;
       if (!param.keys) {
-          keys = param.path.split('/');
+          keys = param.path.split(REG_PATH_SPLIT);
       }
       else if (!path) {
           keys = param.keys;
@@ -138,7 +139,7 @@
       }
       var ret = {
           keys: keys,
-          path: keys.join('/')
+          path: keys.join(REG_PATH_SPLIT)
       };
       return ret;
   }

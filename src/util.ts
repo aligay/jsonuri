@@ -115,7 +115,7 @@ export interface CombingOptions {
   keys?: (string | null)[]
   path?: string
 }
-
+const REG_PATH_SPLIT = '/'
 // let combingCache: any = {}
 export function combingPathKey (param: CombingOptions): { keys: string[], path: string } {
   const path = param.path || ''
@@ -124,7 +124,7 @@ export function combingPathKey (param: CombingOptions): { keys: string[], path: 
   // }
   let keys
   if (!param.keys) {
-    keys = (param.path as string).split('/')
+    keys = (param.path as string).split(REG_PATH_SPLIT)
   } else if (!path) {
     keys = param.keys
   }
@@ -158,7 +158,7 @@ export function combingPathKey (param: CombingOptions): { keys: string[], path: 
   }
   const ret = {
     keys,
-    path: keys.join('/')
+    path: keys.join(REG_PATH_SPLIT)
   }
 
   return ret

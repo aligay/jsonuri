@@ -88,6 +88,7 @@ function insertValue(arr, key, value, direction) {
     }
     arr.splice(key, 0, value);
 }
+var REG_PATH_SPLIT = '/';
 // let combingCache: any = {}
 function combingPathKey(param) {
     var path = param.path || '';
@@ -96,7 +97,7 @@ function combingPathKey(param) {
     // }
     var keys;
     if (!param.keys) {
-        keys = param.path.split('/');
+        keys = param.path.split(REG_PATH_SPLIT);
     }
     else if (!path) {
         keys = param.keys;
@@ -127,7 +128,7 @@ function combingPathKey(param) {
     }
     var ret = {
         keys: keys,
-        path: keys.join('/')
+        path: keys.join(REG_PATH_SPLIT)
     };
     return ret;
 }
