@@ -61,4 +61,9 @@ describe('jsonuri.get', () => {
   it('get false value', () => {
     expect(jsonuri.get({a: 0}, 'a/toFixed')).toEqual(Number.prototype.toFixed)
   })
+
+
+  // it('get key has `/`', () => {
+  //   expect(jsonuri.get({a:{ 'b/c': 1 }}, 'a/b\/c')).toEqual(1)
+  // })
 })

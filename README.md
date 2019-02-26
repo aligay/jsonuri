@@ -160,8 +160,8 @@ jsonuri.walk({a:{a1:'x'}}, (value, key, parent, { path }) => {
   console.log(value, key, parent, path)
 })
 
-// { a1: 'x' } 'a' { a: { a1: 'x' } } '/a/'
-// x a1 { a1: 'x' } '/a/a1/'
+// { a1: 'x' } 'a' { a: { a1: 'x' } } 'a'
+// x a1 { a1: 'x' } 'a/a1'
 ```
 [see more](test/spec/walk_spec.js)
 
@@ -170,9 +170,9 @@ jsonuri.walk({a:{a1:'x'}}, (value, key, parent, { path }) => {
 **Example:**
 
 ```javascript
-jsonuri.normalizePath('a', 'b') // /a/b/
+jsonuri.normalizePath('a', 'b') // a/b
 
-jsonuri.normalizePath(['a', 'b', '../'], 'c') // /a/c/
+jsonuri.normalizePath(['a', 'b', '../'], 'c') // a/c
 
 
 ```
@@ -193,4 +193,3 @@ jsonuri.isCircular(a) // return true
 
 ```
 [see more](test/spec/isCircular_spec.js)
-
