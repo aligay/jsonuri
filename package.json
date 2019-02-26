@@ -1,20 +1,46 @@
 {
   "name": "jsonuri",
-  "version": "2.1.1",
+  "version": "2.1.2",
+  "description": "Use URI path to get or set data",
+  "keywords": [
+    "array",
+    "data",
+    "data operator",
+    "javascript",
+    "json",
+    "jsonuri",
+    "nodejs",
+    "object",
+    "path",
+    "uri",
+    "vue"
+  ],
+  "homepage": "https://jsonuri.js.org",
+  "bugs": "https://github.com/aligay/jsonuri/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aligay/jsonuri.git"
+  },
+  "license": "MIT",
   "main": "dist/index.common.js",
   "module": "dist/index.mjs",
   "types": "dist/typings/index.d.ts",
   "scripts": {
-    "clean": "rimraf ./dist",
     "build": "npm run clean && npm run lint && node scripts/build.js",
+    "clean": "rimraf ./dist",
+    "debug": "node --inspect-brk dist/index.js",
+    "deploy:gh-pages": "node scripts/gh-pages.js",
     "dev": "m-sh 'npm run dev:tsc'",
     "dev:tsc": "npm run clean && tsc -w",
-    "debug": "node --inspect-brk dist/index.js",
+    "jasmine": "istanbul cover jasmine-node test",
     "lint": "tslint --project tsconfig.json --format stylish",
     "prepublish": "npm test && node scripts/pre-publish.js",
-    "test": "npm run lint && npm run build && npm run jasmine",
-    "jasmine": "istanbul cover jasmine-node test",
-    "deploy:gh-pages": "node scripts/gh-pages.js"
+    "test": "npm run lint && npm run build && npm run jasmine"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "sh scripts/pre-commit.sh"
+    }
   },
   "dependencies": {},
   "devDependencies": {
@@ -33,33 +59,7 @@
     "typescript": "^3.1.1",
     "uglify-js": "^3.3.21"
   },
-  "config": {
-    "ghooks": {
-      "pre-commit": "sh scripts/pre-commit.sh"
-    }
-  },
   "engines": {
     "node": ">=6"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aligay/jsonuri.git"
-  },
-  "bugs": "https://github.com/aligay/jsonuri/issues",
-  "homepage": "https://jsonuri.js.org",
-  "description": "Use URI path to get or set data",
-  "keywords": [
-    "vue",
-    "data operator",
-    "json",
-    "uri",
-    "object",
-    "jsonuri",
-    "path",
-    "data",
-    "array",
-    "javascript",
-    "nodejs"
-  ]
+  }
 }
