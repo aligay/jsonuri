@@ -1,6 +1,6 @@
 /*!
-* jsonuri v2.1.3
-* (c) 2019 @aligay
+* jsonuri v2.1.4
+* (c) 2019 @allgay
 * Released under the MIT License.
 */
 (function (global, factory) {
