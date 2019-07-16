@@ -376,15 +376,15 @@ function walk(obj, descentionFn, ascentionFn) {
     return _walk(obj);
 }
 
-exports.get = get;
-exports.set = set;
-exports.rm = rm;
-exports.swap = swap;
-exports.mv = mv;
-exports.insert = insert;
-exports.up = up;
-exports.down = down;
-exports.walk = walk;
-exports.normalizePath = normalizePath;
 exports._computePath = _computePath;
+exports.down = down;
+exports.get = get;
+exports.insert = insert;
 exports.isCircular = isCircular;
+exports.mv = mv;
+exports.normalizePath = normalizePath;
+exports.rm = rm;
+exports.set = set;
+exports.swap = swap;
+exports.up = up;
+exports.walk = walk;

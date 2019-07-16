@@ -372,4 +372,4 @@ function walk(obj, descentionFn, ascentionFn) {
     return _walk(obj);
 }
 
-export { get, set, rm, swap, mv, insert, up, down, walk, normalizePath, _computePath, isCircular };
+export { _computePath, down, get, insert, isCircular, mv, normalizePath, rm, set, swap, up, walk };
