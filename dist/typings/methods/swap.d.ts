@@ -1,1 +1,2 @@
-export default function swap(data: any, pathA: string | number, pathB: string | number): void;
+declare const _default: (data: any, pathA: string | number, pathB: string | number) => void;
+export default _default;

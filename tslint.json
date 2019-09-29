@@ -3,6 +3,7 @@
   "rules": {
     "no-floating-promises": false,
     "no-unused-variable": true,
-    "one-variable-per-declaration": false
+    "one-variable-per-declaration": false,
+    "only-arrow-functions": true
   }
 }

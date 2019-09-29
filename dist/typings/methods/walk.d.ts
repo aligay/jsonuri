@@ -12,4 +12,5 @@ export interface WalkCallback {
         path: any;
     }): void;
 }
-export default function walk(obj?: {}, descentionFn?: WalkCallback, ascentionFn?: WalkCallback): void;
+declare const walk: (obj?: {}, descentionFn?: WalkCallback, ascentionFn?: WalkCallback) => void;
+export default walk;
