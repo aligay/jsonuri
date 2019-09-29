@@ -1,1 +1,2 @@
-export default function rm(data: any, path: string | number): void;
+declare const _default: (data: any, path: string | number) => void;
+export default _default;

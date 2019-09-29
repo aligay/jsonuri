@@ -5,7 +5,7 @@ import rm from './rm'
 import insert from './insert'
 import normalizePath from './normalizePath'
 
-export default function mv (data, from: string | number, to: string | number, direction: 'before' | 'after' | 'append'): void {
+export default (data, from: string | number, to: string | number, direction: 'before' | 'after' | 'append'): void => {
   from = toString(from)
   to = toString(to)
 

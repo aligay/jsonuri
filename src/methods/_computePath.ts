@@ -1,7 +1,7 @@
 import { combingPathKey, isInteger } from '../util'
 import normalizePath from './normalizePath'
 
-export default function _computePath (path: string, direction: 'prev' | 'next'): string | null {
+const _computePath = (path: string, direction: 'prev' | 'next'): string | null => {
   let index = +(combingPathKey({ path }).keys.pop() as string)
 
   if (!isInteger(index)) return null
@@ -10,3 +10,5 @@ export default function _computePath (path: string, direction: 'prev' | 'next'):
   if (direction === 'next') return normalizePath(path, '..', index + 1)
   return null
 }
+
+export default _computePath

@@ -1,1 +1,2 @@
-export default function get(data: any, path: string | number): any;
+declare const _default: (data: any, path: string | number) => any;
+export default _default;

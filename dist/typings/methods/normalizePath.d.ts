@@ -1,1 +1,2 @@
-export default function normalizePath(...path: any[]): string;
+declare const _default: (...path: any[]) => string;
+export default _default;

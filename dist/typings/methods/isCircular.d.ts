@@ -1,1 +1,2 @@
-export default function isCircular(obj: any, seen?: any[]): boolean;
+declare const isCircular: (obj: any, seen?: any[]) => boolean;
+export default isCircular;
