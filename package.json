@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "Use URI path to get or set data",
   "keywords": [
     "array",
@@ -44,7 +44,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^11.13.19",
+    "@types/node": "^11.13.21",
     "gh-pages": "^2.1.1",
     "ghooks": "^2.0.4",
     "istanbul": "^0.4.5",
@@ -52,11 +52,11 @@
     "lodash.merge": "^4.6.2",
     "multi-shell": "^1.1.0",
     "rimraf": "*",
-    "rollup": "^1.19.4",
+    "rollup": "^1.22.0",
     "rollup-plugin-typescript2": "^0.19.3",
     "tslint": "5.18.0",
     "tslint-config-standard": "^8.0.1",
-    "typescript": "^3.5.3",
+    "typescript": "^3.6.3",
     "uglify-js": "^3.6.0"
   },
   "engines": {
