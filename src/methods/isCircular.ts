@@ -1,7 +1,7 @@
 import { isObject } from '../util'
 
 // check circular obj
-export default function isCircular (obj, seen: any[] = []): boolean {
+const isCircular = (obj, seen: any[] = []): boolean => {
   if (!isObject(obj)) {
     return false
   }
@@ -19,3 +19,5 @@ export default function isCircular (obj, seen: any[] = []): boolean {
 
   return false
 }
+
+export default isCircular

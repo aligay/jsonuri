@@ -5,43 +5,43 @@ export const THE_PARAMETER_IS_ILLEGAL = 'the parameter is illegal'
 export const DIRECTION_REQUIRED = `direction must be 'before' | 'after' | 'append'`
 export const THE_INDEX_OUT_OF_BOUNDS = 'the Index Out of Bounds'
 
-export function noop () { /* noop */ }
+export const noop = () => { /* noop */ }
 
 export const isArray = Array.isArray
 
-export function isString (s) {
+export const isString = (s) => {
   return typeof s === 'string'
 }
 
-export function isInteger (n) {
+export const isInteger = (n) => {
   return Number.isInteger(n) // || typeof n === 'number' && isFinite(n) && Math.ceil(n) === n
 }
 
-export function isNatural (n) {
+export const isNatural = (n) => {
   return isInteger(n) && n >= 0
 }
 
 const pathReg = /\//
-export function isComplexPath (s) {
+export const isComplexPath = (s) => {
   return pathReg.test(s)
 }
 
-export function isObject (o) {
+export const isObject = (o) => {
   // [^Undefined, Null, boolean, Number, String, Symbol]
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures
   const type = typeof o
   return o != null && (type === 'object' || type === 'function')
 }
 
-export function toString (s) {
+export const toString = (s) => {
   return s + ''
 }
 
-export function showError (s) {
+export const showError = (s) => {
   console.error(s)
 }
 
-export function throwError (s) {
+export const throwError = (s) => {
   throw new Error(s)
 }
 /**
@@ -50,7 +50,7 @@ export function throwError (s) {
  * @param key
  * @param value
  */
-export function setValue (obj, key: string | number, value) {
+export const setValue = (obj, key: string | number, value) => {
   if (!isArray(obj)) {
     obj[key] = value
     return
@@ -79,7 +79,7 @@ export function setValue (obj, key: string | number, value) {
 /**
  * 让数组的删除可被监听
  */
-export function delValue (obj, key: string | number) {
+export const delValue = (obj, key: string | number) => {
   if (isArray(obj)) {
     let index: number = +key
     if (!isNatural(index)) return
@@ -92,7 +92,7 @@ export function delValue (obj, key: string | number) {
 /**
  * insertValue
  */
-export function insertValue (arr: any[], key: number, value, direction: 'before' | 'after' | 'append' = 'after') {
+export const insertValue = (arr: any[], key: number, value, direction: 'before' | 'after' | 'append' = 'after') => {
   if (key < 0 || key > arr.length) throw new Error(THE_INDEX_OUT_OF_BOUNDS)
   switch (direction) {
     case 'before':
@@ -117,7 +117,7 @@ export interface CombingOptions {
 }
 const REG_PATH_SPLIT = '/'
 // let combingCache: any = {}
-export function combingPathKey (param: CombingOptions): { keys: string[], path: string } {
+export const combingPathKey = (param: CombingOptions): { keys: string[], path: string } => {
   const path = param.path || ''
   // if (combingCache[path]) {
   //   return combingCache[path]

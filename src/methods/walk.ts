@@ -2,9 +2,9 @@ import { noop, isArray, isObject } from '../util'
 import isCircular from './isCircular'
 import normalizePath from './normalizePath'
 
-function objectForeach (obj, callback) {
+const objectForeach = (obj, callback) => {
   let isBreak = false
-  function _break () {
+  const _break = () => {
     isBreak = true
   }
 
@@ -27,15 +27,15 @@ export interface WalkCallback {
   (val, key: string, parent, { _break, path }): void
 }
 
-export default function walk (obj = {} , descentionFn: WalkCallback = noop , ascentionFn: WalkCallback = noop): void {
+const walk = (obj = {} , descentionFn: WalkCallback = noop , ascentionFn: WalkCallback = noop): void => {
   if (isCircular(obj)) throw new Error(`obj is a circular structure`)
 
   let path: string[] = []
-  function _walk (obj) {
+  const _walk = (obj) => {
     objectForeach(obj, (val, key, parent, { _break }) => {
       let isBreak = false
 
-      function _gBreak () {
+      const _gBreak = () => {
         _break()
         isBreak = true
         if (isArray(parent)) {
@@ -59,3 +59,5 @@ export default function walk (obj = {} , descentionFn: WalkCallback = noop , asc
 
   return _walk(obj)
 }
+
+export default walk
