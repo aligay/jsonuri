@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "description": "Use URI path to get or set data",
   "keywords": [
     "array",
@@ -22,9 +22,9 @@
     "url": "https://github.com/allgay/jsonuri.git"
   },
   "license": "MIT",
-  "main": "dist/index.common.js",
+  "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "types": "dist/typings/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "npm run clean && npm run lint && node scripts/build.js",
     "clean": "rimraf ./dist",
@@ -34,7 +34,7 @@
     "dev:tsc": "npm run clean && tsc -w",
     "jasmine": "istanbul cover jasmine-node test",
     "lint": "tslint --project tsconfig.json --format stylish",
-    "prepublish": "npm test && node scripts/pre-publish.js",
+    "prepublishOnly": "npm test && node scripts/pre-publish.js",
     "test": "npm run lint && npm run build && npm run jasmine"
   },
   "config": {
@@ -44,20 +44,17 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^11.13.17",
-    "gh-pages": "^2.0.1",
+    "@types/node": "^11.13.21",
+    "gh-pages": "^2.1.1",
     "ghooks": "^2.0.4",
+    "imod": "^1.1.1",
     "istanbul": "^0.4.5",
     "jasmine-node": "^1.16.2",
-    "lodash.merge": "^4.6.2",
     "multi-shell": "^1.1.0",
     "rimraf": "*",
-    "rollup": "^1.17.0",
-    "rollup-plugin-typescript2": "^0.19.3",
     "tslint": "5.18.0",
     "tslint-config-standard": "^8.0.1",
-    "typescript": "^3.5.3",
-    "uglify-js": "^3.6.0"
+    "typescript": "^3.6.3"
   },
   "engines": {
     "node": ">=6"
