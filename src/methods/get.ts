@@ -1,12 +1,8 @@
-import { THE_PARAMETER_IS_ILLEGAL, combingPathKey, isComplexPath, showError, toString } from '../util'
+import { combingPathKey, isComplexPath, toString } from '../util'
 
 export default (data: any, path: string | number): any => {
+  if (data == null) return data
   path = toString(path)
-  if (!data) {
-    showError(THE_PARAMETER_IS_ILLEGAL)
-    return data
-  }
-
   if (path === '') return data
   if (!isComplexPath(path)) return data[path]
 
