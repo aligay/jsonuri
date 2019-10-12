@@ -1,5 +1,5 @@
 /*!
-* jsonuri v2.1.9
+* jsonuri v2.1.10
 * (c) 2019 @allgay
 * Released under the MIT License.
 */
@@ -133,11 +133,8 @@ var combingPathKey = function (param) {
 }
 
 var get = function (data, path) {
+  if (data == null) { return data }
   path = toString(path)
-  if (!data) {
-    showError(THE_PARAMETER_IS_ILLEGAL)
-    return data
-  }
   if (path === '') { return data }
   if (!isComplexPath(path)) { return data[path] }
   var ret
