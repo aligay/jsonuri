@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.1.10",
+  "version": "2.1.11",
   "description": "Use URI path to get or set data",
   "keywords": [
     "array",
@@ -44,17 +44,17 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^11.13.21",
+    "@types/node": "^12.7.12",
     "gh-pages": "^2.1.1",
     "ghooks": "^2.0.4",
-    "imod": "^1.1.1",
+    "imod": "^1.1.4",
     "istanbul": "^0.4.5",
-    "jasmine-node": "^1.16.2",
+    "jasmine-node": "^3.0.0",
     "multi-shell": "^1.1.0",
     "rimraf": "*",
-    "tslint": "5.18.0",
+    "tslint": "^5.20.0",
     "tslint-config-standard": "^8.0.1",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.4"
   },
   "engines": {
     "node": ">=6"
