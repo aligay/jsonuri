@@ -1,5 +1,5 @@
 /*!
-* jsonuri v2.1.12
+* jsonuri v2.2.0
 * (c) 2019 @allgay
 * Released under the MIT License.
 */
@@ -286,10 +286,12 @@ var isCircular = function (obj, seen) {
   }
   seen.push(obj)
   for (var key in obj) {
-    var val = obj[key]
-    if (isObject(val)) {
-      if (~seen.indexOf(val) || isCircular(val, seen.slice())) {
-        return true
+    if (obj.hasOwnProperty(key)) {
+      var val = obj[key]
+      if (isObject(val)) {
+        if (~seen.indexOf(val) || isCircular(val, seen.slice())) {
+          return true
+        }
       }
     }
   }

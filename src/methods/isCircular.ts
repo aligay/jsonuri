@@ -9,10 +9,12 @@ const isCircular = (obj, seen: any[] = []): boolean => {
   seen.push(obj)
 
   for (const key in obj) {
-    const val = obj[key]
-    if (isObject(val)) {
-      if (~seen.indexOf(val) || isCircular(val, seen.slice())) {
-        return true
+    if (obj.hasOwnProperty(key)) {
+      const val = obj[key]
+      if (isObject(val)) {
+        if (~seen.indexOf(val) || isCircular(val, seen.slice())) {
+          return true
+        }
       }
     }
   }
