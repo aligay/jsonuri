@@ -1,18 +1,18 @@
 import { isObject } from '../util'
 
 // check circular obj
-const isCircular = (obj, seen: any[] = []): boolean => {
+const isCircular = (obj: any, _seen: any[] = []) => {
   if (!isObject(obj)) {
     return false
   }
 
-  seen.push(obj)
+  _seen.push(obj)
 
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       const val = obj[key]
       if (isObject(val)) {
-        if (~seen.indexOf(val) || isCircular(val, seen.slice())) {
+        if (~_seen.indexOf(val) || isCircular(val, _seen.slice())) {
           return true
         }
       }
