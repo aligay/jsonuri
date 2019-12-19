@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Use URI path to get or set data",
   "keywords": [
     "array",
@@ -24,18 +24,18 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/typings/index.d.ts",
   "scripts": {
-    "build": "npm run clean && npm run lint && node scripts/build.js",
+    "build": "yarn run clean && yarn run lint && node scripts/build.js",
     "clean": "rimraf ./dist",
     "debug": "node --inspect-brk dist/index.js",
     "deploy:gh-pages": "node scripts/gh-pages.js",
-    "dev": "m-sh 'npm run dev:tsc'",
-    "dev:tsc": "npm run clean && tsc -w",
+    "dev": "m-sh 'yarn run dev:tsc'",
+    "dev:tsc": "yarn run clean && tsc -w",
     "jasmine": "istanbul cover jasmine-node test",
     "lint": "tslint --project tsconfig.json --format stylish",
     "prepublishOnly": "npm test && node scripts/pre-publish.js",
-    "test": "npm run lint && npm run build && npm run jasmine"
+    "test": "yarn run lint && yarn run build && yarn run jasmine"
   },
   "config": {
     "ghooks": {
@@ -44,17 +44,17 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^12.7.12",
+    "@types/node": "^12.12.21",
     "gh-pages": "^2.1.1",
     "ghooks": "^2.0.4",
-    "imod": "^1.1.4",
+    "imod": "^1.5.0",
     "istanbul": "^0.4.5",
     "jasmine-node": "^3.0.0",
-    "multi-shell": "^1.1.0",
+    "multi-shell": "^2.0.0-alpha.1",
     "rimraf": "*",
-    "tslint": "^5.20.0",
-    "tslint-config-standard": "^8.0.1",
-    "typescript": "^3.6.4"
+    "tslint": "^5.20.1",
+    "tslint-config-standard": "^9.0.0",
+    "typescript": "^3.7.3"
   },
   "engines": {
     "node": ">=6"
