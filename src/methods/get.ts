@@ -1,12 +1,12 @@
 import { combingPathKey, isComplexPath, toString } from '../util'
 
-export default (data: any, path: string | number): any => {
+export default <T>(data: T, path: string | number) => {
   if (data == null) return data
   path = toString(path)
   if (path === '') return data
   if (!isComplexPath(path)) return data[path]
 
-  let ret
+  let ret: any
   const keys = combingPathKey({ path }).keys
 
   if (!keys.length) {

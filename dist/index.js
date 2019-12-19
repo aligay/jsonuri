@@ -1,5 +1,5 @@
 /*!
-* jsonuri v2.2.0
+* jsonuri v2.2.1
 * (c) 2019 @allgay
 * Released under the MIT License.
 */
@@ -315,17 +315,17 @@ var _computePath = function (path, direction) {
 };
 
 // check circular obj
-var isCircular = function (obj, seen) {
-    if (seen === void 0) { seen = []; }
+var isCircular = function (obj, _seen) {
+    if (_seen === void 0) { _seen = []; }
     if (!isObject(obj)) {
         return false;
     }
-    seen.push(obj);
+    _seen.push(obj);
     for (var key in obj) {
         if (obj.hasOwnProperty(key)) {
             var val = obj[key];
             if (isObject(val)) {
-                if (~seen.indexOf(val) || isCircular(val, seen.slice())) {
+                if (~_seen.indexOf(val) || isCircular(val, _seen.slice())) {
                     return true;
                 }
             }
