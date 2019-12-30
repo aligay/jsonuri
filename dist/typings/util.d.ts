@@ -27,7 +27,7 @@ export declare const delValue: (obj: any, key: string | number) => void;
 /**
  * insertValue
  */
-export declare const insertValue: (arr: any[], key: number, value: any, direction?: "before" | "after" | "append") => void;
+export declare const insertValue: (arr: any[], key: number, value: any, direction?: 'before' | 'after' | 'append') => void;
 /**
  * Combing path keys
  * @author @linkjun
