@@ -44,7 +44,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^12.12.21",
+    "@types/node": "^13.1.1",
     "gh-pages": "^2.1.1",
     "ghooks": "^2.0.4",
     "imod": "^1.5.0",
@@ -54,7 +54,7 @@
     "rimraf": "*",
     "tslint": "^5.20.1",
     "tslint-config-standard": "^9.0.0",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.4"
   },
   "engines": {
     "node": ">=6"
