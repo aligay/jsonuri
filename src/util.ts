@@ -2,7 +2,7 @@
 export const IS_NOT_A_NATURAL_NUMBER = 'is not a natural number'
 export const MUST_BE_ARRAY = 'must be a Array'
 export const THE_PARAMETER_IS_ILLEGAL = 'the parameter is illegal'
-export const DIRECTION_REQUIRED = `direction must be 'before' | 'after' | 'append'`
+export const DIRECTION_REQUIRED = 'direction must be \'before\' | \'after\' | \'append\''
 export const THE_INDEX_OUT_OF_BOUNDS = 'the Index Out of Bounds'
 
 export const noop = () => { /* noop */ }
@@ -33,7 +33,8 @@ export const isObject = (o) => {
   return o != null && (type === 'object' || type === 'function')
 }
 
-export const toString = (s) => {
+export const toString = (s: any) => {
+  /* eslint-disable-next-line */
   return s + ''
 }
 
@@ -57,6 +58,7 @@ export const setValue = (obj, key: string | number, value) => {
   }
 
   if (key === 'length') {
+    /* eslint-disable-next-line */
     if (!isNatural(value)) throw new Error(`value: ${value} ${IS_NOT_A_NATURAL_NUMBER}`)
 
     if (value > obj.length) obj.length = value
@@ -66,7 +68,7 @@ export const setValue = (obj, key: string | number, value) => {
   }
 
   // if isArray, key should be a number
-  let index: number = +key
+  const index: number = +key
   if (!isNatural(index)) {
     showError(`key: ${key} ${IS_NOT_A_NATURAL_NUMBER}`)
     return
@@ -81,10 +83,11 @@ export const setValue = (obj, key: string | number, value) => {
  */
 export const delValue = (obj, key: string | number) => {
   if (isArray(obj)) {
-    let index: number = +key
+    const index: number = +key
     if (!isNatural(index)) return
     obj.splice(index, 1)
   } else {
+    /* eslint-disable-next-line */
     delete obj[key]
   }
 }
@@ -112,18 +115,18 @@ export const insertValue = (arr: any[], key: number, value, direction: 'before' 
  * @return {Array}       ['menu','id']
  */
 export interface CombingOptions {
-  keys?: (string | null)[]
+  keys?: Array<string | null>
   path?: string
 }
 const REG_PATH_SPLIT = '/'
 // let combingCache: any = {}
 export const combingPathKey = (param: CombingOptions): { keys: string[], path: string } => {
-  const path = param.path || ''
+  const path = param.path ?? ''
   // if (combingCache[path]) {
   //   return combingCache[path]
   // }
   let keys
-  if (!param.keys) {
+  if (param.keys == null) {
     keys = (param.path as string).split(REG_PATH_SPLIT)
   } else if (!path) {
     keys = param.keys
@@ -137,21 +140,23 @@ export const combingPathKey = (param: CombingOptions): { keys: string[], path: s
 
   // {empty}
   while (~keys.indexOf('')) {
-    let _i = keys.indexOf('')
+    const _i = keys.indexOf('')
     keys.splice(_i, 1)
   }
 
   // .
   while (~keys.indexOf('.')) {
-    let _i = keys.indexOf('.')
+    const _i = keys.indexOf('.')
     keys.splice(_i, 1)
   }
 
   // ..
   while (~keys.indexOf('..')) {
-    let _i = keys.indexOf('..')
+    const _i = keys.indexOf('..')
     keys[_i] = keys[_i - 1] = ''
+    /* eslint-disable-next-line */
     delete keys[_i]
+    /* eslint-disable-next-line */
     delete keys[_i - 1]
     keys.splice(_i, 1)
     keys.splice(_i - 1, 1)

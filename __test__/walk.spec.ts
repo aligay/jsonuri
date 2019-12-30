@@ -1,5 +1,5 @@
-/* global describe beforeEach it expect */
-const jsonuri = require('../../dist/index.js')
+import * as jsonuri from '../dist/index.js'
+
 describe('jsonuri.walk', () => {
   let obj
   beforeEach(() => {
@@ -45,7 +45,7 @@ describe('jsonuri.walk', () => {
 
   it('walk circular object 2', () => {
     const a = {}
-    let b = { a }
+    const b = { a }
     b.a = a
     expect(() => {
       jsonuri.walk(b)
@@ -66,7 +66,7 @@ describe('jsonuri.walk', () => {
         b: 'b'
       }
     }
-    jsonuri.walk(obj, (val, key, parent, {path}) => {
+    jsonuri.walk(obj, (val, key, parent, { path }) => {
       if (val === 'b') {
         expect(path).toEqual('a/b')
       }

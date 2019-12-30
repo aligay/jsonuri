@@ -8,7 +8,7 @@ const objectForeach = (obj, callback) => {
     isBreak = true
   }
 
-  for (let prop of Object.keys(obj)) {
+  for (const prop of Object.keys(obj)) {
     if (isBreak) break
     callback(obj[prop], prop, obj, { _break })
   }
@@ -23,14 +23,12 @@ const objectForeach = (obj, callback) => {
  * @return {[type]}              [description]
  */
 
-export interface WalkCallback {
-  (val, key: string, parent, { _break, path }): void
-}
+export type WalkCallback = (val, key: string, parent, { _break, path }) => void
 
-const walk = (obj = {} , descentionFn: WalkCallback = noop , ascentionFn: WalkCallback = noop): void => {
-  if (isCircular(obj)) throw new Error(`obj is a circular structure`)
+const walk = (obj = {}, descentionFn: WalkCallback = noop, ascentionFn: WalkCallback = noop): void => {
+  if (isCircular(obj)) throw new Error('obj is a circular structure')
 
-  let path: string[] = []
+  const path: string[] = []
   const _walk = (obj) => {
     objectForeach(obj, (val, key, parent, { _break }) => {
       let isBreak = false

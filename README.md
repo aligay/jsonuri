@@ -5,11 +5,11 @@
 `Use URI style methods to operate data.`
 All operations friendly support Vue-like frameworks.
 
-[![Build Status](https://api.travis-ci.org/allgay/jsonuri.svg?branch=master)](https://travis-ci.org/allgay/jsonuri/branches)
-[![codecov](https://codecov.io/gh/allgay/jsonuri/branch/master/graph/badge.svg)](https://codecov.io/gh/allgay/jsonuri/branch/master)
+[![Build Status](https://travis-ci.com/aligay/jsonuri.svg?branch=master)](https://travis-ci.com/github/aligay/jsonuri/branches)
+[![codecov](https://codecov.io/gh/aligay/jsonuri/branch/master/graph/badge.svg)](https://codecov.io/gh/aligay/jsonuri/branch/master)
 [![npm](https://img.shields.io/npm/v/jsonuri.svg)](https://www.npmjs.com/package/jsonuri)
-[![dependencies Status](https://david-dm.org/allgay/jsonuri/status.svg)](https://david-dm.org/allgay/jsonuri)
-[![devDependencies Status](https://david-dm.org/allgay/jsonuri/dev-status.svg)](https://david-dm.org/allgay/jsonuri?type=dev)
+[![dependencies Status](https://david-dm.org/aligay/jsonuri/status.svg)](https://david-dm.org/aligay/jsonuri)
+[![devDependencies Status](https://david-dm.org/aligay/jsonuri/dev-status.svg)](https://david-dm.org/aligay/jsonuri?type=dev)
 
 ## Use
 

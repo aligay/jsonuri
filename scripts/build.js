@@ -3,7 +3,7 @@ const pkg = require('../package.json')
 const fs = require('fs')
 const path = require('path')
 
-sh('npx imod build')
+sh('pnpm imod build')
 
 const htmlPath = path.resolve(__dirname, '../www/index.html')
 let html = fs.readFileSync(htmlPath, 'utf8')

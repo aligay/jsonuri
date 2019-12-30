@@ -1,14 +1,23 @@
 import { THE_PARAMETER_IS_ILLEGAL, setValue, combingPathKey, isComplexPath, showError, toString } from '../util'
 
-export default (data: any, path: string | number, value: any): void => {
+/**
+ * Returns true, if given key is included in the blacklisted
+ * keys.
+ * @param key key for check, string.
+ */
+const isPrototypePolluted = (key: string): Boolean => ['__proto__', 'prototype', 'constructor'].includes(key)
+
+export default <T = any>(data: T, path: string | number, value: any): T => {
   path = toString(path)
-  if (!(data && path)) return showError(THE_PARAMETER_IS_ILLEGAL)
-  if (!isComplexPath(path)) return setValue(data, path, value)
+  if (!(data && path)) return showError(THE_PARAMETER_IS_ILLEGAL) as any
+  if (!isComplexPath(path)) return setValue(data, path, value) as any
 
   const keys = combingPathKey({ path }).keys
 
   for (let i = 0, len = keys.length; i < len; i++) {
-    let key = keys[i]
+    const key = keys[i]
+
+    if (isPrototypePolluted(key)) continue
 
     if (data[key] == null) {
       data[key] = {}
@@ -19,4 +28,5 @@ export default (data: any, path: string | number, value: any): void => {
       data = data[key]
     }
   }
+  return data
 }

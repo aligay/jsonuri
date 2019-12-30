@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.2.2",
+  "version": "3.0.1",
   "description": "Use URI path to get or set data",
   "keywords": [
     "array",
@@ -8,6 +8,7 @@
     "data operator",
     "javascript",
     "json",
+    "json path",
     "jsonuri",
     "nodejs",
     "object",
@@ -16,47 +17,51 @@
     "vue"
   ],
   "homepage": "https://jsonuri.js.org",
-  "bugs": "https://github.com/allgay/jsonuri/issues",
+  "bugs": "https://github.com/aligay/jsonuri/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/allgay/jsonuri.git"
+    "url": "https://github.com/aligay/jsonuri.git"
   },
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/typings/index.d.ts",
   "scripts": {
-    "build": "yarn run clean && yarn run lint && node scripts/build.js",
+    "build": "pnpm run clean && pnpm run lint && node scripts/build.js",
     "clean": "rimraf ./dist",
     "debug": "node --inspect-brk dist/index.js",
     "deploy:gh-pages": "node scripts/gh-pages.js",
-    "dev": "m-sh 'yarn run dev:tsc'",
-    "dev:tsc": "yarn run clean && tsc -w",
-    "jasmine": "istanbul cover jasmine-node test",
-    "lint": "tslint --project tsconfig.json --format stylish",
+    "dev": "m-sh 'pnpm run dev:tsc'",
+    "dev:tsc": "pnpm run clean && tsc -w",
+    "lint": "eslint ./src  --fix",
     "prepublishOnly": "npm test && node scripts/pre-publish.js",
-    "test": "yarn run lint && yarn run build && yarn run jasmine"
+    "test": "pnpm run lint && pnpm run build && jest --coverage"
   },
   "config": {
     "ghooks": {
       "pre-commit": "sh scripts/pre-commit.sh"
     }
   },
-  "dependencies": {},
   "devDependencies": {
-    "@types/node": "^13.1.1",
-    "gh-pages": "^2.1.1",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.23",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "codecov": "^3.8.3",
+    "eslint": "^8.12.0",
+    "eslint-config-standard-with-typescript": "^21.0.1",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-promise": "^6.0.0",
+    "gh-pages": "^3.2.3",
     "ghooks": "^2.0.4",
     "imod": "^1.5.0",
-    "istanbul": "^0.4.5",
-    "jasmine-node": "^3.0.0",
+    "jest": "^27.5.1",
     "multi-shell": "^2.0.0-alpha.1",
-    "rimraf": "*",
-    "tslint": "^5.20.1",
-    "tslint-config-standard": "^9.0.0",
-    "typescript": "^3.7.4"
-  },
-  "engines": {
-    "node": ">=6"
+    "rimraf": "^3.0.2",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.3"
   }
 }

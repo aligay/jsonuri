@@ -1,10 +1,18 @@
+sudo: false
 language: node_js
 node_js:
-  - '8'
-  - '10'
-  - '11'
-sudo: false
+  - '14'
+  - '16'
+cache:
+  npm: false
+  directories:
+    - '~/.pnpm-store'
+before_install:
+  - curl -f https://get.pnpm.io/v6.7.js | node - add --global pnpm@6
+  - pnpm config set store-dir ~/.pnpm-store
+install:
+  - pnpm install
 script:
-  - "npm run test"
+  - 'pnpm run test'
 after_script:
-  - "npx codecov"
+  - 'codecov'
