@@ -59,4 +59,17 @@ describe('jsonuri.walk', () => {
       jsonuri.walk(a)
     }).toThrow()
   })
+
+  it('fourth arg {path}', () => {
+    const obj = {
+      a: {
+        b: 'b'
+      }
+    }
+    jsonuri.walk(obj, (val, key, parent, {path}) => {
+      if (val === 'b') {
+        expect(path).toEqual('a/b')
+      }
+    })
+  })
 })
