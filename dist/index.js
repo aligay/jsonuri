@@ -1,6 +1,6 @@
 /*!
-* jsonuri v2.2.3
-* (c) 2019 @allgay
+* jsonuri v2.2.4
+* (c) 2020 @allgay
 * Released under the MIT License.
 */
 'use strict';
