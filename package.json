@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.2.8",
+  "version": "2.3.1",
   "description": "Use URI path to get or set data",
   "keywords": [
     "array",
@@ -16,10 +16,10 @@
     "vue"
   ],
   "homepage": "https://jsonuri.js.org",
-  "bugs": "https://github.com/allgay/jsonuri/issues",
+  "bugs": "https://github.com/aligay/jsonuri/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/allgay/jsonuri.git"
+    "url": "https://github.com/aligay/jsonuri.git"
   },
   "license": "MIT",
   "main": "dist/index.js",
@@ -42,9 +42,8 @@
       "pre-commit": "sh scripts/pre-commit.sh"
     }
   },
-  "dependencies": {},
   "devDependencies": {
-    "@types/node": "^13.13.16",
+    "@types/node": "^13.13.52",
     "gh-pages": "^2.2.0",
     "ghooks": "^2.0.4",
     "imod": "^1.5.0",
@@ -52,9 +51,10 @@
     "jasmine-node": "^3.0.0",
     "multi-shell": "^2.0.0-alpha.1",
     "rimraf": "^3.0.2",
+    "tslib": "^2.2.0",
     "tslint": "^5.20.1",
     "tslint-config-standard": "^9.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.9"
   },
   "engines": {
     "node": ">=6"

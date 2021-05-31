@@ -1,6 +1,6 @@
 /*!
-* jsonuri v2.2.8
-* (c) 2020 @allgay
+* jsonuri v2.3.1
+* (c) 2021 @aligay
 * Released under the MIT License.
 */
 var IS_NOT_A_NATURAL_NUMBER = 'is not a natural number'
