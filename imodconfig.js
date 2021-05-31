@@ -1,7 +1,7 @@
 const pkg = require('./package.json')
 const banner = `/*!
 * ${pkg.name} v${pkg.version}
-* (c) ${new Date().getFullYear()} @allgay
+* (c) ${new Date().getFullYear()} @aligay
 * Released under the ${pkg.license} License.
 */`
 module.exports = {
