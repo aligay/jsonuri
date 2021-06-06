@@ -5,6 +5,17 @@ import rm from './rm'
 import insert from './insert'
 import normalizePath from './normalizePath'
 
+const formPathIsPartOfToParentPath = (from: string, to: string) => {
+  const pathTo = to.split('/')
+  const pathFrom = from.split('/')
+  const parentPathTo = pathTo.slice(0, pathTo.length - 1)
+  const parentPathForm = pathFrom.slice(0, pathTo.length - 1)
+
+  if (pathTo.length > pathFrom.length) return false
+
+  return parentPathTo.join('/') === parentPathForm.join('/')
+}
+
 export default (data, from: string | number, to: string | number, direction: 'before' | 'after' | 'append'): void => {
   from = toString(from)
   to = toString(to)
@@ -20,14 +31,28 @@ export default (data, from: string | number, to: string | number, direction: 'be
 
   if (isArray(parentTo)) {
     if (!direction) throw new Error(DIRECTION_REQUIRED)
+
     const isInSameArray = normalizePath(from + '/..') === normalizePath(to + '/..')
 
-    insert(data, to, dataFrom, direction)
     if (isInSameArray) {
+      insert(data, to, dataFrom, direction)
       delValue(parentTo, fromIndex + (toIndex > fromIndex ? 0 : 1))
       return
     }
 
+    const isParentInSameArray = formPathIsPartOfToParentPath(from, to)
+
+    if (isParentInSameArray) {
+      const _fromIndex = +(from.split('/').slice(0, to.split('/').length).pop() || '')
+      if (toIndex < _fromIndex) {
+        // 如果把 from 插入 to 位置后，改变了原来 from 的位置，则要先删除后添加
+        rm(data, from)
+        insert(data, to, dataFrom, direction)
+        return
+      }
+    }
+
+    insert(data, to, dataFrom, direction)
     rm(data, from)
 
     return
