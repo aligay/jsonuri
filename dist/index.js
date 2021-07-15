@@ -1,5 +1,5 @@
 /*!
-* jsonuri v2.3.1
+* jsonuri v2.4.1
 * (c) 2021 @aligay
 * Released under the MIT License.
 */
@@ -242,6 +242,15 @@ var normalizePath = (function () {
     return pathStr;
 });
 
+var formPathIsPartOfToParentPath = function (from, to) {
+    var pathTo = to.split('/');
+    var pathFrom = from.split('/');
+    var parentPathTo = pathTo.slice(0, pathTo.length - 1);
+    var parentPathForm = pathFrom.slice(0, pathTo.length - 1);
+    if (pathTo.length > pathFrom.length)
+        return false;
+    return parentPathTo.join('/') === parentPathForm.join('/');
+};
 var mv = (function (data, from, to, direction) {
     from = toString(from);
     to = toString(to);
@@ -258,11 +267,22 @@ var mv = (function (data, from, to, direction) {
         if (!direction)
             throw new Error(DIRECTION_REQUIRED);
         var isInSameArray = normalizePath(from + '/..') === normalizePath(to + '/..');
-        insert(data, to, dataFrom, direction);
         if (isInSameArray) {
+            insert(data, to, dataFrom, direction);
             delValue(parentTo, fromIndex + (toIndex > fromIndex ? 0 : 1));
             return;
         }
+        var isParentInSameArray = formPathIsPartOfToParentPath(from, to);
+        if (isParentInSameArray) {
+            var _fromIndex = +(from.split('/').slice(0, to.split('/').length).pop() || '');
+            if (toIndex < _fromIndex) {
+                // 如果把 from 插入 to 位置后，改变了原来 from 的位置，则要先删除后添加
+                rm(data, from);
+                insert(data, to, dataFrom, direction);
+                return;
+            }
+        }
+        insert(data, to, dataFrom, direction);
         rm(data, from);
         return;
     }
