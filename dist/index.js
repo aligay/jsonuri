@@ -1,5 +1,5 @@
 /*!
-* jsonuri v2.4.1
+* jsonuri v2.4.2
 * (c) 2021 @aligay
 * Released under the MIT License.
 */
@@ -164,6 +164,12 @@ var get = (function (data, path) {
     return ret;
 });
 
+/**
+ * Returns true, if given key is included in the blacklisted
+ * keys.
+ * @param key key for check, string.
+ */
+var isPrototypePolluted = function (key) { return ['__proto__', 'prototype', 'constructor'].includes(key); };
 var set = (function (data, path, value) {
     path = toString(path);
     if (!(data && path))
@@ -173,6 +179,8 @@ var set = (function (data, path, value) {
     var keys = combingPathKey({ path: path }).keys;
     for (var i = 0, len = keys.length; i < len; i++) {
         var key = keys[i];
+        if (isPrototypePolluted(key))
+            continue;
         if (data[key] == null) {
             data[key] = {};
         }

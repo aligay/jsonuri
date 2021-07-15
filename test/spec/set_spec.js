@@ -128,4 +128,10 @@ describe('jsonuri.set', () => {
     jsonuri.set(o, 5, 1)
     expect(o).toEqual([undefined, undefined, undefined, undefined, undefined, 1])
   })
+  // ==========
+  it('check prototype pollution', () => {
+    jsonuri.set(obj, '__proto__/polluted', 'Yes! Its Polluted')
+    expect(obj.polluted).toEqual('Yes! Its Polluted')
+    expect({}.polluted).toEqual(undefined)
+  })
 })
