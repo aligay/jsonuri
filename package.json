@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Use URI path to get or set data",
   "keywords": [
     "array",
