@@ -9,9 +9,9 @@ export default (data: any, path: string | number): void => {
     return
   }
 
-  let parent = get(data, path + '/..')
+  const parent = get(data, path + '/..')
   if (!parent) return
-  let key = combingPathKey({ path }).keys.pop() || ''
+  const key = combingPathKey({ path }).keys.pop() ?? ''
 
   delValue(parent, key)
 }

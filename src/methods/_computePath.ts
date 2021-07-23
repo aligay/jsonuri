@@ -2,7 +2,7 @@ import { combingPathKey, isInteger } from '../util'
 import normalizePath from './normalizePath'
 
 const _computePath = (path: string, direction: 'prev' | 'next'): string | null => {
-  let index = +(combingPathKey({ path }).keys.pop() as string)
+  const index = +(combingPathKey({ path }).keys.pop() as string)
 
   if (!isInteger(index)) return null
 

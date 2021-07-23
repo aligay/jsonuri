@@ -1,5 +1,5 @@
-/* global describe it expect */
-const jsonuri = require('../../dist/index.js')
+import * as jsonuri from '../dist/index.js'
+
 describe('jsonuri.get', () => {
   const obj = {
     a: 2,
@@ -59,9 +59,8 @@ describe('jsonuri.get', () => {
   })
 
   it('get false value', () => {
-    expect(jsonuri.get({a: 0}, 'a/toFixed')).toEqual(Number.prototype.toFixed)
+    expect(jsonuri.get({ a: 0 }, 'a/toFixed')).toEqual(Number.prototype.toFixed)
   })
-
 
   // it('get key has `/`', () => {
   //   expect(jsonuri.get({a:{ 'b/c': 1 }}, 'a/b\/c')).toEqual(1)

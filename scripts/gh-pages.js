@@ -4,4 +4,3 @@ ghpages.publish('www', (err) => {
     console.error(err)
   }
 })
-

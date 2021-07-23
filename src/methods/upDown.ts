@@ -6,6 +6,7 @@ const upDown = (data, path, direction: 1 | -1, gap = 1) => {
   if (!(isNatural(gap) && gap > 0)) return showError(THE_PARAMETER_IS_ILLEGAL)
   if (!(data)) return showError(THE_PARAMETER_IS_ILLEGAL)
 
+  /* eslint-disable-next-line */
   const parent = get(data, path + '/..')
   if (!isArray(parent)) return showError(MUST_BE_ARRAY)
   const len = parent.length

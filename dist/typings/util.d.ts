@@ -35,7 +35,7 @@ export declare const insertValue: (arr: any[], key: number, value: any, directio
  * @return {Array}       ['menu','id']
  */
 export interface CombingOptions {
-    keys?: (string | null)[];
+    keys?: Array<string | null>;
     path?: string;
 }
 export declare const combingPathKey: (param: CombingOptions) => {

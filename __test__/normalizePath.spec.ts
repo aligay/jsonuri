@@ -1,5 +1,5 @@
-/* global describe it expect */
-const jsonuri = require('../../dist/index.js')
+import * as jsonuri from '../dist/index.js'
+
 describe('jsonuri.normalizePath', () => {
   // it('bad path', () => {
   //   expect(() => {

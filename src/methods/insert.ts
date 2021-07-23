@@ -3,7 +3,7 @@ import get from './get'
 
 export default (data, path: string | number, value: any, direction: 'before' | 'after' | 'append'): void => {
   path = toString(path)
-  if (!(data)) return showError(THE_PARAMETER_IS_ILLEGAL)
+  if (!data) return showError(THE_PARAMETER_IS_ILLEGAL)
   if (!direction) throw new Error(DIRECTION_REQUIRED)
 
   const parent = get(data, path + '/..')

@@ -10,7 +10,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var IS_NOT_A_NATURAL_NUMBER = 'is not a natural number';
 var MUST_BE_ARRAY = 'must be a Array';
 var THE_PARAMETER_IS_ILLEGAL = 'the parameter is illegal';
-var DIRECTION_REQUIRED = "direction must be 'before' | 'after' | 'append'";
+var DIRECTION_REQUIRED = 'direction must be \'before\' | \'after\' | \'append\'';
 var THE_INDEX_OUT_OF_BOUNDS = 'the Index Out of Bounds';
 var noop = function () { };
 var isArray = Array.isArray;
@@ -34,6 +34,7 @@ var isObject = function (o) {
     return o != null && (type === 'object' || type === 'function');
 };
 var toString = function (s) {
+    /* eslint-disable-next-line */
     return s + '';
 };
 var showError = function (s) {
@@ -51,6 +52,7 @@ var setValue = function (obj, key, value) {
         return;
     }
     if (key === 'length') {
+        /* eslint-disable-next-line */
         if (!isNatural(value))
             throw new Error("value: " + value + " " + IS_NOT_A_NATURAL_NUMBER);
         if (value > obj.length)
@@ -78,6 +80,7 @@ var delValue = function (obj, key) {
         obj.splice(index, 1);
     }
     else {
+        /* eslint-disable-next-line */
         delete obj[key];
     }
 };
@@ -100,12 +103,13 @@ var insertValue = function (arr, key, value, direction) {
 var REG_PATH_SPLIT = '/';
 // let combingCache: any = {}
 var combingPathKey = function (param) {
-    var path = param.path || '';
+    var _a;
+    var path = (_a = param.path) !== null && _a !== void 0 ? _a : '';
     // if (combingCache[path]) {
     //   return combingCache[path]
     // }
     var keys;
-    if (!param.keys) {
+    if (param.keys == null) {
         keys = param.path.split(REG_PATH_SPLIT);
     }
     else if (!path) {
@@ -130,7 +134,9 @@ var combingPathKey = function (param) {
     while (~keys.indexOf('..')) {
         var _i = keys.indexOf('..');
         keys[_i] = keys[_i - 1] = '';
+        /* eslint-disable-next-line */
         delete keys[_i];
+        /* eslint-disable-next-line */
         delete keys[_i - 1];
         keys.splice(_i, 1);
         keys.splice(_i - 1, 1);
@@ -152,11 +158,12 @@ var get = (function (data, path) {
         return data[path];
     var ret;
     var keys = combingPathKey({ path: path }).keys;
-    if (!keys.length) {
+    if (keys.length === 0) {
         return data;
     }
     var len = keys.length;
     for (var i = 0; i < len; ++i) {
+        /* eslint-disable-next-line */
         ret = (i ? ret : data)[keys[i]];
         if (ret == null)
             break;
@@ -194,6 +201,7 @@ var set = (function (data, path, value) {
 });
 
 var rm = (function (data, path) {
+    var _a;
     path = toString(path);
     if (!(data && path))
         return;
@@ -204,7 +212,7 @@ var rm = (function (data, path) {
     var parent = get(data, path + '/..');
     if (!parent)
         return;
-    var key = combingPathKey({ path: path }).keys.pop() || '';
+    var key = (_a = combingPathKey({ path: path }).keys.pop()) !== null && _a !== void 0 ? _a : '';
     delValue(parent, key);
 });
 
@@ -221,7 +229,7 @@ var swap = (function (data, pathA, pathB) {
 
 var insert = (function (data, path, value, direction) {
     path = toString(path);
-    if (!(data))
+    if (!data)
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!direction)
         throw new Error(DIRECTION_REQUIRED);
@@ -260,6 +268,7 @@ var formPathIsPartOfToParentPath = function (from, to) {
     return parentPathTo.join('/') === parentPathForm.join('/');
 };
 var mv = (function (data, from, to, direction) {
+    var _a, _b, _c;
     from = toString(from);
     to = toString(to);
     if (!(data && from && to && isString(from) && isString(to)))
@@ -269,8 +278,8 @@ var mv = (function (data, from, to, direction) {
     var DataTo = get(data, to);
     var dataFrom = get(data, from);
     var parentTo = get(data, to + '/..');
-    var fromIndex = +(combingPathKey({ path: from }).keys.pop() || '');
-    var toIndex = +(combingPathKey({ path: to }).keys.pop() || '');
+    var fromIndex = +((_a = combingPathKey({ path: from }).keys.pop()) !== null && _a !== void 0 ? _a : '');
+    var toIndex = +((_b = combingPathKey({ path: to }).keys.pop()) !== null && _b !== void 0 ? _b : '');
     if (isArray(parentTo)) {
         if (!direction)
             throw new Error(DIRECTION_REQUIRED);
@@ -282,7 +291,7 @@ var mv = (function (data, from, to, direction) {
         }
         var isParentInSameArray = formPathIsPartOfToParentPath(from, to);
         if (isParentInSameArray) {
-            var _fromIndex = +(from.split('/').slice(0, to.split('/').length).pop() || '');
+            var _fromIndex = +((_c = from.split('/').slice(0, to.split('/').length).pop()) !== null && _c !== void 0 ? _c : '');
             if (toIndex < _fromIndex) {
                 // 如果把 from 插入 to 位置后，改变了原来 from 的位置，则要先删除后添加
                 rm(data, from);
@@ -308,6 +317,7 @@ var upDown = function (data, path, direction, gap) {
         return showError(THE_PARAMETER_IS_ILLEGAL);
     if (!(data))
         return showError(THE_PARAMETER_IS_ILLEGAL);
+    /* eslint-disable-next-line */
     var parent = get(data, path + '/..');
     if (!isArray(parent))
         return showError(MUST_BE_ARRAY);
@@ -350,6 +360,7 @@ var isCircular = function (obj, _seen) {
     }
     _seen.push(obj);
     for (var key in obj) {
+        /* eslint-disable-next-line */
         if (obj.hasOwnProperty(key)) {
             var val = obj[key];
             if (isObject(val)) {
@@ -379,7 +390,7 @@ var walk = function (obj, descentionFn, ascentionFn) {
     if (descentionFn === void 0) { descentionFn = noop; }
     if (ascentionFn === void 0) { ascentionFn = noop; }
     if (isCircular(obj))
-        throw new Error("obj is a circular structure");
+        throw new Error('obj is a circular structure');
     var path = [];
     var _walk = function (obj) {
         objectForeach(obj, function (val, key, parent, _a) {

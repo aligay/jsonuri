@@ -26,8 +26,8 @@ export default (data, from: string | number, to: string | number, direction: 'be
   const DataTo = get(data, to)
   const dataFrom = get(data, from)
   const parentTo = get(data, to + '/..')
-  const fromIndex: number = +(combingPathKey({ path: from }).keys.pop() || '')
-  const toIndex: number = +(combingPathKey({ path: to }).keys.pop() || '')
+  const fromIndex: number = +(combingPathKey({ path: from }).keys.pop() ?? '')
+  const toIndex: number = +(combingPathKey({ path: to }).keys.pop() ?? '')
 
   if (isArray(parentTo)) {
     if (!direction) throw new Error(DIRECTION_REQUIRED)
@@ -43,7 +43,7 @@ export default (data, from: string | number, to: string | number, direction: 'be
     const isParentInSameArray = formPathIsPartOfToParentPath(from, to)
 
     if (isParentInSameArray) {
-      const _fromIndex = +(from.split('/').slice(0, to.split('/').length).pop() || '')
+      const _fromIndex = +(from.split('/').slice(0, to.split('/').length).pop() ?? '')
       if (toIndex < _fromIndex) {
         // 如果把 from 插入 to 位置后，改变了原来 from 的位置，则要先删除后添加
         rm(data, from)
@@ -59,7 +59,7 @@ export default (data, from: string | number, to: string | number, direction: 'be
   }
 
   if (!isObject(DataTo)) {
-    throw new Error(`'${to}': ${DataTo} is primitive values`)
+    throw new Error(`'${to}': ${DataTo as string} is primitive values`)
   }
 
   set(data, to + '/' + from, dataFrom)
