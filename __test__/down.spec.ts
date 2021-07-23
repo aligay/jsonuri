@@ -1,8 +1,8 @@
-/* global describe beforeEach it expect */
-const jsonuri = require('../../dist/index.js')
+import * as jsonuri from '../dist/index.js'
+
 describe('jsonuri.down', () => {
   let obj
-  let origin = {
+  const origin = {
     a: [1, 2, 3, 4, 5, 6],
     b: null
   }

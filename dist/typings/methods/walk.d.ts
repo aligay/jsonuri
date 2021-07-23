@@ -6,11 +6,9 @@
  * @param  {[type]} ascentionFn  [description]
  * @return {[type]}              [description]
  */
-export interface WalkCallback {
-    (val: any, key: string, parent: any, { _break, path }: {
-        _break: any;
-        path: any;
-    }): void;
-}
+export declare type WalkCallback = (val: any, key: string, parent: any, { _break, path }: {
+    _break: any;
+    path: any;
+}) => void;
 declare const walk: (obj?: {}, descentionFn?: WalkCallback, ascentionFn?: WalkCallback) => void;
 export default walk;

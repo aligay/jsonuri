@@ -15,7 +15,7 @@ export default (data: any, path: string | number, value: any): void => {
   const keys = combingPathKey({ path }).keys
 
   for (let i = 0, len = keys.length; i < len; i++) {
-    let key = keys[i]
+    const key = keys[i]
 
     if (isPrototypePolluted(key)) continue
 

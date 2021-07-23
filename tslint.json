@@ -1,8 +1,0 @@
-{
-  "extends": "tslint-config-standard",
-  "rules": {
-    "no-floating-promises": false,
-    "one-variable-per-declaration": false,
-    "only-arrow-functions": true
-  }
-}

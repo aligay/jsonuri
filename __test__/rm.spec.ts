@@ -1,8 +1,8 @@
-/* global describe beforeEach it expect */
-const jsonuri = require('../../dist/index.js')
+import * as jsonuri from '../dist/index.js'
+
 describe('jsonuri.rm', () => {
   let obj
-  let rawData = {
+  const rawData = {
     a: 2,
     b: {
       b1: {
@@ -26,43 +26,43 @@ describe('jsonuri.rm', () => {
 
   it('object', () => {
     jsonuri.rm(obj, 'b')
-    expect(obj).toEqual({'a': 2, 'list': [0, 1, 2, 3, 4, 5, 6, 7, 8], 'NULL': null})
+    expect(obj).toEqual({ a: 2, list: [0, 1, 2, 3, 4, 5, 6, 7, 8], NULL: null })
   })
 
   it('object deep', () => {
     jsonuri.rm(obj, 'b/b1')
-    expect(obj).toEqual({'a': 2, 'b': { 'b2': 32 }, 'list': [0, 1, 2, 3, 4, 5, 6, 7, 8], 'NULL': null})
+    expect(obj).toEqual({ a: 2, b: { b2: 32 }, list: [0, 1, 2, 3, 4, 5, 6, 7, 8], NULL: null })
   })
-// =============
+  // =============
   it('arr', () => {
-    let arr = [1, 2, 3]
+    const arr = [1, 2, 3]
     jsonuri.rm(arr, '1')
     expect(arr).toEqual([1, 3])
   })
 
   it('arr deep', () => {
-    let arr = {a: [1, 2, 3]}
+    const arr = { a: [1, 2, 3] }
     jsonuri.rm(arr, 'a/1')
-    expect(arr).toEqual({a: [1, 3]})
+    expect(arr).toEqual({ a: [1, 3] })
   })
 
   it('number path', () => {
-    let arr = [1, 2]
+    const arr = [1, 2]
     jsonuri.rm(arr, 0)
     expect(arr).toEqual([2])
   })
 
-// ==============
+  // ==============
   it('bad arg', () => {
-    let arr = {a: [1, 2, 3]}
+    const arr = { a: [1, 2, 3] }
     jsonuri.rm(arr, null)
-    expect(arr).toEqual({a: [1, 2, 3]})
+    expect(arr).toEqual({ a: [1, 2, 3] })
   })
 
   // ==============
   it('bad arg', () => {
-    let arr = {a: [1, 2, 3]}
+    const arr = { a: [1, 2, 3] }
     jsonuri.rm(arr, 'a/b')
-    expect(arr).toEqual({a: [1, 2, 3]})
+    expect(arr).toEqual({ a: [1, 2, 3] })
   })
 })

@@ -1,5 +1,5 @@
-/* global describe it beforeEach expect */
-const jsonuri = require('../../dist/index.js')
+import * as jsonuri from '../dist/index.js'
+
 describe('insert', () => {
   let arr
   beforeEach(() => {
@@ -59,9 +59,8 @@ describe('insert', () => {
   })
 
   it('get number path', () => {
-    let arr = [1, 2]
+    const arr = [1, 2]
     jsonuri.insert(arr, 0, 'hello kitty', 'after')
     expect(arr).toEqual([1, 'hello kitty', 2])
   })
-
 })
