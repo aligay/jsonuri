@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.4.2",
+  "version": "2.4.4",
   "description": "Use URI path to get or set data",
   "keywords": [
     "array",
@@ -8,6 +8,7 @@
     "data operator",
     "javascript",
     "json",
+    "json path",
     "jsonuri",
     "nodejs",
     "object",
@@ -42,15 +43,15 @@
     }
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.14.8",
-    "@babel/preset-typescript": "^7.14.5",
-    "@types/jest": "^26.0.24",
-    "@types/node": "^16.4.3",
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
     "codecov": "^3.8.3",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
-    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-import": "^2.24.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-promise": "^5.1.0",
@@ -60,7 +61,7 @@
     "jest": "^27.0.6",
     "multi-shell": "^2.0.0-alpha.1",
     "rimraf": "^3.0.2",
-    "tslib": "^2.3.0",
+    "tslib": "^2.3.1",
     "typescript": "^4.3.5"
   }
 }
