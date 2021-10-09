@@ -15,3 +15,6 @@ pnpm-lock.yaml
 __test__
 babel.config.js
 imodconfig.js
+scripts/
+src/
+www/
