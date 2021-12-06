@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "2.4.8",
+  "version": "2.4.9",
   "description": "Use URI path to get or set data",
   "keywords": [
     "array",
@@ -45,23 +45,23 @@
   "devDependencies": {
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-typescript": "^7.16.0",
-    "@types/jest": "^27.0.2",
-    "@types/node": "^16.11.7",
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.11",
+    "@typescript-eslint/eslint-plugin": "^5.5.0",
     "codecov": "^3.8.3",
-    "eslint": "^8.2.0",
+    "eslint": "^8.4.0",
     "eslint-config-standard-with-typescript": "^21.0.1",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
-    "eslint-plugin-promise": "^5.1.1",
+    "eslint-plugin-promise": "^5.2.0",
     "gh-pages": "^3.2.3",
     "ghooks": "^2.0.4",
     "imod": "^1.5.0",
-    "jest": "^27.3.1",
+    "jest": "^27.4.3",
     "multi-shell": "^2.0.0-alpha.1",
     "rimraf": "^3.0.2",
     "tslib": "^2.3.1",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.2"
   }
 }
