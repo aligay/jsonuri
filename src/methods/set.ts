@@ -7,10 +7,10 @@ import { THE_PARAMETER_IS_ILLEGAL, setValue, combingPathKey, isComplexPath, show
  */
 const isPrototypePolluted = (key: string): Boolean => ['__proto__', 'prototype', 'constructor'].includes(key)
 
-export default (data: any, path: string | number, value: any): void => {
+export default <T = any>(data: T, path: string | number, value: any): T => {
   path = toString(path)
-  if (!(data && path)) return showError(THE_PARAMETER_IS_ILLEGAL)
-  if (!isComplexPath(path)) return setValue(data, path, value)
+  if (!(data && path)) return showError(THE_PARAMETER_IS_ILLEGAL) as any
+  if (!isComplexPath(path)) return setValue(data, path, value) as any
 
   const keys = combingPathKey({ path }).keys
 
@@ -28,4 +28,5 @@ export default (data: any, path: string | number, value: any): void => {
       data = data[key]
     }
   }
+  return data
 }
