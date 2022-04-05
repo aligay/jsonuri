@@ -1,5 +1,5 @@
 /*!
-* jsonuri v2.6.0
+* jsonuri v3.0.1
 * (c) 2022 @aligay
 * Released under the MIT License.
 */
@@ -181,6 +181,7 @@ var set = function (data, path, value) {
       data = data[key]
     }
   }
+  return data
 }
 
 var rm = function (data, path) {

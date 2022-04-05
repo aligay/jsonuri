@@ -1,6 +1,6 @@
 import { combingPathKey, isComplexPath, toString } from '../util'
 
-export default <T>(data: T, path: string | number): any => {
+export default <T = any>(data: any, path: string | number): T => {
   if (data == null) return data
   path = toString(path)
   if (path === '') return data
