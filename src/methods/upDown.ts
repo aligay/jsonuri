@@ -3,12 +3,12 @@ import get from './get'
 
 const upDown = (data, path, direction: 1 | -1, gap = 1) => {
   path = toString(path)
-  if (!(isNatural(gap) && gap > 0)) return showError(THE_PARAMETER_IS_ILLEGAL)
-  if (!(data)) return showError(THE_PARAMETER_IS_ILLEGAL)
+  if (!(isNatural(gap) && gap > 0)) { showError(THE_PARAMETER_IS_ILLEGAL); return }
+  if (!(data)) { showError(THE_PARAMETER_IS_ILLEGAL); return }
 
   /* eslint-disable-next-line */
   const parent = get(data, path + '/..')
-  if (!isArray(parent)) return showError(MUST_BE_ARRAY)
+  if (!isArray(parent)) { showError(MUST_BE_ARRAY); return }
   const len = parent.length
   const index = +(combingPathKey({ path }).keys.pop() as string)
   if (!isNatural(index) || index > len - 1) return
