@@ -5,11 +5,13 @@ import { THE_PARAMETER_IS_ILLEGAL, setValue, combingPathKey, isComplexPath, show
  * keys.
  * @param key key for check, string.
  */
-const isPrototypePolluted = (key: string): Boolean => ['__proto__', 'prototype', 'constructor'].includes(key)
+const isPrototypePolluted = (key: string): boolean => ['__proto__', 'prototype', 'constructor'].includes(key)
 
 export default <T = any>(data: T, path: string | number, value: any): T => {
   path = toString(path)
+  // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
   if (!(data && path)) return showError(THE_PARAMETER_IS_ILLEGAL) as any
+  // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
   if (!isComplexPath(path)) return setValue(data, path, value) as any
 
   const keys = combingPathKey({ path }).keys
