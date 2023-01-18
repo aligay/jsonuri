@@ -1,6 +1,6 @@
 /*!
-* jsonuri v3.2.2
-* (c) 2022 @aligay
+* jsonuri v3.3.0
+* (c) 2023 @aligay
 * Released under the MIT License.
 */
 var IS_NOT_A_NATURAL_NUMBER = 'is not a natural number'
@@ -166,7 +166,9 @@ var get = function (data, path) {
 var isPrototypePolluted = function (key) { return ['__proto__', 'prototype', 'constructor'].includes(key) }
 var set = function (data, path, value) {
   path = toString(path)
+  // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
   if (!(data && path)) { return showError(THE_PARAMETER_IS_ILLEGAL) }
+  // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
   if (!isComplexPath(path)) { return setValue(data, path, value) }
   var keys = combingPathKey({ path: path }).keys
   for (var i = 0, len = keys.length; i < len; i++) {
@@ -201,7 +203,10 @@ var rm = function (data, path) {
 var swap = function (data, pathA, pathB) {
   pathA = toString(pathA)
   pathB = toString(pathB)
-  if (!(data && pathA && pathB && isString(pathA) && isString(pathB))) { return showError(THE_PARAMETER_IS_ILLEGAL) }
+  if (!(data && pathA && pathB && isString(pathA) && isString(pathB))) {
+    showError(THE_PARAMETER_IS_ILLEGAL)
+    return
+  }
   var dataA = get(data, pathA)
   var dataB = get(data, pathB)
   set(data, pathB, dataA)
@@ -210,7 +215,10 @@ var swap = function (data, pathA, pathB) {
 
 var insert = function (data, path, value, direction) {
   path = toString(path)
-  if (!data) { return showError(THE_PARAMETER_IS_ILLEGAL) }
+  if (!data) {
+    showError(THE_PARAMETER_IS_ILLEGAL)
+    return
+  }
   if (!direction) { throw new Error(DIRECTION_REQUIRED) }
   var parent = get(data, path + '/..')
   if (!isArray(parent)) { throw new Error('insert node ' + MUST_BE_ARRAY) }
@@ -247,7 +255,10 @@ var mv = function (data, from, to, direction) {
   var _a, _b, _c
   from = toString(from)
   to = toString(to)
-  if (!(data && from && to && isString(from) && isString(to))) { return showError(THE_PARAMETER_IS_ILLEGAL) }
+  if (!(data && from && to && isString(from) && isString(to))) {
+    showError(THE_PARAMETER_IS_ILLEGAL)
+    return
+  }
   if (from === to) { return }
   var DataTo = get(data, to)
   var dataFrom = get(data, from)
@@ -286,11 +297,20 @@ var mv = function (data, from, to, direction) {
 var upDown = function (data, path, direction, gap) {
   if (gap === void 0) { gap = 1 }
   path = toString(path)
-  if (!(isNatural(gap) && gap > 0)) { return showError(THE_PARAMETER_IS_ILLEGAL) }
-  if (!(data)) { return showError(THE_PARAMETER_IS_ILLEGAL) }
+  if (!(isNatural(gap) && gap > 0)) {
+    showError(THE_PARAMETER_IS_ILLEGAL)
+    return
+  }
+  if (!(data)) {
+    showError(THE_PARAMETER_IS_ILLEGAL)
+    return
+  }
   /* eslint-disable-next-line */
     var parent = get(data, path + '/..');
-  if (!isArray(parent)) { return showError(MUST_BE_ARRAY) }
+  if (!isArray(parent)) {
+    showError(MUST_BE_ARRAY)
+    return
+  }
   var len = parent.length
   var index = +combingPathKey({ path: path }).keys.pop()
   if (!isNatural(index) || index > len - 1) { return }
