@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  idmp:
+    specifier: ^1.9.0
+    version: 1.9.0
+
 devDependencies:
   '@babel/preset-env':
     specifier: ^7.23.6
@@ -4276,6 +4281,10 @@ packages:
     dependencies:
       safer-buffer: 2.1.2
     dev: true
+
+  /idmp@1.9.0:
+    resolution: {integrity: sha512-UBAXaoE6URaCjKKVEGmNxJdMIONUnTT7FxgYZj2O3jEDS4b2M0gNFRNsJvbf+RW+3wa1QNB9Ux7eKKbsDG803w==}
+    dev: false
 
   /ignore-walk@3.0.4:
     resolution: {integrity: sha512-PY6Ii8o1jMRA1z4F2hRkH/xN59ox43DavKvD3oDpfurRlOJyAHpifIwpbdv1n4jt4ov0jSpw3kQ4GhJnpBL6WQ==}
