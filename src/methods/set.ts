@@ -1,34 +1,49 @@
-import { THE_PARAMETER_IS_ILLEGAL, setValue, combingPathKey, isComplexPath, showError, toString } from '../util'
+import {
+  NULL,
+  THE_PARAMETER_IS_ILLEGAL,
+  isComplexPath,
+  setValue,
+  showError,
+  toString,
+} from '../util'
+import { parseUri } from './parseUri'
 
 /**
  * Returns true, if given key is included in the blacklisted
  * keys.
  * @param key key for check, string.
  */
-const isPrototypePolluted = (key: string): boolean => ['__proto__', 'prototype', 'constructor'].includes(key)
+const isPrototypePolluted = (key: string): boolean =>
+  ['__proto__', 'prototype', 'constructor'].includes(key)
 
-export default <T = any>(data: T, path: string | number, value: any): T => {
+export default <T = any>(
+  data: T,
+  path: string | number,
+  value: any,
+): undefined => {
   path = toString(path)
-  // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-  if (!(data && path)) return showError(THE_PARAMETER_IS_ILLEGAL) as any
-  // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-  if (!isComplexPath(path)) return setValue(data, path, value) as any
 
-  const keys = combingPathKey({ path }).keys
+  if (!(data && path)) return showError(THE_PARAMETER_IS_ILLEGAL) as any
+
+  if (!isComplexPath(path)) {
+    setValue(data, path, value)
+    return
+  }
+
+  const keys = parseUri(path)
 
   for (let i = 0, len = keys.length; i < len; i++) {
     const key = keys[i]
 
     if (isPrototypePolluted(key)) continue
 
-    if (data[key] == null) {
-      data[key] = {}
+    if ((data as any)[key] == NULL) {
+      ;(data as any)[key] = {}
     }
     if (i === len - 1) {
       setValue(data, key, value)
     } else {
-      data = data[key]
+      data = (data as any)[key]
     }
   }
-  return data
 }
