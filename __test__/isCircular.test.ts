@@ -1,9 +1,10 @@
-import * as jsonuri from '../dist/index.js'
+import { describe, expect, it } from 'vitest'
+import * as jsonuri from '../src/index'
 
 describe('jsonuri.isCircular', () => {
   it('1', () => {
     expect(jsonuri.isCircular({})).toBeFalsy()
-    expect(jsonuri.isCircular(global)).toBeTruthy()
+    expect(jsonuri.isCircular(globalThis)).toBeTruthy()
   })
   it('2', () => {
     const a = {}

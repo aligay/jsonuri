@@ -1,9 +1,20 @@
-import { THE_PARAMETER_IS_ILLEGAL, DIRECTION_REQUIRED, isObject, isArray, isString, showError, delValue, combingPathKey, toString } from '../util'
+import {
+  delValue,
+  Direction,
+  DIRECTION_REQUIRED,
+  isArray,
+  isObject,
+  isString,
+  showError,
+  THE_PARAMETER_IS_ILLEGAL,
+  toString,
+} from '../util'
 import get from './get'
-import set from './set'
-import rm from './rm'
 import insert from './insert'
-import normalizePath from './normalizePath'
+import { normalizeUri } from './normalizeUri'
+import { parseUri } from './parseUri'
+import rm from './rm'
+import set from './set'
 
 const formPathIsPartOfToParentPath = (from: string, to: string) => {
   const pathTo = to.split('/')
@@ -16,23 +27,33 @@ const formPathIsPartOfToParentPath = (from: string, to: string) => {
   return parentPathTo.join('/') === parentPathForm.join('/')
 }
 
-export default (data, from: string | number, to: string | number, direction: 'before' | 'after' | 'append'): void => {
+export default (
+  data: any,
+  from: string | number,
+  to: string | number,
+  direction: Direction = 'before',
+): void => {
   from = toString(from)
   to = toString(to)
-
-  if (!(data && from && to && isString(from) && isString(to))) { showError(THE_PARAMETER_IS_ILLEGAL); return }
+  if (!(data && from && to && isString(from) && isString(to))) {
+    showError(THE_PARAMETER_IS_ILLEGAL)
+    return
+  }
   if (from === to) return
 
   const DataTo = get(data, to)
   const dataFrom = get(data, from)
-  const parentTo = get(data, to + '/..')
-  const fromIndex: number = +(combingPathKey({ path: from }).keys.pop() ?? '')
-  const toIndex: number = +(combingPathKey({ path: to }).keys.pop() ?? '')
+
+  const parentToPath = normalizeUri(to + '/..')
+  const parentTo = parentToPath ? get(data, parentToPath) : data
+  const fromIndex: number = +(parseUri(from).pop() ?? '')
+  const toIndex: number = +(parseUri(to).pop() ?? '')
 
   if (isArray(parentTo)) {
     if (!direction) throw new Error(DIRECTION_REQUIRED)
 
-    const isInSameArray = normalizePath(from + '/..') === normalizePath(to + '/..')
+    const isInSameArray =
+      normalizeUri(from + '/..') === normalizeUri(to + '/..')
 
     if (isInSameArray) {
       insert(data, to, dataFrom, direction)
@@ -43,7 +64,9 @@ export default (data, from: string | number, to: string | number, direction: 'be
     const isParentInSameArray = formPathIsPartOfToParentPath(from, to)
 
     if (isParentInSameArray) {
-      const _fromIndex = +(from.split('/').slice(0, to.split('/').length).pop() ?? '')
+      const _fromIndex = +(
+        from.split('/').slice(0, to.split('/').length).pop() ?? ''
+      )
       if (toIndex < _fromIndex) {
         // 如果把 from 插入 to 位置后，改变了原来 from 的位置，则要先删除后添加
         rm(data, from)

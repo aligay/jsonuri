@@ -1,4 +1,5 @@
-import * as jsonuri from '../dist/index.js'
+import { beforeEach, describe, expect, it } from 'vitest'
+import * as jsonuri from '../src/index'
 
 const s = (json) => {
   return JSON.stringify(json)
@@ -51,19 +52,29 @@ describe('jsonuri.set', () => {
 
   it('set array', () => {
     jsonuri.set(obj, '/a/b/5', 10) // if the parent is not defined, jsonuri.set number-path will be a object key
-    expect(s(obj)).not.toEqual(s({ a: { b: [undefined, undefined, undefined, undefined, undefined, 10] } }))
+    expect(s(obj)).not.toEqual(
+      s({
+        a: { b: [undefined, undefined, undefined, undefined, undefined, 10] },
+      }),
+    )
     expect(s(obj)).toEqual(s({ a: { b: { 5: 10 } } }))
   })
 
   it('set array 2', () => {
     jsonuri.set(obj, '/a/b/5/../', [])
     jsonuri.set(obj, '/a/b/5', 10)
-    expect(s(obj)).toEqual(s({ a: { b: [undefined, undefined, undefined, undefined, undefined, 10] } }))
+    expect(s(obj)).toEqual(
+      s({
+        a: { b: [undefined, undefined, undefined, undefined, undefined, 10] },
+      }),
+    )
     expect(s(obj)).not.toEqual(s({ a: { b: { 5: 10 } } }))
   })
   // =============
   it('set array error path', () => {
-    global.console.error = () => { /* noop */ }
+    globalThis.console.error = () => {
+      /* noop */
+    }
     jsonuri.set(obj, '/a/b/-1', 10)
     expect(s(obj)).toEqual(s({ a: { b: { '-1': 10 } } }))
   })
@@ -125,12 +136,45 @@ describe('jsonuri.set', () => {
   it('number path', () => {
     const o = []
     jsonuri.set(o, 5, 1)
-    expect(o).toEqual([undefined, undefined, undefined, undefined, undefined, 1])
+    expect(o).toEqual([
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      1,
+    ])
   })
   // ==========
   it('check prototype pollution', () => {
     jsonuri.set(obj, '__proto__/polluted', 'Yes! Its Polluted')
     expect(obj.polluted).toEqual('Yes! Its Polluted')
-    expect({}.polluted).toEqual(undefined)
+    expect(({} as any).polluted).toEqual(undefined)
+  })
+
+  it('should create new property if it does not exist', () => {
+    const data = {}
+    jsonuri.set(data, 'user/age', 30)
+    expect(data).toEqual({ user: { age: 30 } })
+  })
+
+  it('should update existing property', () => {
+    const data = { user: { name: 'John' } }
+    jsonuri.set(data, 'user/name', 'Mike')
+    expect(data.user.name).toBe('Mike')
+  })
+
+  it('should create nested properties if they do not exist', () => {
+    const data = { user: { name: 'John' } }
+    jsonuri.set(data, 'user/details/address', 'Chaoyang District, Beijing')
+    expect((data.user as any).details.address).toBe(
+      'Chaoyang District, Beijing',
+    )
+  })
+
+  it('should update nested properties', () => {
+    const data = { user: { name: 'John', details: { address: 'Old address' } } }
+    jsonuri.set(data, 'user/details/address', 'Chaoyang District, Beijing')
+    expect(data.user.details.address).toBe('Chaoyang District, Beijing')
   })
 })

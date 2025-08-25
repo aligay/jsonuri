@@ -1,4 +1,5 @@
-import * as jsonuri from '../dist/index.js'
+import { beforeEach, describe, expect, it } from 'vitest'
+import * as jsonuri from '../src/index'
 
 describe('jsonuri.rm', () => {
   let obj
@@ -7,12 +8,12 @@ describe('jsonuri.rm', () => {
     b: {
       b1: {
         b11: 311,
-        b12: 312
+        b12: 312,
       },
-      b2: 32
+      b2: 32,
     },
     list: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-    NULL: null
+    NULL: null,
   }
 
   beforeEach(() => {
@@ -31,7 +32,12 @@ describe('jsonuri.rm', () => {
 
   it('object deep', () => {
     jsonuri.rm(obj, 'b/b1')
-    expect(obj).toEqual({ a: 2, b: { b2: 32 }, list: [0, 1, 2, 3, 4, 5, 6, 7, 8], NULL: null })
+    expect(obj).toEqual({
+      a: 2,
+      b: { b2: 32 },
+      list: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+      NULL: null,
+    })
   })
   // =============
   it('arr', () => {
@@ -55,7 +61,7 @@ describe('jsonuri.rm', () => {
   // ==============
   it('bad arg', () => {
     const arr = { a: [1, 2, 3] }
-    jsonuri.rm(arr, null)
+    jsonuri.rm(arr, null as any)
     expect(arr).toEqual({ a: [1, 2, 3] })
   })
 
@@ -64,5 +70,23 @@ describe('jsonuri.rm', () => {
     const arr = { a: [1, 2, 3] }
     jsonuri.rm(arr, 'a/b')
     expect(arr).toEqual({ a: [1, 2, 3] })
+  })
+
+  it('should remove the specified property', () => {
+    const data = { user: { name: 'John', age: 30 } }
+    jsonuri.rm(data, 'user/age')
+    expect(data.user).toEqual({ name: 'John' })
+  })
+
+  it('should not modify data if property does not exist', () => {
+    const data = { user: { name: 'John', age: 30 } }
+    jsonuri.rm(data, 'user/address')
+    expect(data.user).toEqual({ name: 'John', age: 30 })
+  })
+
+  it('should remove nested property', () => {
+    const data = { user: { name: 'John', details: { address: 'Beijing' } } }
+    jsonuri.rm(data, 'user/details/address')
+    expect(data.user.details).toEqual({})
   })
 })

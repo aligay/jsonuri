@@ -1,4 +1,5 @@
-import * as jsonuri from '../dist/index.js'
+import { beforeEach, describe, expect, it } from 'vitest'
+import * as jsonuri from '../src/index'
 
 describe('insert', () => {
   let arr
@@ -14,6 +15,11 @@ describe('insert', () => {
   it('insert before', () => {
     jsonuri.insert(arr, '/1/', 'hello kitty', 'before')
     expect(arr).toEqual([0, 'hello kitty', 1, 2, 3])
+  })
+
+  it('insert after', () => {
+    jsonuri.insert(arr, '/1/', 'hello kitty', 'after')
+    expect(arr).toEqual([0, 1, 'hello kitty', 2, 3])
   })
 
   it('insert before `0`', () => {
@@ -62,5 +68,31 @@ describe('insert', () => {
     const arr = [1, 2]
     jsonuri.insert(arr, 0, 'hello kitty', 'after')
     expect(arr).toEqual([1, 'hello kitty', 2])
+  })
+
+  it('should insert element after the given index', () => {
+    const data = { items: ['apple', 'orange'] }
+    jsonuri.insert(data, 'items/0', 'banana', 'after')
+    expect(data.items).toEqual(['apple', 'banana', 'orange'])
+  })
+
+  it('should insert element before the given index', () => {
+    const data = { items: ['apple', 'banana', 'orange'] }
+    jsonuri.insert(data, 'items/2', 'grape', 'before')
+    expect(data.items).toEqual(['apple', 'banana', 'grape', 'orange'])
+  })
+
+  describe('jsonuri insert', () => {
+    it('should insert element after the given index', () => {
+      const data = { items: ['apple', 'orange'] }
+      jsonuri.insert(data, 'items/0', 'banana', 'after')
+      expect(data.items).toEqual(['apple', 'banana', 'orange'])
+    })
+
+    it('should insert element before the given index', () => {
+      const data = { items: ['apple', 'banana', 'orange'] }
+      jsonuri.insert(data, 'items/2', 'grape', 'before')
+      expect(data.items).toEqual(['apple', 'banana', 'grape', 'orange'])
+    })
   })
 })
