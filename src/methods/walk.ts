@@ -1,61 +1,349 @@
-import { noop, isArray, isObject } from '../util'
+import { isArray, isObject, noop } from '../util'
 import isCircular from './isCircular'
-import normalizePath from './normalizePath'
+import { normalizeUri } from './normalizeUri'
 
-const objectForeach = (obj, callback) => {
-  let isBreak = false
-  const _break = () => {
-    isBreak = true
+export type WalkContext = {
+  uri: string
+  stop: () => void
+}
+
+type MaybePromise<T> = T | Promise<T>
+
+export type WalkCallback = (
+  val: any,
+  key: string,
+  parent: any,
+  ctx: WalkContext,
+) => MaybePromise<void>
+
+export type WalkSyncCallback = (
+  val: any,
+  key: string,
+  parent: any,
+  ctx: WalkContext,
+) => void
+
+/**
+ * Internal walk method that both sync and async methods are derived from
+ */
+// const _walk = (
+//   obj: any,
+//   callback: WalkSyncCallback = noop,
+//   options: {
+//     order: 'topDown' | 'bottomUp'
+//     algorithm: 'DFS' | 'BFS'
+//   },
+// ): void => {
+//   if (isCircular(obj)) throw new Error('Input object is a circular structure')
+
+//   const uris: string[] = []
+//   let isStopped = false
+//   const ctx = (): WalkContext => ({
+//     uri: normalizeUri(uris),
+//     stop: () => {
+//       isStopped = true
+//     },
+//   })
+
+//   if (options.algorithm === 'DFS') {
+//     const dfs = (
+//       val: any,
+//       key: string | null = null,
+//       parent: any = null,
+//     ): void => {
+//       if (isStopped) return
+//       if (key !== null) uris.push(key)
+
+//       options.order === 'topDown' && callback(val, key!, parent, ctx())
+
+//       if (!isStopped && (isObject(val) || isArray(val))) {
+//         for (const [k, v] of Object.entries(val)) {
+//           dfs(v, k, val)
+//           if (isStopped) break
+//         }
+//       }
+
+//       options.order === 'bottomUp' && callback(val, key!, parent, ctx())
+//       if (key !== null) uris.pop()
+//     }
+
+//     dfs(obj)
+//   } else {
+//     // BFS
+//     if (options.order === 'topDown') {
+//       const queue = [
+//         { val: obj, key: UNDEFINED, parent: UNDEFINED, uris: [] as string[] },
+//       ]
+
+//       while (queue.length && !isStopped) {
+//         const { val, key, parent, uris: currentUris } = queue.shift()!
+//         uris.splice(0, uris.length, ...currentUris)
+
+//         callback(val, key!, parent, ctx())
+//         if (isStopped) break
+
+//         if (isObject(val) || isArray(val)) {
+//           for (const [k, v] of Object.entries(val)) {
+//             queue.push({
+//               val: v,
+//               key: k,
+//               parent: val,
+//               uris: [...currentUris, k],
+//             })
+//           }
+//         }
+//       }
+//     } else {
+//       // Bottom-up BFS
+//       const queue = [
+//         { val: obj, key: UNDEFINED, parent: UNDEFINED, uris: [] as string[] },
+//       ]
+//       const postOrder = []
+
+//       while (queue.length && !isStopped) {
+//         const item = queue.shift()!
+//         postOrder.push(item)
+
+//         if (isObject(item.val) || isArray(item.val)) {
+//           for (const [k, v] of Object.entries(item.val)) {
+//             queue.push({
+//               val: v,
+//               key: k,
+//               parent: item.val,
+//               uris: [...item.uris, k],
+//             })
+//           }
+//         }
+//       }
+
+//       while (postOrder.length && !isStopped) {
+//         const { val, key, parent, uris: currentUris } = postOrder.pop()!
+//         uris.splice(0, uris.length, ...currentUris)
+//         callback(val, key!, parent, ctx())
+//       }
+//     }
+//   }
+// }
+
+/**
+ * Depth-First Search (DFS) - Top-Down traversal
+ */
+const walkTopDownDFS = async (
+  obj: any,
+  onEnter: WalkCallback = noop,
+): Promise<void> => {
+  if (isCircular(obj)) throw new Error('Input object is a circular structure')
+
+  const uris: string[] = []
+  let isStopped = false
+
+  const createContext = (): WalkContext => ({
+    uri: normalizeUri(uris),
+    stop: () => {
+      isStopped = true
+    },
+  })
+
+  const dfs = async (
+    val: any,
+    key: string | null = null,
+    parent: any = null,
+  ): Promise<void> => {
+    if (isStopped) return
+    if (key !== null) uris.push(key)
+
+    const isRoot = uris.length === 0
+    if (!isRoot) {
+      const ctx = createContext()
+      await Promise.resolve(onEnter(val, key!, parent, ctx))
+      if (isStopped) return
+    }
+
+    if (isObject(val) || isArray(val)) {
+      for (const [k, v] of Object.entries(val)) {
+        await dfs(v, k, val)
+        if (isStopped) break
+      }
+    }
+
+    if (key !== null) uris.pop()
   }
 
-  for (const prop of Object.keys(obj)) {
-    if (isBreak) break
-    callback(obj[prop], prop, obj, { _break })
+  await dfs(obj)
+}
+
+/**
+ * Synchronous Depth-First Search (DFS) - Top-Down traversal
+ */
+// const walkTopDownDFSSync = (
+//   obj: any,
+//   onEnter: WalkSyncCallback = noop,
+// ): void => {
+//   _walk(obj, onEnter, { order: 'topDown', algorithm: 'DFS' })
+// }
+
+/**
+ * Depth-First Search (DFS) - Bottom-Up traversal
+ */
+const walkBottomUpDFS = async (
+  obj: any,
+  onLeave: WalkCallback = noop,
+): Promise<void> => {
+  if (isCircular(obj)) throw new Error('Input object is a circular structure')
+
+  const uris: string[] = []
+  let isStopped = false
+
+  const createContext = (): WalkContext => ({
+    uri: normalizeUri(uris),
+    stop: () => {
+      isStopped = true
+    },
+  })
+
+  const dfs = async (
+    val: any,
+    key: string | null = null,
+    parent: any = null,
+  ): Promise<void> => {
+    if (isStopped) return
+    if (key !== null) uris.push(key)
+
+    if (isObject(val)) {
+      for (const [k, v] of Object.entries(val)) {
+        await dfs(v, k, val)
+        if (isStopped) break
+      }
+    }
+
+    const ctx = createContext()
+    await Promise.resolve(onLeave(val, key!, parent, ctx))
+
+    if (key != null) uris.pop()
+  }
+
+  await dfs(obj)
+}
+
+/**
+ * Synchronous Depth-First Search (DFS) - Bottom-Up traversal
+ */
+// const walkBottomUpDFSSync = (
+//   obj: any,
+//   onLeave: WalkSyncCallback = noop,
+// ): void => {
+//   _walk(obj, onLeave, { order: 'bottomUp', algorithm: 'DFS' })
+// }
+
+/**
+ * Breadth-First Search (BFS) - Top-Down traversal
+ */
+const walkTopDownBFS = async (
+  obj: any,
+  onEnter: WalkCallback = noop,
+): Promise<void> => {
+  if (isCircular(obj)) throw new Error('Input object is a circular structure')
+
+  const uris: string[] = []
+  const queue: { val: any; key: string | null; parent: any; uris: string[] }[] =
+    [{ val: obj, key: null, parent: null, uris: [] }]
+  let isStopped = false
+
+  const createContext = (): WalkContext => ({
+    uri: normalizeUri(uris),
+    stop: () => {
+      isStopped = true
+    },
+  })
+
+  while (queue.length && !isStopped) {
+    const { val, key, parent, uris: currentUris } = queue.shift()!
+    uris.splice(0, uris.length, ...currentUris)
+
+    const ctx = createContext()
+    await Promise.resolve(onEnter(val, key!, parent, ctx))
+    if (isStopped) break
+
+    if (isObject(val) || isArray(val)) {
+      for (const [k, v] of Object.entries(val)) {
+        queue.push({ val: v, key: k, parent: val, uris: [...currentUris, k] })
+      }
+    }
   }
 }
 
 /**
- * [walk description] 遍历一个对象, 提供入栈和出栈两个回调, 操作原对象
- * @author haozi
- * @param  {object} obj          [description]
- * @param  {[type]} descentionFn [description]
- * @param  {[type]} ascentionFn  [description]
- * @return {[type]}              [description]
+ * Synchronous Breadth-First Search (BFS) - Top-Down traversal
  */
+// const walkTopDownBFSSync = (
+//   obj: any,
+//   onEnter: WalkSyncCallback = noop,
+// ): void => {
+//   _walk(obj, onEnter, { order: 'topDown', algorithm: 'BFS' })
+// }
 
-export type WalkCallback = (val, key: string, parent, { _break, path }) => void
+/**
+ * Breadth-First Search (BFS) - Bottom-Up traversal
+ */
+const walkBottomUpBFS = async (
+  obj: any,
+  onLeave: WalkCallback = noop,
+): Promise<void> => {
+  if (isCircular(obj)) throw new Error('Input object is a circular structure')
 
-const walk = (obj = {}, descentionFn: WalkCallback = noop, ascentionFn: WalkCallback = noop): void => {
-  if (isCircular(obj)) throw new Error('obj is a circular structure')
+  const uris: string[] = []
+  const queue: { val: any; key: string | null; parent: any; uris: string[] }[] =
+    [{ val: obj, key: null, parent: null, uris: [] }]
+  let isStopped = false
 
-  const path: string[] = []
-  const _walk = (obj) => {
-    objectForeach(obj, (val, key, parent, { _break }) => {
-      let isBreak = false
+  const createContext = (): WalkContext => ({
+    uri: normalizeUri(uris),
+    stop: () => {
+      isStopped = true
+    },
+  })
 
-      const _gBreak = () => {
-        _break()
-        isBreak = true
-        if (isArray(parent)) {
-          path.pop()
-        }
+  const postOrder: typeof queue = []
+
+  while (queue.length && !isStopped) {
+    const { val, key, parent, uris: currentUris } = queue.shift()!
+    postOrder.push({ val, key, parent, uris: currentUris })
+
+    if (isObject(val) || isArray(val)) {
+      for (const [k, v] of Object.entries(val)) {
+        queue.push({ val: v, key: k, parent: val, uris: [...currentUris, k] })
       }
-
-      path.push(key)
-      descentionFn(val, key, parent, { path: normalizePath(path), _break: _gBreak })
-      path.pop()
-      if (isObject(val)) {
-        path.push(key)
-        if (isBreak) return
-        _walk(val)
-        path.pop()
-        ascentionFn(val, key, parent, { path: normalizePath(path), _break: _gBreak })
-      }
-    })
-    return obj
+    }
   }
 
-  return _walk(obj)
+  while (postOrder.length && !isStopped) {
+    const { val, key, parent, uris: currentUris } = postOrder.pop()!
+    uris.splice(0, uris.length, ...currentUris)
+
+    const ctx = createContext()
+    await Promise.resolve(onLeave(val, key!, parent, ctx))
+  }
 }
 
-export default walk
+/**
+ * Synchronous Breadth-First Search (BFS) - Bottom-Up traversal
+ */
+// const walkBottomUpBFSSync = (
+//   obj: any,
+//   onLeave: WalkSyncCallback = noop,
+// ): void => {
+//   _walk(obj, onLeave, { order: 'bottomUp', algorithm: 'BFS' })
+// }
+
+// Export aliases and methods
+export {
+  walkTopDownDFS as walk,
+  walkBottomUpBFS,
+  // walkBottomUpBFSSync,
+  walkBottomUpDFS,
+  // walkBottomUpDFSSync,
+  // walkTopDownDFSSync as walkSync,
+  walkTopDownBFS,
+  // walkTopDownBFSSync,
+  walkTopDownDFS,
+}
