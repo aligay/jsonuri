@@ -1,6 +1,6 @@
 {
   "name": "jsonuri",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Use URI path to get or set data",
   "keywords": [
     "array",
@@ -24,13 +24,13 @@
   },
   "license": "MIT",
   "exports": {
-    "types": "./index.d.ts",
+    "types": "./dist/index.d.ts",
     "import": "./dist/index.mjs",
     "require": "./dist/index.umd.cjs"
   },
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.mjs",
-  "types": "./index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "index.d.ts"
