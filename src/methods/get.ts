@@ -27,7 +27,11 @@ export default function get<T = any>(data: any, path: UriSegment): T {
   if (path === '/') return data
   if (path === '') return UNDEFINED
   if (data == NULL) return UNDEFINED
-  if (!isComplexPath(path)) return data[path as string]
+  const rootArrayExpression =
+    isArray(data) &&
+    isString(path) &&
+    (path.startsWith('@') || path.startsWith('[@'))
+  if (!isComplexPath(path) && !rootArrayExpression) return data[path as string]
 
   const keys = parseUri(path)
   if (keys.length === 0) return UNDEFINED

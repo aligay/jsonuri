@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import * as jsonuri from '../src/index'
 describe('jsonuri.get', () => {
+  it('supports shortcut expressions on root arrays', () => {
+    expect(jsonuri.get([10, 11, 12], '@first')).toBe(10)
+    expect(jsonuri.get([10, 11, 12], '@last')).toBe(12)
+    expect(jsonuri.get([10, 11, 12], '@length-2')).toBe(11)
+    expect(jsonuri.get([10, 11, 12], '[@last]')).toBe(12)
+    expect(jsonuri.get({ '@last': 'literal' }, '@last')).toBe('literal')
+  })
   const obj = {
     a: 2,
     b: {
